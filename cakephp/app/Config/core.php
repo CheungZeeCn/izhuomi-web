@@ -267,7 +267,7 @@ Configure::write('Routing.prefixes', array('admin'));
  * Uncomment this line and correct your server timezone to fix
  * any date & time related errors.
  */
-	//date_default_timezone_set('UTC');
+	date_default_timezone_set('Asia/Harbin');
 
 /**
  * `Config.timezone` is available in which you can set users' timezone string.
@@ -385,3 +385,11 @@ Cache::config('_cake_model_', array(
 	'serialize' => ($engine === 'File'),
 	'duration' => $duration
 ));
+
+//// our app configs
+Configure::write('translator', array(
+    'addr' => 'http://localhost:8888/?wsdl', 
+));
+
+
+

@@ -1,0 +1,186 @@
+
+//isMove = false;
+
+var action;
+var agent = navigator.userAgent.toLowerCase();
+var platformName = ''
+var _timeout;
+
+/*
+function touchend(event){
+    //alert("on touchend 1");
+    var now = new Date().getTime();
+    var lastTouch = $(this).data('lastTouch') || now + 1 ; // the first time this will make delta a negative number ;
+    var delta = now - lastTouch;
+    clearTimeout(action);
+    //alert("on touchend 2");
+    var now = new Date().getTime();
+    if(delta < 400 && delta > 0){
+        //alert("double click");
+        alert("delta " + delta);
+        event.preventDefault();
+        // the second touchend event happened within half a second. Here is where we invoke the double tap code
+        spanDblClick(event);      
+    }else{
+        //alert("single click");
+        $(this).data('lastTouch', now);
+        action = setTimeout(function(event){
+            // If this runs you can invoke your 'click/touchend' code
+            //alert("timeout 400");
+            spanCheckIfClick(event);             
+            clearTimeout(action);   // clear the timeout
+        }, 400, [event]);
+    }
+    //alert("on touchend 3");
+    $(this).data('lastTouch', now);
+    //alert("on touchend 4");
+}
+*/
+
+//function spanCheckIfClick(e) {
+//    if(isMove == false) {
+//        spanClick(e);    
+//    }
+//    //alert("touch");
+//}
+//
+//function touchBegin(e) {
+//    isMove = false;    
+//}
+//
+//function touchMove(e) {
+//    isMove = true;    
+//}
+
+function spanClick(e) {
+	var e = e || window.event ;
+    var ele = e.target;
+    var id = ele.id
+    //console.log(ele);
+    if (ele.tagName == "SPAN") {
+        //console.log(e.target.id + " | " +times_indexed_by_id[e.target.id]);
+        var time = times_indexed_by_id[id];
+        //$('jquery_jplayer_1').jPlayer( "playHeadTime", time);
+        window.myCirclePlayer.myTimeupdate(time);
+        //var url = "click:" + e.target.id;
+        //document.location = url;
+    } else {
+        //alert(ele.tagName);
+    }
+}
+
+function spanDblClick(e) {
+	var e = e || window.event ;
+    var ele = e.target;
+    if (ele.tagName == "SPAN") {
+        //console.log(e.target.id + " | " +times_indexed_by_id[e.target.id]);
+        var time = times_indexed_by_id[e.target.id];
+        console.log("dblClick time " + time + "id " + e.target.id);
+        alert("dblClick time " + time + "id " + e.target.id);
+        //$('jquery_jplayer_1').jPlayer( "playHeadTime", time);
+        //window.myCirclePlayer.myTimeupdate(time);
+        //var url = "click:" + e.target.id;
+        //document.location = url;
+    }
+}
+
+function highlight(fromId, toId, highlight) {
+    // id start from 1
+    if (fromId < 1) {
+        fromId = 1
+    }
+    
+	for (var i = fromId; i <= toId; i++) {
+		var ele = document.getElementById(i);
+		if (ele == null) {
+			break;
+		}
+		if (highlight) {
+			ele.style.backgroundColor = "#ffc726"
+		}
+		else {
+			ele.style.backgroundColor = "transparent"
+		}
+	}
+}
+
+function resizeText(multiplier) {
+    var bodyEle = document.body;
+    if (bodyEle.style.fontSize == "") {
+        bodyEle.style.fontSize = "9pt"; // TODO: set to the same as css default size
+    }
+    
+    var fontSize = parseFloat(bodyEle.style.fontSize) + (multiplier * 1) + "pt";
+    
+    // TODO: set Max min
+    
+    bodyEle.style.fontSize = fontSize;
+}
+
+function spanFrameById(id) {
+    var ele = document.getElementById(id);
+    if (ele) {
+        return ele.offsetLeft + "," + ele.offsetTop + "," + ele.offsetWidth + "," + ele.offsetHeight;
+    }
+}
+
+function spanIdFromPoint(x, y) {
+    var ele = document.elementFromPoint(x, y)
+    return "" + ele.id;
+}
+
+function addSpanListener() {
+    var ele = document.getElementsByTagName('body')[0];
+    var options = {
+        preventDefault: true,
+        tap_always:false,
+    };
+    var h = new Hammer(ele, {tap_always:false});
+    //single click or tap
+    h.on("tap", function(e){
+        _timeout = setTimeout(function(e){
+            spanClick(e);             
+            window.clearTimeout(_timeout);   // clear the timeout
+        }, 400, e);
+    });
+    var hh = new Hammer(ele, options);
+    //double click or tap for all except android
+    if(platformName == 'desktop') {
+        hh.on("doubletap", function(e){
+            e.preventDefault();
+            //clean thimeout;
+            window.clearTimeout(_timeout);
+            _timeout = null; 
+            spanDblClick(e);
+        });
+    }
+    //long tap for android and all
+    hh.on("hold", function(e) {
+        //clean thimeout;
+        e.preventDefault();
+        window.clearTimeout(_timeout);
+        _timeout = null; 
+        spanDblClick(e);
+    });
+}
+
+function bodyDidLoad() {
+    if(agent.indexOf('iphone') >= 0 || agent.indexOf('ipad') >= 0){
+        platformName = 'ios';
+    } else if(agent.indexOf('android') >= 0 || agent.indexOf('xiaomi') >= 0) {
+        platformName = 'android';
+    } else {// not exactly
+        platformName = 'desktop';
+    }
+
+    //if(platformName=='android') {
+    //    alert('hello' + platformName);
+    //}
+
+	addSpanListener();
+    
+	console.log("on load");
+}
+
+// window.onload=bodyDidLoad;
+

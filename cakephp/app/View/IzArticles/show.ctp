@@ -88,35 +88,18 @@
 
       </div><!-- /.row -->
         
-     <!-- <div class="alert alert-success" data-role="popup" id="popupWordDict" style="max-width:350px; background-color:rgba(223,240,216,0.8);">
+     <div class="alert alert-success" data-role="popup" id="popupWordDict" style="max-width:350px; background-color:rgba(223,240,216,0.92);">
         <div id='wordMsg' style="font-size:18px">  
         
             </div>
       </div>
-      -->
-    <script>
 
-$( document ).on( "pageinit", function() {
-    $( "#popupWordDict" ).on({
-        popupbeforeposition: function() {
-            $( "#popupWordDict iframe" )
-                .attr( "width", 250 );
-                     
-        },
-        popupafterclose: function() {
-            $( "#popupWordDict iframe" )
-                .attr( "width", 0 );
-            $('#popupWordDict iframe').contents().find('html').html('');
-        }
-    });
-});
-
-    </script>
-
+<!--
     <div data-role="popup" id="popupWordDict" data-overlay-theme="a" data-theme="a" data-corners="false" data-tolerance="15,15">
        <a href="#" data-rel="back" class="ui-btn ui-btn-b ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a> 
             <iframe id="wordIframe" src="#" width="250"  seamless="" style="border: medium;"></iframe>
     </div>
+-->
 
     </div><!-- /.container -->
 

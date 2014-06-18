@@ -51,10 +51,16 @@ class AppModel extends Model {
     }
 
     public function getFileContent($file, $locate=NULL) {
-        $locate = (!$locate) ? "/Users/cheungzee/opdir/bstrp/" : $locate ;
-        $file  = $locate . $file . "/content.html" ;
-        //echo $file;
-        $content = file_get_contents($file);
+        //todo should be update by using 
+        $fn = $file;
+        $base = dirname(dirname(APP));
+        $locate = (!$locate) ? $base : $locate ;
+        $file  = $locate . '/' . $file . "/content.html" ;
+        try {
+            $content = file_get_contents($file);
+        } catch (Exception $e) {
+            $content = "";
+        }
         //echo $content;
         return $content;
     }

@@ -36,7 +36,8 @@ h6, .h6 {
   padding: 10px;
   font-weight: 500;
   font-size: 17px;
-  color: #cdddeb;
+  /*color: #cdddeb;*/
+  color: #fff;
 }
 .menu-nav-item:hover,
 .menu-nav-item:focus {
@@ -50,11 +51,16 @@ h6, .h6 {
   padding: 5px 10px 0px 5px;;
   font-weight: 500;
   font-size: 20px;
-  color: #fff;
+  color: #FFF;
   font-family: sans-serif;
 }
 .menu-nav-sitename a {
-  color: #fff;
+  color: #FFF;
+}
+
+.main-head {
+    color: #FFF;
+    text-decoration: none;
 }
 
 
@@ -219,7 +225,7 @@ h6, .h6 {
 .cp-container-2 {
     height: 105px;
     width: 105px;
-    background: url("/bs/cakephp/img/circule2_06.png") repeat scroll 0 0 rgba(0, 0, 0, 0);
+    background: url("../img/circule2_06.png") repeat scroll 0 0 rgba(0, 0, 0, 0);
 }
 
 .cp-abstract-div {
