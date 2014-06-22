@@ -30,6 +30,22 @@ h6, .h6 {
   }
 }
 
+.span10 {
+    display:block;
+    height: 10px;
+    width: 100%;
+}
+.span20 {
+    display:block;
+    height: 20px;
+    width: 100%;
+}
+.span50 {
+    display:block;
+    height: 50px;
+    width: 100%;
+}
+
 .menu-nav-item {
   position: relative;
   display: inline-block;

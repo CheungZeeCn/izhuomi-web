@@ -75,9 +75,12 @@ CODE;
                   <a class="pull-left" href="http://izhuomi.com">
                     <?php echo $this->Html->image('cake.icon.png', array('alt' => 'iZhuomi', 'class' => 'media-object')); ?>
                   </a>
-                  <a class="menu-nav-item active" href="#">阅读</a>
+                  <a class="menu-nav-item" href="#">阅读</a>
                   <a class="menu-nav-item" sytle="text-shadow: 0 0 0 #FFFFFF" href="#">笔记</a>
 			      <a class="menu-nav-item " href="#">我的主页</a>
+
+                  <div style="float:right"><?php if(isset($_username)){echo "hi, $_username";}else{echo "登陆";}  ?></div>
+
                 </nav>
               </div>
             </div>

@@ -32,7 +32,7 @@ class IzArticlesController extends AppController {
         return $randomString;
     } 
 
-    public function show($id) {
+    public function show($id=1) {
         $ret = $this->ArticleDataModel->getArticle($id);
         if (!$ret) {
             throw new NotFoundException(__('Invalid id'));
