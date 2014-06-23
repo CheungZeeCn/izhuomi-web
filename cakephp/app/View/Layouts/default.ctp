@@ -42,7 +42,7 @@
             echo $this->Html->script("player/js/circle.player.js");
             echo $this->Html->css("player/skin/circle.skin/circle.player");           
 		    echo $this->Html->script("jquery.mobile-1.4.2.js");
-            $mp3File = "/bs/izhuomi-data/201306/aaa/content.mp3";
+            $mp3File = "/izhuomi-data/201306/aaa/content.mp3";
             $code = <<<CODE
             $.mobile.loadingMessageTextVisible = false;
 $(document).ready(function(){
