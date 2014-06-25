@@ -23,6 +23,8 @@
 	    echo $this->Html->css(array('themes/jquery.mobile.icons.min.css'));
 	    echo $this->Html->css(array('jquery.mobile.structure-1.4.2'));
 	    echo $this->Html->css(array('bootstrap.min', 'voa_template', 'blog'));
+	    //echo $this->Html->css(array('../dist/css/bootstrap.css'));
+	    //echo $this->Html->css(array('../dist/css/bootstrap-theme.css'));
         //title
         if(!isset($websiteTitle)) {$websiteTitle = 'i.啄米 让指尖读懂英语';}
         echo "<title>$websiteTitle</title>";
@@ -34,6 +36,8 @@
 		//echo $this->fetch('script');
 		echo $this->Html->script("jquery-1.11.0.min.js");
 		echo $this->Html->script(array("hammer", "common"));
+        echo $this->Html->script("../dist/js/bootstrap.min.js");
+		echo $this->Html->script("jquery.mobile-1.4.2.js");
         if(!(isset($turnOffThePlayer) && $turnOffThePlayer==true)) {
             echo $this->Html->script("player/js/jquery.jplayer.min.js");           
             echo $this->Html->script("player/js/jquery.transform2d.js");
@@ -41,8 +45,7 @@
             echo $this->Html->script("player/js/mod.csstransforms.min.js");
             echo $this->Html->script("player/js/circle.player.js");
             echo $this->Html->css("player/skin/circle.skin/circle.player");           
-		    echo $this->Html->script("jquery.mobile-1.4.2.js");
-            $mp3File = "/izhuomi-data/201306/aaa/content.mp3";
+            $mp3File = "../../izhuomi-data/201306/aaa/content.mp3";
             $code = <<<CODE
             $.mobile.loadingMessageTextVisible = false;
 $(document).ready(function(){
@@ -79,8 +82,34 @@ CODE;
                   <a class="menu-nav-item" sytle="text-shadow: 0 0 0 #FFFFFF" href="#">笔记</a>
 			      <a class="menu-nav-item " href="#">我的主页</a>
 
-                  <div style="float:right"><?php if(isset($_username)){echo "hi, $_username";}else{echo "登陆";}  ?></div>
+                  
+                    <ul class="nav pull-right">
+                      <li class="dropdown" id="menuLogin">
+                        <?php if(isset($_username)){?> 
+                            <a class="dropdown-toggle menu-nav-item" href="#" data-toggle="dropdown" id="navLogin"><?php echo "Hi, $_username "?><span class="caret"></span></a>
+                            <ul class="dropdown-menu" style="padding:2px;left:auto;right:0;">
+                                <li><a href="<?php echo $this->Html->url("/IzPersonInfo/setting", true); ?>">设置个人信息(todo)</a></li>
+                                <li><a href="<?php echo $this->Html->url("/IzUsers/logout", true); ?>">退出</a></li>
+                            </ul>
 
+                        <?php } else { ?>
+                            <a class="dropdown-toggle menu-nav-item" href="#" data-toggle="dropdown" id="navLogin">Login</a>
+                            <div class="dropdown-menu" style="padding:20px;left:auto;right:0;width:250px">
+                                <?php echo $this->Form->create('IzUser', array('url'=>'/IzUsers/login', 'data-ajax' => 'false')); ?>
+                                    <fieldset>
+                                        <?php 
+                                        echo $this->Form->input('username');
+                                        echo $this->Form->input('password');
+                                        ?>
+                                    </fieldset>
+                                <?php echo $this->Form->end(__('login')); ?>
+                                <div class="form-group">
+                                <span class="pull-right"><a href="<?php echo Router::url('/')?>IzUsers/reg?tag=test&redirect2=<?php echo $this->Html->url(null, true);?>">Register</a></span><span><a href="#" mark="todo">help?</a></span>
+                                </div>
+                            </div>
+                        <?php }?>
+                      </li>
+                    </ul>
                 </nav>
               </div>
             </div>
@@ -88,7 +117,7 @@ CODE;
 
 		<div id="content">
 
-			<?php echo $this->Session->flash(); ?>
+			<?php //echo $this->Session->flash(); ?>
 
 			<?php echo $this->fetch('content'); ?>
 

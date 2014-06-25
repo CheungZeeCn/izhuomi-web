@@ -36,8 +36,9 @@ class IzUsersController extends AppController {
                     } else {
                         return $this->redirect($this->Auth->redirect());
                     }
+                } else {
+                    $this->Session->setFlash(__('Invalid username or password, try again'), 'default', array(), 'auth');
                 }
-                $this->Session->setFlash(__('Invalid username or password, try again'));
             } else {
                 $this->Session->setFlash(__("log in error, [ $checkRet ]"));
             }
@@ -103,8 +104,14 @@ class IzUsersController extends AppController {
                     );
                     $this->Auth->login($this->request->data['IzUser']); 
                     $this->IzUser->useDbConfig = 'default';
-
-                    return $this->redirect(array('action' => 'index'));
+                    $reUrl = $this->request->query['redirect2'];
+                    //todo check referer if $reUrl is empty
+                    //if referer is in our domain, redirect it to the url
+                    if($reUrl != NULL) {
+                        return $this->redirect($reUrl);
+                    } else {
+                        return $this->redirect(array('action' => 'index'));
+                    }
                 }
                 $this->Session->setFlash(
                     __('Register failed, please, try again. :('));
