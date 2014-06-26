@@ -34,7 +34,13 @@
 		//echo $this->fetch('meta');
 		//echo $this->fetch('css');
 		//echo $this->fetch('script');
-		echo $this->Html->script("jquery-1.11.0.min.js");
+		echo $this->Html->script("jquery-1.11.0.min.js"); ?>
+        <script type="text/javascript">
+            $(document).bind("mobileinit", function () {
+                $.mobile.ajaxEnabled = false;
+            });
+        </script>
+        <?php
 		echo $this->Html->script(array("hammer", "common"));
         echo $this->Html->script("../dist/js/bootstrap.min.js");
 		echo $this->Html->script("jquery.mobile-1.4.2.js");
@@ -95,7 +101,7 @@ CODE;
                         <?php } else { ?>
                             <a class="dropdown-toggle menu-nav-item" href="#" data-toggle="dropdown" id="navLogin">Login</a>
                             <div class="dropdown-menu" style="padding:20px;left:auto;right:0;width:250px">
-                                <?php echo $this->Form->create('IzUser', array('url'=>'/IzUsers/login', 'data-ajax' => 'false')); ?>
+                                <?php echo $this->Form->create('IzUser', array('url'=>'/IzUsers/login?redirect2='.urlencode($this->Html->url(null, true)), 'data-ajax' => 'false')); ?>
                                     <fieldset>
                                         <?php 
                                         echo $this->Form->input('username');

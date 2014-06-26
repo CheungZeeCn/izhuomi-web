@@ -30,18 +30,28 @@ class IzUsersController extends AppController {
             $checkRet = $this->checklogData($this->request->data['IzUser']);
             if($checkRet=='OK') {
                 $ret = $this->Auth->login();// true or false
-                if ($ret) {
-                    if($this->referer() && basename($this->referer()) != 'login') {
-                        return $this->redirect($this->referer());
-                    } else {
-                        return $this->redirect($this->Auth->redirect());
-                    }
+                if ($ret) {// login successful
+                    $this->redirect($this->getLoginRedirectUrl());
                 } else {
-                    $this->Session->setFlash(__('Invalid username or password, try again'), 'default', array(), 'auth');
+                    $this->Session->setFlash(__('Invalid username or password, try again'), 
+                                                'default', array(), 'auth');
                 }
             } else {
-                $this->Session->setFlash(__("log in error, [ $checkRet ]"));
+                $this->Session->setFlash(__("log in error, [ $checkRet ]"), 'default', array(), 'auth');
             }
+        }
+    }
+
+    public function getLoginRedirectUrl() {
+        $reUrl = $this->request->query['redirect2'];
+        if($reUrl) {//has a parameter
+            return $reUrl;
+        } else if($this->referer() && 
+                    basename($this->referer()) != 'login' &&
+                    basename($this->referer()) != 'logout') {//has a referer
+            return $this->referer();
+        } else {
+            return $this->Auth->redirect();
         }
     }
 
@@ -104,14 +114,8 @@ class IzUsersController extends AppController {
                     );
                     $this->Auth->login($this->request->data['IzUser']); 
                     $this->IzUser->useDbConfig = 'default';
-                    $reUrl = $this->request->query['redirect2'];
-                    //todo check referer if $reUrl is empty
-                    //if referer is in our domain, redirect it to the url
-                    if($reUrl != NULL) {
-                        return $this->redirect($reUrl);
-                    } else {
-                        return $this->redirect(array('action' => 'index'));
-                    }
+                    $reUrl = $this->getLoginRedirectUrl();
+                    $this->redirect($reUrl);
                 }
                 $this->Session->setFlash(
                     __('Register failed, please, try again. :('));
