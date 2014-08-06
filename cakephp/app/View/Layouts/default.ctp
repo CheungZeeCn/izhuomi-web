@@ -24,6 +24,7 @@
 	    echo $this->Html->css(array('themes/jquery.mobile.icons.min.css'));
 	    echo $this->Html->css(array('jquery.mobile.structure-1.4.2'));
 	    echo $this->Html->css(array('bootstrap.min', 'voa_template', 'blog'));
+        echo $this->Html->css('/usermgmt/css/umstyle'); 
 	    //echo $this->Html->css(array('../dist/css/bootstrap.css'));
 	    //echo $this->Html->css(array('../dist/css/bootstrap-theme.css'));
         //title
@@ -115,7 +116,7 @@ CODE;
                                 <span class="pull-right"><a href="<?php echo Router::url('/')?>IzUsers/reg?tag=test&redirect2=<?php echo $this->Html->url(null, true);?>">Register</a></span><span><a href="#" mark="todo">help?</a></span>
                                 </div>
                                 <hr class="clear-hr" style="margin:5px 0 5px 0px;"></hr>
-                                <div style="margin:0 auto;padding:0 auto">
+                                <div id="wb_connect_btn" style="text-align:center">
                                     <wb:login-button type="2,2" onlogin="login" onlogout="logout">登录按钮</wb:login-button>
                                 </div>
                             </div>
@@ -148,21 +149,4 @@ CODE;
 	</div>
 	<?php //echo $this->element('sql_dump'); ?>
 </body>
-        <script type="text/javascript">
-            WB2.anyWhere(function(W){
-                    W.widget.connectButton({
-                        id: "wb_connect_btn",   
-                        type:"2,2",
-                        callback : {
-                            login:function(o){  //登录后的回调函数
-                                ;
-                            },  
-                            logout:function(){  //退出后的回调函数
-                               ;     
-                            }
-                        }
-                    });
-            });
-
-        </script>
 </html>
