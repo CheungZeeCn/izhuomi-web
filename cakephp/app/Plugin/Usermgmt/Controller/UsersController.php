@@ -72,7 +72,9 @@ class UsersController extends UserMgmtAppController {
 	public function myprofile() {
 		$userId = $this->UserAuth->getUserId();
 		$user = $this->User->read(null, $userId);
-		$this->set('user', $user);
+        $user['largeUserLogo'] = $this->User->IzUsersLogo->genLogoUrl($user['IzUsersLogo']['large_logo_addr'], 'large', false);
+        $user['smallUserLogo'] = $this->User->IzUsersLogo->genLogoUrl($user['IzUsersLogo']['small_logo_addr'], 'small', false);
+		$this->set('user', $user); 
 	}
 	/**
 	 * Used to logged in the site
@@ -81,9 +83,9 @@ class UsersController extends UserMgmtAppController {
 	 * @return void
 	 */
 	public function login() {
-		if ($this->request -> isPost()) {
+		if ($this->request->isPost()) { //login commited
 			$this->User->set($this->data);
-			if($this->User->LoginValidate()) {
+			if($this->User->LoginValidate()) { //not empty for passwd and email
 				$email  = $this->data['User']['email'];
 				$password = $this->data['User']['password'];
 
@@ -97,12 +99,17 @@ class UsersController extends UserMgmtAppController {
 				}
 				// check for inactive account
 				if ($user['User']['id'] != 1 and $user['User']['active']==0) {
-					$this->Session->setFlash(__('Sorry your account is not active, please contact to Administrator'));
+					//$this->Session->setFlash(__('Sorry your account is not active, please contact to Administrator'));
+					$this->Session->setFlash(__('抱歉, 你的账户当前被关闭中，请联系管理员。'));
 					return;
 				}
 				// check for verified account
 				if ($user['User']['id'] != 1 and $user['User']['email_verified']==0) {
-					$this->Session->setFlash(__('Your registration has not been confirmed please verify your email or contact to Administrator'));
+					//$this->Session->setFlash(__('Your registration has not been confirmed please verify your email or contact to Administrator'));
+					$this->Session->setFlash(__('您的账户还没通过邮件认证，请检查您的邮箱，或者重新发验证邮件。'));
+					$this->redirect("/emailVerification");
+                    // go to send verification again.
+                    //todo
 					return;
 				}
 				if(empty($user['User']['salt'])) {
@@ -110,29 +117,65 @@ class UsersController extends UserMgmtAppController {
 				} else {
 					$hashed = $this->UserAuth->makePassword($password, $user['User']['salt']);
 				}
-				if ($user['User']['password'] === $hashed) {
-					if(empty($user['User']['salt'])) {
+				if ($user['User']['password'] === $hashed) { //passwd OK !
+					if(empty($user['User']['salt'])) { //why?
 						$salt=$this->UserAuth->makeSalt();
 						$user['User']['salt']=$salt;
 						$user['User']['password']=$this->UserAuth->makePassword($password, $salt);
 						$this->User->save($user,false);
 					}
-					$this->UserAuth->login($user);
+					$this->UserAuth->login($user);//login user in with user's data
 					$remember = (!empty($this->data['User']['remember']));
-					if ($remember) {
+					if ($remember || true) {
 						$this->UserAuth->persist('2 weeks');
 					}
 					$OriginAfterLogin=$this->Session->read('Usermgmt.OriginAfterLogin');
 					$this->Session->delete('Usermgmt.OriginAfterLogin');
-					$redirect = (!empty($OriginAfterLogin)) ? $OriginAfterLogin : LOGIN_REDIRECT_URL;
+                    $redirect = LOGIN_REDIRECT_URL;
+                    if(!empty($OriginAfterLogin)) {
+                        $redirect = $OriginAfterLogin;    
+                    }else{
+                        $redirect = $this->getLoginRedirectUrl();
+                    }
 					$this->redirect($redirect);
 				} else {
-					$this->Session->setFlash(__('Incorrect Email/Username or Password'));
+					//$this->Session->setFlash(__('Incorrect Email/Username or Password'));
+					$this->Session->setFlash(__('错误的 Email/Username 或者 Password'));
 					return;
 				}
 			}
 		}
 	}
+
+    public function getUrlPath($url) {
+        $url = parse_url($url);
+        if(array_key_exists('path', $url)) {
+            return $url['path'];
+        }
+        return NULL;
+    }
+
+	/**
+	 * Used to find the redirectUrl
+	 *              by zhangzhi
+	 * @access public
+	 * @return string
+     * 
+	 */
+    public function getLoginRedirectUrl() {
+        $reUrl = (array_key_exists('redirect2', $this->request->query))?$this->request->query['redirect2']:NULL;
+        $rePath = $this->getUrlPath($reUrl);
+        if($rePath && basename($rePath) != 'login' &&
+                    basename($rePath) != 'logout') {//has a parameter
+            return $reUrl;
+        } else if( false && $this->referer() && 
+                    basename($this->referer()) != 'login' &&
+                    basename($this->referer()) != 'logout') {//has a referer
+            return $this->referer();
+        } else {
+            return LOGIN_REDIRECT_URL;
+        }
+    }
 	/**
 	 * Used to logged out from the site
 	 *

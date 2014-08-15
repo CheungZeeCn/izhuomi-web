@@ -391,5 +391,12 @@ Configure::write('translator', array(
     'addr' => 'http://localhost:8888/?wsdl', 
 ));
 
+Configure::write('userLogoPath', '/userLogo');
+Configure::write('userLogoNullPath', array( 
+                    "small" => "0_small_null.jpg",
+                    "middle" => "0_middle_null.jpg",
+                    "large" => "0_large_null.jpg",
+                ));
+
 
 

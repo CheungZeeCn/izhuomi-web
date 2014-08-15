@@ -22,19 +22,23 @@ class ArticleDataModel extends AppModel {
 
     public function getArticle($id) {
 		$this->makeModelThere('IzArticle');
-        $mapping = array(
-                        //'timeBegin' => 'date >=', 
-                        //'timeEnd' => 'date <=',
-                        'id' => 'id'
-                    );
-        $values = array(
-                        //'timeBegin' => $timeBegin, 
-                        //'timeEnd' => $timeEnd,
-                        'id' => $id,
-                    );
-         
-        $conditions = $this->makeConditions($mapping, $values);
-        $ret = $this->IzArticle->find('all', array("conditions" => $conditions,));
+        if($id == -1) {
+            $ret = $this->IzArticle->find('all', array("limit" => 1, "order" => "id DESC"));
+        } else {
+            $mapping = array(
+                            //'timeBegin' => 'date >=', 
+                            //'timeEnd' => 'date <=',
+                            'id' => 'id'
+                        );
+            $values = array(
+                            //'timeBegin' => $timeBegin, 
+                            //'timeEnd' => $timeEnd,
+                            'id' => $id,
+                        );
+             
+            $conditions = $this->makeConditions($mapping, $values);
+            $ret = $this->IzArticle->find('all', array("conditions" => $conditions,));
+        }
         $ret = $this->deleteModelNameFromData($ret);
         if (!$ret) {
             throw new NotFoundException(__('Invalid id'));

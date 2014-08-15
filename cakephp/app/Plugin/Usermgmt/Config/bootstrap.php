@@ -19,11 +19,11 @@
 */
 define("EMAIL_FROM_NAME", 'Izhuomi User Management');
 
-function UsermgmtInIt(&$controller) {
+function UsermgmtInIt(&$controller) { // seems nothing to do with controller yet. zhangzhi
 	/*
 		setting default time zone for your site
 	*/
-	//date_default_timezone_set ("Asia/HongKong");
+	date_default_timezone_set ("Asia/Shanghai");
 
 
 	App::import('Helper', 'Html');

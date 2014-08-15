@@ -84,6 +84,14 @@
 								<td><strong><?php echo __('Created');?></strong></td>
 								<td><?php echo date('d-M-Y',strtotime($user['User']['created']))?></td>
 							</tr>
+							<tr>
+								<td><strong><?php echo __('Small Logo');?></strong></td>
+								<td><?php echo $this->Html->image($user['smallUserLogo'], array('alt'=>'urSmallLogo', 'fullBase'=>true))?></td>
+							</tr>
+							<tr>
+								<td><strong><?php echo __('Large Logo');?></strong></td>
+								<td><?php echo $this->Html->image($user['largeUserLogo'], array('alt'=>'urLargeLogo', 'fullBase'=>true))?></td>
+							</tr>
 				<?php   } else {
 							echo "<tr><td colspan=2><br/><br/>No Data</td></tr>";
 						}

@@ -50,6 +50,7 @@ class UserAuthComponent extends Component {
 	 * @return void
 	 */
 	function beforeFilter(&$c) {
+        $this->c = $c;
 		UsermgmtInIt($this);
 		$user = $this->__getActiveUser();
 		$pageRedirect = $c->Session->read('permission_error_redirect');
@@ -57,8 +58,8 @@ class UserAuthComponent extends Component {
 		$controller = $c->params['controller'];
 		$action = $c->params['action'];
 		$actionUrl = $controller.'/'.$action;
-		$requested= (isset($c->params['requested']) && $c->params['requested']==1) ? true : false;
-		$permissionFree=array('users/login', 'users/logout', 'users/register', 'users/userVerification', 'users/forgotPassword', 'users/activatePassword', 'pages/display', 'users/accessDenied', 'users/emailVerification');
+		$requested = (isset($c->params['requested']) && $c->params['requested']==1) ? true : false;
+		$permissionFree = array('users/login', 'users/logout', 'users/register', 'users/userVerification', 'users/forgotPassword', 'users/activatePassword', 'pages/display', 'users/accessDenied', 'users/emailVerification');
 		$access =str_replace(' ','',ucwords(str_replace('_',' ',$controller))).'/'.$action;
 		$allControllers=$this->ControllerList->getControllerWithMethods();
 		$errorPage=false;
@@ -68,11 +69,11 @@ class UserAuthComponent extends Component {
 		if ((empty($pageRedirect) || $actionUrl!='users/login') && !$requested && !in_array($actionUrl, $permissionFree) && !$errorPage) {
 			App::import("Model", "Usermgmt.UserGroup");
 			$userGroupModel = new UserGroup;
-			if (!$this->isLogged()) {
+			if (!$this->isLogged()) { //redirect to login
 				if (!$userGroupModel->isGuestAccess($controller, $action)) {
 					$c->log('permission: actionUrl-'.$actionUrl, LOG_DEBUG);
 					$c->Session->write('permission_error_redirect','/users/login');
-					$c->Session->setFlash('You need to be signed in to view this page.');
+					$c->Session->setFlash(__('您需要登陆才能看这个页面哦...'));
 					$cUrl = '/'.$c->params->url;
 					if(!empty($_SERVER['QUERY_STRING'])) {
 						$rUrl = $_SERVER['REQUEST_URI'];
@@ -82,7 +83,9 @@ class UserAuthComponent extends Component {
 					$c->Session->write('Usermgmt.OriginAfterLogin', $cUrl);
 					$c->redirect('/login');
 				}
-			} else {
+			} else {//logged
+                // set user info here
+                $this->setUser($c);
 				if (!$userGroupModel->isUserGroupAccess($controller, $action, $this->getGroupId())) {
 					$c->log('permission: actionUrl-'.$actionUrl, LOG_DEBUG);
 					$c->Session->write('permission_error_redirect','/users/login');
@@ -90,6 +93,16 @@ class UserAuthComponent extends Component {
 				}
 			}
 		}
+	}
+	/**
+	 * Used to set user in context of cakephp views
+	 *
+	 * @access public
+	 * @return boolean
+	 */
+	public function setUser(&$c) {
+		$user = $this->Session->read('UserAuth');
+        $c->set('_username', $user['User']['username']);
 	}
 	/**
 	 * Used to check whether user is logged in or not
@@ -198,7 +211,7 @@ class UserAuthComponent extends Component {
 			$userModel = new User;
 			$user = $userModel->authsomeLogin($type, $credentials);
 		} elseif (is_array($type)) {
-			$user =$type;
+			$user = $type;
 		}
 		Configure::write($this->configureKey, $user);
 		$this->Session->write('UserAuth', $user);
@@ -235,7 +248,8 @@ class UserAuthComponent extends Component {
 		);
 	}
 	/**
-	 * Used to check user's session if user's session is not available then it tries to get login from cookie if it exist
+	 * Used to check user's session if user's session is not available 
+     * then it tries to get login from cookie if it exist
 	 *
 	 * @access private
 	 * @return array

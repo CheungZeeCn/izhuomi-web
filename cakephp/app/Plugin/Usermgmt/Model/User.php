@@ -35,6 +35,7 @@ class User extends UserMgmtAppModel {
 	 * @var array
 	 */
 	var $hasMany = array('LoginToken'=>array('className'=>'Usermgmt.LoginToken','limit' =>1));
+	var $hasOne = array('IzUsersLogo');
 	/**
 	 * model validation array
 	 *
@@ -301,7 +302,7 @@ EMAIL_FROM_NAME;
 	 * @access public
 	 * @param string $type
 	 * @param string $credentials
-	 * @return array
+	 * @return array //array(), false, array returned by find
 	 */
 	public function authsomeLogin($type, $credentials = array()) {
 		switch ($type) {
@@ -329,7 +330,7 @@ EMAIL_FROM_NAME;
 				if (!$loginToken) {
 					return false;
 				}
-				$loginToken['LoginToken']['used'] = true;
+				$loginToken['LoginToken']['used'] = true;// why set it true?
 				$this->LoginToken->save($loginToken);
 
 				$conditions = array(
@@ -339,7 +340,7 @@ EMAIL_FROM_NAME;
 			default:
 				return array();
 		}
-		return $this->find('first', compact('conditions'));
+		return $this->find('first', compact('conditions')); //return user info
 	}
 	/**
 	 * Used to generate cookie token

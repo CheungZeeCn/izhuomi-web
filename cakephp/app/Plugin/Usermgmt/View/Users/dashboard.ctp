@@ -45,6 +45,7 @@
 			<?php   } ?>
 						<span  class="umstyle6"><?php echo $this->Html->link(__("Change Password",true),"/changePassword") ?></span><br/><br/>
 						<span  class="umstyle6"><?php echo $this->Html->link(__("Profile",true),"/myprofile") ?></span><br/><br/>
+						<span  class="umstyle6"><?php echo $this->Html->link(__("设置头像",true),"/IzUsersLogos/show") ?></span><br/><br/>
 				</div>
 				<div class="um_box_mid_content_mid_right" align="right"></div>
 				<div style="clear:both"></div>
