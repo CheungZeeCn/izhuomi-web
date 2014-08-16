@@ -18,9 +18,64 @@
 	along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 */
 ?>
+<?php echo $this->Session->flash(); ?>
+<div class="container" style="box-sizing: border-box; margin-top:20px">
+    <div class="column one-fourth vcard">
+        <a class="vcard-avatar" href="#">
+		<?php echo $this->Html->image($user['largeUserLogo'], 
+                                    array('class'=> 'avatar', 
+                                            'width'=>'230px', 
+                                            'height'=>'230px', 
+                                            'fullBase'=>true))?>
+        </a>
+        <h1 class="vcard-names">
+            <span class="vcard-fullname"><?php echo $user['User']['first_name'] ?></span>
+            <span class="vcard-username"><?php  echo $user['User']['username'] ?></span>
+        </h1>
+        <div class="vcard-stats" style="word-break:break-all;text-align:left">
+        <h4> <span class="glyphicon glyphicon-user"></span> 简介 </h4>
+        这是我的一个测试账号, 我是这里管理员， 有投诉或者建议请发往cheungzeecn@gmail.com. 非常感谢。
+        </div>
+        <ul class="vcard-details">
+            <li class="vcard-detail"><span class="octicon glyphicon glyphicon-envelope"></span><a href="mailto:Cheungzeecn@gmail.com" class="email">Cheungzeecn@gmail.com</a></li>
+          
+          <li class="vcard-detail"><span class="octicon glyphicon glyphicon-time"></span><span>Joined on <?php echo $user['User']['date_created'] ?></span></li>
+        </ul>
+        <div class="vcard-stats">
+         <a href="/CheungZeeCn/followers" class="vcard-stat">
+           <strong class="vcard-stat-count">123</strong>
+            等级
+         </a>
+           <a href="/stars/CheungZeeCn" class="vcard-stat">
+             <strong class="vcard-stat-count">456</strong>
+             积分
+           </a>
+       </div> 
+        <div class="vcard-social">
+          <h4 class="vcard-social-h4"> <span class="glyphicon glyphicon-home" ></span> 找到我 </h4>
+            <ul >
+            <li class="octicon"><i class="fa fa-weibo fa-2x vcard-social-i"> </i> </li>
+            <li class="octicon"><i class="fa fa-weixin fa-2x vcard-social-i"> </i> </li>
+            <li class="octicon"><i class="fa fa-qq fa-2x vcard-social-i"> </i> </li>
+            <li class="octicon"><i class="fa fa-twitter fa-2x vcard-social-i"> </i> </li>
+            <li class="octicon"><i class="fa fa-facebook fa-2x vcard-social-i"> </i> </li>
+            <li class="octicon"><i class="fa fa-github-alt fa-2x vcard-social-i"> </i> </li>
+            <li class="octicon"><i class="fa fa-google fa-2x vcard-social-i"> </i> </li>
+            </ul>
+        </div>
+    </div>
+    <div class="column three-fourths">
+    jdlksjafkdsflk
+    </div>
+</div>
+
+
+
+
+<!--
+
 <div class="umtop">
-	<?php echo $this->Session->flash(); ?>
-	<?php echo $this->element('dashboard'); ?>
+	<?php if($isMine) {echo $this->element('dashboard'); }?>
 	<div class="um_box_up"></div>
 	<div class="um_box_mid">
 		<div class="um_box_mid_content">
@@ -103,3 +158,4 @@
 	</div>
 	<div class="um_box_down"></div>
 </div>
+-->

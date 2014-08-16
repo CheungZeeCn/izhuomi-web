@@ -1,0 +1,179 @@
+
+.one-fourth {
+    width: 25%;
+}
+
+.three-fourths {
+    width: 75%;
+}
+
+.column {
+    float: left; 
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.xx {
+    box-sizing: border-box;
+}
+
+.vcard-avatar img {
+    border-radius: 6px;
+}
+
+.avatar img {
+    border-radius: 6px;
+}
+
+.vcard-names {
+    line-height: 1;
+    margin-top: 5px;
+}
+
+h1 {
+    font-size: 30px;
+}
+
+.vcard-fullname {
+    display: block;
+    font-size: 26px;
+    line-height: 30px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+}
+
+.vcard-username {
+    color: #666;
+    display: block;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: 24px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+}
+
+.vcard-details {
+    border-top: 1px solid #eee;
+    list-style: none outside none;
+    padding-bottom: 15px;
+    padding-top: 15px;
+}
+
+ul, ol {
+    margin-bottom: 0;
+    margin-top: 0;
+    padding: 0;
+}
+
+.vcard-detail {
+    font-size: 14px;
+    overflow-x: hidden;
+    padding: 2px 0 2px 24px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+}
+
+.octicon {
+  -moz-osx-font-smoothing: grayscale;
+  -moz-user-select: none;
+  display: inline-block;
+  font: 16px;
+  text-decoration: none;
+}
+
+.vcard-detail .octicon {
+  color: #ccc;
+  float: left;
+  margin-left: -24px;
+  text-align: center;
+  width: 16px;
+}
+
+.vcard-stats:before, .vcard-stats:after {
+    content: " ";
+    display: table;
+}
+
+.vcard-stats:after {
+  clear: both;
+}
+
+.vcard-stats {
+  border-bottom: 1px solid #eee;
+  border-top: 1px solid #eee;
+  margin-bottom: 10px;
+  padding-bottom: 15px;
+  padding-top: 15px;
+  text-align: center;
+}
+
+.vcard-aboutme:before, .vcard-aboutme:after {
+    content: " ";
+    display: table;
+}
+
+.vcard-aboutme:after {
+  clear: both;
+}
+
+.vcard-aboutme {
+  border-bottom: 1px solid #eee;
+  border-top: 1px solid #eee;
+  margin-bottom: 10px;
+  padding-bottom: 15px;
+  padding-top: 15px;
+  text-align: center;
+}
+
+.vcard-stat-count {
+  color: #222;
+  display: block;
+  font-size: 28px;
+  font-weight: bold;
+  font-family: sans-serif;
+  line-height: 1;
+}
+
+.vcard-stat {
+  color: #999;
+  float: left;
+  font-size: 11px;
+  text-transform: capitalize;
+  width: 50%;
+}
+
+.vcard-social{
+
+}
+
+.vcard-social-i{
+  color: #999;
+  float: left;
+  text-transform: capitalize;
+  width: 33.3333%;
+
+}
+
+.vcard-social-h4 {
+  font-size: 18px; 
+  line-height: 1.1;
+  margin-bottom: 15px;
+  margin-top: 15px;
+}
+
+
+.vcard-social:before, .vcard-orgs:after {
+  content: " ";
+  display: table;
+}
+
+.vcard-orgs:after {
+  clear: both;
+}
+
+
+

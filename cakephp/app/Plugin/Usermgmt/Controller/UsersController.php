@@ -69,12 +69,23 @@ class UsersController extends UserMgmtAppController {
 	 * @access public
 	 * @return array
 	 */
-	public function myprofile() {
-		$userId = $this->UserAuth->getUserId();
+	public function myprofile($userId=0) {
+        $myUserId = $this->UserAuth->getUserId(); 
+        if($userId==0) {
+		    $userId = $myUserId;
+            $isMine = TRUE;
+        } else {
+            $isMine = FALSE;
+        }
+
 		$user = $this->User->read(null, $userId);
         $user['largeUserLogo'] = $this->User->IzUsersLogo->genLogoUrl($user['IzUsersLogo']['large_logo_addr'], 'large', false);
         $user['smallUserLogo'] = $this->User->IzUsersLogo->genLogoUrl($user['IzUsersLogo']['small_logo_addr'], 'small', false);
+        $user['User']['date_created'] = date("M d, Y", strtotime($user['User']['created']));
+        //var_dump($user);
+
 		$this->set('user', $user); 
+		$this->set('isMine', $isMine); 
 	}
 	/**
 	 * Used to logged in the site

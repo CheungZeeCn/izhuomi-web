@@ -19,11 +19,14 @@
         echo $this->Html->meta('icon');
         //bootstrap
 	    //echo $this->Html->css(array('jquery.mobile-1.4.2'));
+        //icon
+	    echo $this->Html->css('font-awesome');
 
-	    echo $this->Html->css(array('themes/my-custom-theme.css'));
-	    echo $this->Html->css(array('themes/jquery.mobile.icons.min.css'));
+	    echo $this->Html->css(array('themes/my-custom-theme'));
+	    echo $this->Html->css(array('themes/jquery.mobile.icons.min'));
 	    echo $this->Html->css(array('jquery.mobile.structure-1.4.2'));
 	    echo $this->Html->css(array('bootstrap', 'blog'));
+	    echo $this->Html->css('basic');
 	    //echo $this->Html->css(array('bootstrap', 'voa_template', 'blog'));
         echo $this->Html->css('/usermgmt/css/umstyle'); 
 	    //echo $this->Html->css(array('../dist/css/bootstrap.css'));
@@ -37,7 +40,7 @@
 		//echo $this->fetch('meta');
 		//echo $this->fetch('css');
 		//echo $this->fetch('script');
-		echo $this->Html->script("jquery-1.11.0.min.js"); ?>
+		echo $this->Html->script("jquery-1.11.0.min"); ?>
         <script type="text/javascript">
             $(document).bind("mobileinit", function () {
                 $.mobile.ajaxEnabled = false;
