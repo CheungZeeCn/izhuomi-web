@@ -1,0 +1,405 @@
+
+.one-fourth {
+    width: 25%;
+}
+
+.three-fourths {
+    width: 75%;
+}
+
+.column {
+    float: left; 
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.xx {
+    box-sizing: border-box;
+}
+
+.vcard-avatar img {
+    border-radius: 6px;
+}
+
+.avatar img {
+    border-radius: 6px;
+}
+
+.vcard-names {
+    line-height: 1;
+    margin-top: 5px;
+}
+
+h1 {
+    font-size: 30px;
+}
+
+.vcard-fullname {
+    display: block;
+    font-size: 26px;
+    line-height: 30px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+}
+
+.vcard-username {
+    color: #666;
+    display: block;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: 24px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+}
+
+.vcard-details {
+    border-top: 1px solid #eee;
+    list-style: none outside none;
+    padding-bottom: 15px;
+    padding-top: 15px;
+}
+
+ul, ol {
+    margin-bottom: 0;
+    margin-top: 0;
+    padding: 0;
+}
+
+.vcard-detail {
+    font-size: 14px;
+    overflow-x: hidden;
+    padding: 2px 0 2px 24px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+}
+
+.octicon {
+  -moz-osx-font-smoothing: grayscale;
+  -moz-user-select: none;
+  display: inline-block;
+  font: 16px;
+  text-decoration: none;
+}
+
+.vcard-detail .octicon {
+  color: #ccc;
+  float: left;
+  margin-left: -24px;
+  text-align: center;
+  width: 16px;
+}
+
+.profile-notes {
+  border-bottom: 1px ;
+  border-top: 1px ;
+  margin-bottom: 10px;
+  padding-bottom: 15px;
+  padding-top: 15px;
+  text-align: center;
+}
+
+.vcard-stats:before, .vcard-stats:after {
+    content: " ";
+    display: table;
+}
+
+.vcard-stats:after {
+  clear: both;
+}
+
+.vcard-stats {
+  border-bottom: 1px solid #eee;
+  border-top: 1px solid #eee;
+  margin-bottom: 10px;
+  padding-bottom: 15px;
+  padding-top: 15px;
+  text-align: center;
+}
+
+.vcard-aboutme:before, .vcard-aboutme:after {
+    content: " ";
+    display: table;
+}
+
+.vcard-aboutme:after {
+  clear: both;
+}
+
+.vcard-aboutme {
+  border-bottom: 1px solid #eee;
+  border-top: 1px solid #eee;
+  margin-bottom: 10px;
+  padding-bottom: 15px;
+  padding-top: 15px;
+  text-align: center;
+}
+
+.vcard-stat-count {
+  color: #222;
+  display: block;
+  font-size: 28px;
+  font-weight: bold;
+  font-family: sans-serif;
+  line-height: 1;
+}
+
+.vcard-stat {
+  color: #999;
+  float: left;
+  font-size: 11px;
+  text-transform: capitalize;
+  width: 50%;
+}
+
+.vcard-social{
+
+}
+
+.vcard-social-i{
+  color: #999;
+  float: left;
+  text-transform: capitalize;
+  width: 33.3333%;
+
+}
+
+.vcard-social-h4 {
+  font-size: 18px; 
+  line-height: 1.1;
+  margin-bottom: 15px;
+  margin-top: 15px;
+}
+
+
+.vcard-social:before, .vcard-orgs:after {
+  content: " ";
+  display: table;
+}
+
+.vcard-orgs:after {
+  clear: both;
+}
+
+.boxed-group {
+  border-radius: 3px;
+  margin-bottom: 30px;
+  position: relative;
+} 
+
+.boxed-group > h3, .boxed-group .heading {
+  -moz-border-bottom-colors: none;
+  -moz-border-left-colors: none;
+  -moz-border-right-colors: none;
+  -moz-border-top-colors: none;
+  background-color: #f5f5f5;
+  border-color: #d8d8d8 #d8d8d8 -moz-use-text-color;
+  border-image: none;
+  border-radius: 3px 3px 0 0;
+  border-style: solid solid none;
+  border-width: 1px 1px 0;
+  display: block;
+  font-size: 14px;
+  line-height: 17px;
+  margin: 0;
+  padding: 9px 10px 10px;
+}
+
+.boxed-group .boxed-group-inner {
+  background: none repeat scroll 0 0 #fff;
+  border: 1px solid #d8d8d8;
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+  color: #666;
+  font-size: 13px;
+  padding: 1px 10px;
+}
+
+.boxed-group.flush .boxed-group-inner {
+  padding: 0;
+}
+
+.calendar-graph {
+  height: 126px;
+  padding: 5px 0 0;
+  text-align: center;
+}
+
+#contributions-calendar .contrib-details {
+  clear: right;
+}
+
+#contributions-calendar .contrib-details .table-column:first-child {
+  border-left: 0 none;
+}
+
+#contributions-calendar .contrib-details .table-column {
+  border-left: 1px solid #ddd;
+  border-top: 1px solid #ddd;
+  color: #999;
+  font-size: 11px;
+  padding: 15px 0;
+  text-align: center;
+}
+
+.table-column {
+  display: table-cell;
+  padding-left: 10px;
+  padding-right: 10px;
+  vertical-align: top;
+  width: 1%;
+}
+
+#contributions-calendar .contrib-details .table-column .lbl {
+  color: #777;
+}
+
+#contributions-calendar .contrib-details .table-column .num {
+  color: #333;
+  display: block;
+  font-size: 24px;
+  font-weight: 300;
+  line-height: 1.3em;
+}
+
+.columns:before, .columns:after {
+  content: " ";
+  display: table;
+}
+
+.columns:after {
+  clear: both;
+}
+
+.columns:before, .columns:after {
+  content: " ";
+  display: table;
+}
+
+.columns {
+  margin-left: -10px;
+  margin-right: -10px;
+}
+
+.single-column {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.boxed-group.flush .boxed-group-inner {
+  padding: 0;
+}
+
+.boxed-group .boxed-group-inner {
+  background: none repeat scroll 0 0 #fff;
+  border: 1px solid #d8d8d8;
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+  color: #666;
+  font-size: 13px;
+  padding: 1px 10px;
+}
+
+.repo-list > li:first-child .repo-list-item {
+  border-top: 0 none;
+}
+
+.repo-list-item {
+  border-top: 1px solid #e5e5e5;
+  display: block;
+  font-size: 14px;
+  padding: 6px 30px;
+  position: relative;
+}
+
+.repo-list-item .repo-icon {
+  color: #666;
+  float: left;
+  margin-left: -20px;
+  margin-top: 2px;
+}
+
+.repo-list-item .repo-and-owner {
+  max-width: 220px;
+}
+
+.css-truncate.css-truncate-target, .css-truncate .css-truncate-target {
+  display: inline-block;
+  max-width: 125px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: top;
+  white-space: nowrap;
+}
+
+.repo-list-item .repo {
+  font-weight: bold;
+}
+
+.popular-repos .repo-list-item .stars {
+  margin-top: 16px;
+}
+
+.octicon-star-add:before, .octicon-star-delete:before, .octicon-star:before {
+  content: "";
+}
+
+.popular-repos .single-column .repo-description {
+  max-width: 610px;
+}
+
+.repo-list-item .repo-description {
+  color: #777;
+  display: block;
+  font-size: 12px;
+  max-width: 230px;
+}
+
+.css-truncate.css-truncate-target, .css-truncate .css-truncate-target {
+  display: inline-block;
+  max-width: 125px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: top;
+  white-space: nowrap;
+}
+
+.repo-list {
+  list-style: none outside none;
+}
+
+.news-full, .page-profile .news {
+  float: none;
+  width: auto;
+}
+
+.news {
+  float: left;
+  width: 620px;
+}
+
+.news .alert {
+  border-top: 1px solid #f1f1f1;
+  overflow: hidden;
+  padding: 0 0 1em 45px;
+  position: relative;
+}
+
+.repolist {
+  padding-top: 10px;
+}
+
+.repolist > li {
+  border-bottom: 1px solid #eee;
+  list-style: none outside none;
+  margin: 0 0 20px;
+  min-height: 66px;
+  padding-bottom: 20px;
+  padding-left: 45px;
+  position: relative;
+}
+
+

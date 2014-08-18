@@ -14,6 +14,8 @@ class IzArticlesController extends AppController {
  *
  * @var mixed
  */
+    public $layout = 'articles';
+
     //public $scaffold;
     public function __construct ($request = null, $response = null ) {
         $this->loadModel('ArticleDataModel');
@@ -61,7 +63,7 @@ class IzArticlesController extends AppController {
         );
     }
 
-    public function show($id=1) {
+    public function show($id=-1) {
         $ret = $this->ArticleDataModel->getArticle($id);
         if (!$ret) {
             throw new NotFoundException(__('Invalid id'));

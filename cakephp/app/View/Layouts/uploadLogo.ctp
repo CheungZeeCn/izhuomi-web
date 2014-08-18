@@ -12,7 +12,6 @@
     <!--<meta name="viewport" content="width=device-width, initial-scale=1"> -->
     <meta name="description" content="izhuomi.com, JiaYouO">
     <meta name="author" content="cheungzeecn@gmail.com">
-    <meta property="wb:webmaster" content="1bbba1b0b62621a9" />
 
 
 	<?php
@@ -20,15 +19,13 @@
         echo $this->Html->meta('icon');
         //bootstrap
 	    //echo $this->Html->css(array('jquery.mobile-1.4.2'));
-        //icon
-	    echo $this->Html->css('font-awesome');
 
-	    echo $this->Html->css(array('themes/my-custom-theme'));
-	    echo $this->Html->css(array('themes/jquery.mobile.icons.min'));
+	    echo $this->Html->css(array('themes/my-custom-theme.css'));
+	    echo $this->Html->css(array('themes/jquery.mobile.icons.min.css'));
 	    echo $this->Html->css(array('jquery.mobile.structure-1.4.2'));
 	    echo $this->Html->css(array('bootstrap', 'blog'));
-	    echo $this->Html->css('basic');
 	    //echo $this->Html->css(array('bootstrap', 'voa_template', 'blog'));
+	    echo $this->Html->css('basic');
         echo $this->Html->css('/usermgmt/css/umstyle'); 
 	    //echo $this->Html->css(array('../dist/css/bootstrap.css'));
 	    //echo $this->Html->css(array('../dist/css/bootstrap-theme.css'));
@@ -41,7 +38,7 @@
 		//echo $this->fetch('meta');
 		//echo $this->fetch('css');
 		//echo $this->fetch('script');
-		echo $this->Html->script("jquery-1.11.0.min"); ?>
+		echo $this->Html->script("jquery-1.11.0.min.js"); ?>
         <script type="text/javascript">
             $(document).bind("mobileinit", function () {
                 $.mobile.ajaxEnabled = false;

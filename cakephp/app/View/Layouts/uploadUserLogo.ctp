@@ -9,10 +9,9 @@
 <head>
 	<?php echo $this->Html->charset(); //shold be utf-8 ?>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <!--<meta name="viewport" content="width=device-width, initial-scale=1"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="izhuomi.com, JiaYouO">
     <meta name="author" content="cheungzeecn@gmail.com">
-    <meta property="wb:webmaster" content="1bbba1b0b62621a9" />
 
 
 	<?php
@@ -20,15 +19,12 @@
         echo $this->Html->meta('icon');
         //bootstrap
 	    //echo $this->Html->css(array('jquery.mobile-1.4.2'));
-        //icon
-	    echo $this->Html->css('font-awesome');
 
-	    echo $this->Html->css(array('themes/my-custom-theme'));
-	    echo $this->Html->css(array('themes/jquery.mobile.icons.min'));
-	    echo $this->Html->css(array('jquery.mobile.structure-1.4.2'));
-	    echo $this->Html->css(array('bootstrap', 'blog'));
 	    echo $this->Html->css('basic');
-	    //echo $this->Html->css(array('bootstrap', 'voa_template', 'blog'));
+	    echo $this->Html->css(array('themes/my-custom-theme.css'));
+	    echo $this->Html->css(array('themes/jquery.mobile.icons.min.css'));
+	    echo $this->Html->css(array('jquery.mobile.structure-1.4.2'));
+	    echo $this->Html->css(array('bootstrap', 'voa_template', 'blog'));
         echo $this->Html->css('/usermgmt/css/umstyle'); 
 	    //echo $this->Html->css(array('../dist/css/bootstrap.css'));
 	    //echo $this->Html->css(array('../dist/css/bootstrap-theme.css'));
@@ -41,18 +37,16 @@
 		//echo $this->fetch('meta');
 		//echo $this->fetch('css');
 		//echo $this->fetch('script');
-		echo $this->Html->script("jquery-1.11.0.min"); ?>
+		echo $this->Html->script("jquery-1.11.0.min.js"); ?>
         <script type="text/javascript">
             $(document).bind("mobileinit", function () {
                 $.mobile.ajaxEnabled = false;
             });
         </script>
         <?php
-		//echo $this->Html->script(array("common"));
-		//echo $this->Html->script(array("hammer", "common"));
+		echo $this->Html->script(array("hammer", "common"));
         echo $this->Html->script("../dist/js/bootstrap.min.js");
 		echo $this->Html->script("jquery.mobile-1.4.2.js");
-        /*
         if(!(isset($turnOffThePlayer) && $turnOffThePlayer==true)) {
             echo $this->Html->script("player/js/jquery.jplayer.min.js");           
             echo $this->Html->script("player/js/jquery.transform2d.js");
@@ -79,12 +73,11 @@ CODE;
             $this->Html->scriptBlock($code, array('inline'=>false, 'block'=>'player'));
             echo $this->fetch('player');
         }
-        */
 	?>
     <!--<script src="http://tjs.sjs.sinajs.cn/open/api/js/wb.js?appkey=3441774284" type="text/javascript" charset="utf-8"></script>
     -->
 </head>
-<body class="">
+<body class="" onload="bodyDidLoad()">
 	<div id="container">
 		<div id="header">
             <div class="blog-masthead">

@@ -33,25 +33,37 @@ App::uses('Controller', 'Controller');
 class AppController extends Controller {
     //public $components = array('DebugKit.Toolbar');
     // ...
+    var $helpers = array('Form', 'Html', 'Session', 'Js', 'Usermgmt.UserAuth');
 
-    public $components = array(
-        'Session',
-        'Auth' => array(
-            //todo: may lose the referer, check it 
-            //      we always want to go back to the url which we come from.
-            //'loginRedirect' => array(
-            //    'controller' => 'IzArticles',
-            //    'action' => 'show',
-            //    
-            //),
-            'logoutRedirect' => array(
-                'controller' => 'IzArticles',
-                'action' => 'show',
-                '1'
-            )
-        )
-    );
+    public $components = array('Session','RequestHandler', 'Usermgmt.UserAuth');
 
+    function beforeFilter(){
+        $this->userAuth();
+    }
+    private function userAuth(){
+        $this->UserAuth->beforeFilter($this);
+    } 
+
+
+    //public $components = array(
+    //    'Session',
+    //    'Auth' => array(
+    //        //todo: may lose the referer, check it 
+    //        //      we always want to go back to the url which we come from.
+    //        //'loginRedirect' => array(
+    //        //    'controller' => 'IzArticles',
+    //        //    'action' => 'show',
+    //        //    
+    //        //),
+    //        'logoutRedirect' => array(
+    //            'controller' => 'IzArticles',
+    //            'action' => 'show',
+    //            '1'
+    //        )
+    //    )
+    //);
+
+    /*
     public function beforeFilter() {
         $this->Auth->authenticate = array(
             AuthComponent::ALL => array('userModel' => 'IzUser'),
@@ -65,6 +77,7 @@ class AppController extends Controller {
         $this->setUser();
         //$this->Auth->allow('*');
     } 
+    */
 
     //only a test function
     public function isAdmin($user) {
