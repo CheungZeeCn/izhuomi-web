@@ -14,7 +14,7 @@ echo $this->Html->link('edit', array(
     $classification
 )); ?>
 
-changge
+change
 </li>
 
 <?php $this->end(); ?>

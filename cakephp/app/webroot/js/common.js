@@ -1,8 +1,9 @@
 var action;
 var agent = navigator.userAgent.toLowerCase();
-var platformName = ''
+var platformName = '';
 var _timeout;
-
+var search_word
+//var search_description
 
 function spanClick(e) {
 	var e = e || window.event ;
@@ -73,7 +74,9 @@ function makeItHtml(ret) {
         var explains = '';
         for(i in ret['explains']) {
             explains += (ret['explains'][i] + "<br />");
-        }  
+        }
+
+        // pass the argument to the addWord() function
 
         String.format = function(src){
             if (arguments.length == 0) return null;
@@ -83,24 +86,46 @@ function makeItHtml(ret) {
             });
         };
 
+        // pass the argument to the addWord() function
+        //search_description = explains;
+        search_word = word;
         var tmp = '' +
         '<h2 id="title">' +
             '{0};' +
         '                <span id="phonetic">[ {1} ]</span>' +
         '                <a id="more" href="http://dict.youdao.com/search?keyfrom=selector&amp;q={2}" target="_blank" hidefocus="true"><span style="font-size:22px" class="glyphicon glyphicon-globe"> </span></a>' +
-        '                <a id="add"> <span style="font-size:22px" class="glyphicon glyphicon-plus"></span> </a>' +
+        '                <a id="add" href="javascript:void(0);" onclick="addWord(search_word);"> <span style="font-size:22px" class="glyphicon glyphicon-plus"></span> </a>' +
         '            </h2>' +
         '            <hr class="clear-hr">' +
         '            <div id="basic">' +
-        '                {3}' +
+        '                {4}' +
         '            </div>' +
         '            <hr class="clear-hr">' +
         '            <div id="from">' +
-        '               <p> 来自: {4} </p>' +
+        '               <p> 来自: {5} </p>' +
         '            </div>';
-        return   String.format(tmp, word, phonetic, word, explains, from);
+        return   String.format(tmp, word, phonetic, word, word, explains, from);
     }
     return '';
+}
+
+function printHello(){
+    alert("hello world\n");
+}
+
+function addWord(name){
+    var url = "../../IzArticles/addWord/" + name + ".json";
+    console.log(url);
+    $.ajax({
+        url: url,
+    }).done(function(data){
+        if(data.status == 'OK'){
+            alert("successfully add the word to db");
+        }else{
+            alert("need to login");
+            document.location.href="../../IzUsers/login";          
+        }
+    });
 }
 
 function highlight(fromId, toId, highlight) {

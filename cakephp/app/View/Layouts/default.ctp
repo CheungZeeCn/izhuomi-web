@@ -12,6 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="izhuomi.com, JiaYouO">
     <meta name="author" content="cheungzeecn@gmail.com">
+    <meta property="wb:webmaster" content="1bbba1b0b62621a9" />
 
 
 	<?php
