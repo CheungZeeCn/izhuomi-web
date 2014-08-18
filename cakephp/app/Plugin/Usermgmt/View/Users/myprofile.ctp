@@ -17,7 +17,12 @@
 	You should have received a copy of the GNU General Public License
 	along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 */
+echo $this->Html->script("d3.v3.min.js");
+echo $this->Html->css("cal-heatmap.css");
+echo $this->Html->script("cal-heatmap.min.js");
+
 ?>
+
 <?php echo $this->Session->flash(); ?>
 <div class="container" style="box-sizing: border-box; margin-top:20px">
     <div class="column one-fourth vcard">
@@ -65,7 +70,92 @@
         </div>
     </div>
     <div class="column three-fourths">
-    jdlksjafkdsflk
+        <div class="profile-notes" style="word-break:break-all;text-align:left">
+            <h4> <span style="font-size:30px" class="glyphicon glyphicon-bookmark"></span> 足迹 </h4>
+            <div style="wdith:100%; ">
+                <ul class="repolist js-repo-list">
+                    <li class="public source">   
+                        当前承诺 <br />
+                            7天内，完成难度为x的阅读3篇， 已完成1篇，还剩下2天
+                    </li>
+                    <li class="public source">   
+                        已完成承诺 <br/>
+                            完成11个， 平均一周阅读3篇。    
+                    </li>
+                    <li class="public source">   
+                        上次读到 xxxx 中的 <br />
+                            She walks in beauty.
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="columns popular-repos">
+                <div class="single-column">
+                        <div class="boxed-group flush">
+                            <h3>美句摘录</h3>
+                            <ul class="boxed-group-inner repo-list">
+                                <li class="public source repo-list-item" style="padding:5px">
+                                      <div class="note-sent-content" style="">
+                                        At the University of Michigan in Ann Arbor he spoke about creating smarter and better government. He also spoke at Hampton University, a historically black university in Virginia. And he spoke at the United States Military Academy at West Point, New York.
+                                      </div>
+                                      <span class="glyphicon glyphicon-paperclip"></span> 出自 <a style="" href="<?php echo $this->Html->url('/IzArticles/show/2');?>">BBB</a>
+                                </li>
+                                <li class="public source repo-list-item" style="padding:5px">
+                                      <div class="note-sent-content" style="">
+                                        At the University of Michigan in Ann Arbor he spoke about creating smarter and better government. He also spoke at Hampton University, a historically black university in Virginia. And he spoke at the United States Military Academy at West Point, New York.
+                                      </div>
+                                      <span class="glyphicon glyphicon-paperclip"></span> 出自 <a style="" href="<?php echo $this->Html->url('/IzArticles/show/2');?>">BBB</a>
+                                </li>
+                                <li class="public source repo-list-item" style="padding:5px">
+                                      <div class="note-sent-content" style="">
+                                        At the University of Michigan in Ann Arbor he spoke about creating smarter and better government. He also spoke at Hampton University, a historically black university in Virginia. And he spoke at the United States Military Academy at West Point, New York.
+                                      </div>
+                                      <span class="glyphicon glyphicon-paperclip"></span> 出自 <a style="" href="<?php echo $this->Html->url('/IzArticles/show/2');?>">BBB</a>
+                                </li>
+                            </ul>
+                        </div>
+                </div> 
+            </div>
+        </div>
+
+        <div id="izhuomi-heatmap" class="boxed-group flush">
+            <h3> <?php echo "{$user['User']['username']}的持久力"?> </h3>
+            <div id="contributions-calendar" class="boxed-group-inner">
+                <div class="js-graph js-calendar-graph graph-canvas calendar-graph" data-url="">
+
+                    <div style="position:auto; margin-left:5px; margin-bottom:5px;" id="cal-heatmap"></div>
+                    <script type="text/javascript">
+                        var cal = new CalHeatMap();
+                        cal.init({ cellSize: 9,
+                                    domain: 'month',
+                                    domainGutter: 0,
+                                    label: {
+                                        position: "top"
+                                    },
+                                    domainLabelFormat: "%b"
+                                    });
+                    </script>
+                </div>
+                <div class="contrib-details">
+                    <div class="table-column contrib-day">
+                      <span class="lbl">累计完成文章</span>
+                      <span class="num">共 67 篇</span>
+                      排名第11
+                    </div>
+                    <div class="table-column contrib-streak">
+                      <span class="lbl">最长持续天数</span>
+                        <span class="num">10 连击</span>
+                        October 04 -
+                        October 14
+                    </div>
+                    <div class="table-column contrib-streak-current">
+                      <span class="lbl">当前持续天数</span>
+                        <span class="num">2 连击</span>
+                        August 15 -
+                        August 16
+                    </div>
+                </div> 
+        </div>
     </div>
 </div>
 
