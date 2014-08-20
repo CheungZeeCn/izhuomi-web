@@ -402,4 +402,12 @@ ul, ol {
   position: relative;
 }
 
+.radius-3px {
+    border-radius:3px;
+}
+
+.izpage {
+    margin-top:20px;
+}
+
 

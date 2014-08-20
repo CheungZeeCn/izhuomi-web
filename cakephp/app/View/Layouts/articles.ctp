@@ -37,7 +37,8 @@
 		//echo $this->fetch('meta');
 		//echo $this->fetch('css');
 		//echo $this->fetch('script');
-		echo $this->Html->script("jquery-1.11.0.min.js"); ?>
+		echo $this->Html->script("jquery-1.11.0.min.js"); 
+		echo $this->Html->script("basic"); ?>
         <script type="text/javascript">
             $(document).bind("mobileinit", function () {
                 $.mobile.ajaxEnabled = false;
@@ -89,7 +90,7 @@ CODE;
                     <?php echo $this->Html->image('cake.icon.png', array('alt' => 'iZhuomi', 'class' => 'media-object')); ?>
                   </a>
                   <a class="menu-nav-item" href="<?php echo $this->Html->url("/IzArticles/show/")?>">阅读</a>
-                  <a class="menu-nav-item" sytle="text-shadow: 0 0 0 #FFFFFF" href="#">笔记</a>
+                  <a class="menu-nav-item" sytle="text-shadow: 0 0 0 #FFFFFF" href="<?php echo $this->Html->url("/IzWordbooks/")?>">笔记</a>
 			      <a class="menu-nav-item " href="<?php echo $this->Html->url("/myprofile")?>">我的主页</a>
 
                   
