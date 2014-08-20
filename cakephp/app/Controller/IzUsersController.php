@@ -23,7 +23,7 @@ class IzUsersController extends AppController {
     public function login() {
         if ($this->Auth->loggedIn() == true) {
             $this->Session->setFlash(__('Already logged in, please logout first'));
-            return $this->redirect($this->Auth->redirect());    
+            $this->redirect($this->Auth->login());    
         }
 
         if ($this->request->is('post')) {// post data comes in
