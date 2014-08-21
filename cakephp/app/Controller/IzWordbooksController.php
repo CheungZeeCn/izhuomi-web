@@ -54,26 +54,64 @@ class IzWordbooksController extends AppController {
  * @param string $id
  * @return void
  */
-	public function view($id = null) {
-		if (!$this->IzWordbook->exists($id)) {
-			throw new NotFoundException(__('Invalid iz wordbook'));
-		}
-		$options = array('conditions' => array('IzWordbook.' . $this->IzWordbook->primaryKey => $id));
-		$this->set('izWordbook', $this->IzWordbook->find('first', $options));
-	}
+	//public function view($id = null) {
+	//	if (!$this->IzWordbook->exists($id)) {
+	//		throw new NotFoundException(__('Invalid iz wordbook'));
+	//	}
+	//	$options = array('conditions' => array('IzWordbook.' . $this->IzWordbook->primaryKey => $id));
+	//	$this->set('izWordbook', $this->IzWordbook->find('first', $options));
+	//}
+
 
 /**
  * add method
  *
  * @return void
  */
-	public function add() {
-		if ($this->request->is('post')) {
-			$this->IzWordbook->create();
-			if ($this->IzWordbook->save($this->request->data)) {
-				return $this->flash(__('The iz wordbook has been saved.'), array('action' => 'index'));
-			}
-		}
+	//public function add() {
+	//	if ($this->request->is('post')) {
+	//		$this->IzWordbook->create();
+    //        //should get the time here;
+	//		if ($this->IzWordbook->save($this->request->data)) {
+	//			return $this->flash(__('The iz wordbook has been saved.'), array('action' => 'index'));
+	//		}
+	//	}
+	//}
+
+	public function ajax_add($word) {
+        $myUserId = $this->UserAuth->getUserId(); 
+        $this->loadModel('TranslatorDataModel');
+        $wordData = $this->TranslatorDataModel->getWord($word);
+        $msg = 'ERROR';
+        $status = 'ERROR';
+        
+        //check if the word in the database;
+        if($this->IzWordbook->find('first', array('conditions' => array('user_id' => $myUserId, 'word' => $word)))) {
+            $msg = "单词{$word}已经在你的单词本里面啦~";
+        } else {// ok to save it 
+            $now = new DateTime();
+            $created = $now->format('Y-m-d H:i:s');
+
+		    //$this->request->allowMethod('post', 'get');
+		    if ($this->request->is(array('post', 'get'))) {
+		    	$this->IzWordbook->create();
+                $this->IzWordbook->set('word', $wordData['_word']);
+                $this->IzWordbook->set('user_id', $myUserId);
+                $this->IzWordbook->set('phonetic', $wordData['_basic']['phonetic']);
+                $this->IzWordbook->set('explain', implode("  ", $wordData['_basic']['explains']));
+                if(!empty($wordData['_from'])) {
+                    $this->IzWordbook->set('comment', "from {$wordData['_from']}");
+                }
+                $this->IzWordbook->set('created', $created);
+		    	if ($this->IzWordbook->save()) {
+                    $msg = "OK";    
+                    $status = "OK"; 
+		    	} else {
+                    $msg = "DB Save ERROR";
+                }
+		    }
+        }
+        $this->set(array('msg'=>$msg, "status"=>$status, '_serialize' => array("status", "msg")));
 	}
 
 /**
@@ -166,7 +204,7 @@ class IzWordbooksController extends AppController {
         }
 
 		$this->request->allowMethod('post', 'delete');
-        if ($this->RequestHandler->isAjax()) {
+        if ($this->request->is('ajax')) {
 		    if ($this->IzWordbook->delete()) {
 		    	$status = 'OK';
                 $msg = '成功删除';
@@ -185,6 +223,4 @@ class IzWordbooksController extends AppController {
         }
 
 	}
-
-
 }

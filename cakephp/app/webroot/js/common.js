@@ -94,7 +94,7 @@ function makeItHtml(ret) {
             '{0};' +
         '                <span id="phonetic">[ {1} ]</span>' +
         '                <a id="more" href="http://dict.youdao.com/search?keyfrom=selector&amp;q={2}" target="_blank" hidefocus="true"><span style="font-size:22px" class="glyphicon glyphicon-globe"> </span></a>' +
-        '                <a id="add" href="javascript:void(0);" onclick="addWord(search_word);"> <span style="font-size:22px" class="glyphicon glyphicon-plus"></span> </a>' +
+        '                <a id="addWord" class="addWordIcon" style="" href="javascript:void(0);" onclick="addWord(search_word);"> <span style="font-size:22px" class="glyphicon glyphicon-plus"></span> </a>' +
         '            </h2>' +
         '            <hr class="clear-hr">' +
         '            <div id="basic">' +
@@ -103,6 +103,9 @@ function makeItHtml(ret) {
         '            <hr class="clear-hr">' +
         '            <div id="from">' +
         '               <p> 来自: {5} </p>' +
+        '            </div>' +
+        '            <hr class="clear-hr">' +
+        '            <div id="addWordMsg">' +
         '            </div>';
         return   String.format(tmp, word, phonetic, word, word, explains, from);
     }
@@ -114,16 +117,21 @@ function printHello(){
 }
 
 function addWord(name){
-    var url = "../../IzArticles/addWord/" + name + ".json";
+    var url = "../../IzWordbooks/ajax_add/" + name + ".json";
     console.log(url);
     $.ajax({
         url: url,
     }).done(function(data){
         if(data.status == 'OK'){
-            alert("successfully add the word to db");
+            $('#addWord').attr({class:'disabled'});
+            $('#addWord').blur();
+            $('#addWord').attr({color:'inherit'});
+            $('#addWordMsg').text("单词"+name+"添加成功");
         }else{
-            alert("need to login");
-            document.location.href="../../IzUsers/login";          
+            //todo show error msg near the "Add icon"
+            //do nothing now;
+            //alert("ERROR: " + data.msg);
+            $('#addWordMsg').text(data.msg);
         }
     });
 }

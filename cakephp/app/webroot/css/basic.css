@@ -410,4 +410,7 @@ ul, ol {
     margin-top:20px;
 }
 
+a.disabled, a.disable:hover, a.disable:focus {
+    color:#808080;
+}
 

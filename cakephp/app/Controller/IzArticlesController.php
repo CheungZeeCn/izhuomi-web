@@ -35,33 +35,34 @@ class IzArticlesController extends AppController {
         return $randomString;
     } 
     
-    // need user_id to be inserted to the database
-    public function addWord($name) {
-        if($this->Auth->loggedIn() == true){
-            $this->loadModel('IzWordlist');
-            $now = new DateTime();
-        
-            $this->IzWordlist->set(array(
-                'name'=>$name,
-                'user_id'=>$this->Auth->user('id'),
-                'description'=>NULL,
-                'created'=> $now->format('Y-m-d H:i:s')
-            ));
-            $this->IzWordlist->save();
-           
-            $ret = 1;
-            $stat = 'OK';
-        }else{
-            $ret = 0;
-            $stat = 'BAD';
-        }
-        $this->set( array(
-            'return' => $ret,
-            'status' => $stat,
-            '_serialize' => array('return', 'status')
-            )
-        );
-    }
+    // need user_id to be inserted to the database 
+    // was moved to IzWordbook class by zhangzhi @ 20140821
+    //public function addWord($name) {
+    //    if($this->Auth->loggedIn() == true){
+    //        $this->loadModel('IzWordlist');
+    //        $now = new DateTime();
+    //    
+    //        $this->IzWordlist->set(array(
+    //            'name'=>$name,
+    //            'user_id'=>$this->Auth->user('id'),
+    //            'description'=>NULL,
+    //            'created'=> $now->format('Y-m-d H:i:s')
+    //        ));
+    //        $this->IzWordlist->save();
+    //       
+    //        $ret = 1;
+    //        $stat = 'OK';
+    //    }else{
+    //        $ret = 0;
+    //        $stat = 'BAD';
+    //    }
+    //    $this->set( array(
+    //        'return' => $ret,
+    //        'status' => $stat,
+    //        '_serialize' => array('return', 'status')
+    //        )
+    //    );
+    //}
 
     public function show($id=-1) {
         $ret = $this->ArticleDataModel->getArticle($id);

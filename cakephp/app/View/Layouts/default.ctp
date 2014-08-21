@@ -27,9 +27,9 @@
 	    echo $this->Html->css(array('themes/jquery.mobile.icons.min'));
 	    echo $this->Html->css(array('jquery.mobile.structure-1.4.2'));
 	    echo $this->Html->css(array('bootstrap', 'blog'));
-	    echo $this->Html->css('basic');
 	    //echo $this->Html->css(array('bootstrap', 'voa_template', 'blog'));
         echo $this->Html->css('/usermgmt/css/umstyle'); 
+	    echo $this->Html->css('basic');
 	    //echo $this->Html->css(array('../dist/css/bootstrap.css'));
 	    //echo $this->Html->css(array('../dist/css/bootstrap-theme.css'));
         //title
