@@ -2342,12 +2342,14 @@ div.contentWidget div.boxwidget div.boxwidgetInner {
     margin-left: 0;
 }
 .content div.zoomMe div.floatLeft {
-    margin: 12px 12px 12px -135px;
+    /*margin: 12px 12px 12px -135px;*/
+    margin: 12px 12px 12px 12px;
     position: relative;
 }
 .content div.zoomMe div.alignCenter {
     clear: both;
-    margin: 10px 0 10px -135px;
+    /*margin: 10px 0 10px -135px;*/
+    margin: 10px 0 10px 0;
     position: relative;
 }
 span.firstLetter {
@@ -8772,7 +8774,8 @@ ol {
     margin: 12px;
 }
 .content div.without_quote, .content div.quote, .content div.box_without_quote, .content div.box_with_quote {
-    margin: 12px 12px 12px -135px;
+    /*margin: 12px 12px 12px -135px;*/
+    margin: 12px 12px 12px 12px;
 }
 .content .liveblogcontent div.without_quote, .content .liveblogcontent div.quote, .content .liveblogcontent div.box_without_quote, .content .liveblogcontent div.box_with_quote {
 }
@@ -8790,13 +8793,16 @@ ol {
     margin: 0;
 }
 .content .articleContent div.zoomMe span.floatNone, .content .articleContent div.zoomMe div.floatNone, .content div.articleContent.zoomMe div.floatNone {
-    margin-left: -135px;
+    /*margin-left: -135px;*/
+    margin-left: 10px;
 }
 .content div.zoomMe .expandBig {
-    left: -135px;
+    /*left: -135px;*/
+    left: 0px;
 }
 .content div.zoomMe object, .content div.zoomMe .mediaplayer, .content div.zoomMe .htmlPhg {
-    margin-left: -135px;
+    margin-left: 0px;
+   /* margin-left: -135px;*/
 }
 .archiveBigImageBlog div.zoomMe .mediaplayer, .content div.zoomMe div.audioplayer, .content div.zoomMe object.audioplayer, .content div.zoomMe audio.audioplayer, .content div.zoomMe .mediaplayer.audioplayer, .content div.zoomMe .mediaplayer.audioplayer, .content div.zoomMe .backgrounderInner .object, .content div.zoomMe .embeddedBackgrounderInner object, .content div.zoomMe .backgrounderInner .mediaplayer, .content div.zoomMe .embeddedBackgrounderInner .mediaplayer, .content div.zoomMe .embeddedBackgrounderInner div.box_with_quote, .content div.zoomMe .embeddedBackgrounderInner .htmlPhg, .content div.zoomMe .embeddedBackgrounderInner .mediaplayer, .archiveBigImageBlog div.zoomMe .htmlPhg {
     margin-left: 0;
@@ -8809,7 +8815,8 @@ ol {
 }
 .content div.zoomMe div.mediathumb, .content div.zoomMe span.floatLeft, .content div.zoomMe div.floatLeft {
     float: left;
-    margin: 12px 12px 12px -135px;
+    /*margin: 12px 12px 12px -135px;*/
+    margin: 12px 12px 12px 12px;
     position: relative;
 }
 .archiveBigImageBlog div.zoomMe div.mediathumb, .archiveBigImageBlog div.zoomMe span.floatLeft, .archiveBigImageBlog div.zoomMe div.floatLeft {
@@ -8825,7 +8832,8 @@ ol {
     margin: 0;
 }
 .content div.zoomMe div.alignCenter {
-    margin: 10px 12px 10px -135px;
+    /*margin: 10px 12px 10px -135px;*/
+    margin: 10px 12px 10px 12px;
 }
 .shwico {
     margin-right: 3px;

@@ -20,6 +20,8 @@
  */
 
 App::uses('Model', 'Model');
+App::uses('Folder', 'Utility');
+App::uses('File', 'Utility');
 
 /**
  * Application model for Cake.
@@ -52,12 +54,16 @@ class AppModel extends Model {
 
     public function getFileContent($file, $locate=NULL) {
         //todo should be update by using 
-        $fn = $file;
-        $base = dirname(dirname(APP));
-        $locate = (!$locate) ? $base : $locate ;
-        $file  = $locate . '/' . $file . "/content.html" ;
+        #$fn = $file;
+        $fn = new File($file);
+
+        #$base = dirname(dirname(APP));
+        #$locate = (!$locate) ? $base : $locate ;
+        #$file  = $locate . '/' . $file . "/content.html" ;
         try {
-            $content = file_get_contents($file);
+            #$content = file_get_contents($file);
+            #$fn->open();
+            $content = $fn->read();
         } catch (Exception $e) {
             $content = "";
         }

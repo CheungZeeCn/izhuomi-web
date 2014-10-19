@@ -19,6 +19,7 @@
  */
 
 App::uses('AppController', 'Controller');
+App::uses('ArticleDataModel', 'Model');
 
 /**
  * Static content controller
@@ -74,4 +75,44 @@ class PagesController extends AppController {
 			throw new NotFoundException();
 		}
 	}
+
+    public function mainPage() {
+        $this->loadModel('ArticleDataModel');               
+		$path = func_get_args();
+
+		$count = count($path);
+		if (!$count) {
+			return $this->redirect('/');
+		}
+		$page = $subpage = $title_for_layout = null;
+
+		if (!empty($path[0])) {
+			$page = $path[0];
+		}
+		if (!empty($path[1])) {
+			$subpage = $path[1];
+		}
+		if (!empty($path[$count - 1])) {
+			$title_for_layout = Inflector::humanize($path[$count - 1]);
+		}
+
+        //get recently article ids
+        $articles = $this->ArticleDataModel->getNArticleIds(4);
+        foreach($articles as $i => $oneArt) {
+            $articles[$i] = $this->ArticleDataModel->getArticleWithZipPic($oneArt['id']);
+        }
+
+		$this->set(compact('page', 'subpage', 'title_for_layout'));
+		$this->set('recentlyNew', $articles);
+
+
+		try {
+			$this->render(implode('/', $path));
+		} catch (MissingViewException $e) {
+			if (Configure::read('debug')) {
+				throw $e;
+			}
+			throw new NotFoundException();
+		}
+    }
 }

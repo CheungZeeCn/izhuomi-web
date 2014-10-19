@@ -68,6 +68,9 @@ $(document).ready(function() {
                    $( "#wordbook-popupCloseRight" ).popup("open", { positionTo: "tr[wordId="+wordId+"]" });
                    $(ele).text(retData['return']);
                }
+             }).fail(function() {
+                   $( "#wordbook-popup-msg" ).text("Server Failed! Try it later... :(");
+                   $( "#wordbook-popupCloseRight" ).popup("open", { positionTo: "tr[wordId="+wordId+"]" });
              });
              //console.log(target);
              //console.log(wordId);

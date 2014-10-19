@@ -37,7 +37,7 @@
 		//echo $this->fetch('meta');
 		//echo $this->fetch('css');
 		//echo $this->fetch('script');
-		echo $this->Html->script("jquery-1.11.0.min.js"); 
+		echo $this->Html->script("jquery-1.11.0.min"); 
 		echo $this->Html->script("basic"); ?>
         <script type="text/javascript">
             $(document).bind("mobileinit", function () {
@@ -55,7 +55,7 @@
             echo $this->Html->script("player/js/mod.csstransforms.min.js");
             echo $this->Html->script("player/js/circle.player.js");
             echo $this->Html->css("player/skin/circle.skin/circle.player");           
-            $mp3File = "../../izhuomi-data/201306/aaa/content.mp3";
+            $mp3File = $this->Html->url("/".$mp3Url);
             $code = <<<CODE
             $.mobile.loadingMessageTextVisible = false;
 $(document).ready(function(){

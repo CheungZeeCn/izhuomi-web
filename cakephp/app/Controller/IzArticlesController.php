@@ -69,10 +69,45 @@ class IzArticlesController extends AppController {
         if (!$ret) {
             throw new NotFoundException(__('Invalid id'));
         }
-        $retHtml = $this->ArticleDataModel->getArticleHtmlByPath($ret['url']);
+        $cId = $ret['classification_id'];
+        $cls = $this->ArticleDataModel->getCls($cId);
+        if (!$cls) {
+            throw new NotFoundException(__('Invalid classification id'));
+        }
+        $classification = $cls['classification'];
+        $classificationCn = $cls['classification_cn'];
+        $sameCls = $this->ArticleDataModel->getClsNArticles($cId);
+        if(count($sameCls) >= 1) {
+            $a = &$sameCls[0]['IzArticle'];
+            $zipPicUrl = $this->ArticleDataModel->getArticleZipPicByPath($a['url']);
+            $a['zipPicUrl'] = $zipPicUrl;
+            unset($a);
+        }
+        #var_dump($sameCls);
+
+        $retHtml = $this->ArticleDataModel->getArticleHtmlByPath($ret['url'], True);
+        $id = $ret['id'];
+        $mp3Url = $ret['url'].'/content.mp3'; 
+        $randomId = $this->ArticleDataModel->getRandomArticleId();
+        $nextId = $this->ArticleDataModel->getNextArticleId($id);
+
+        $ret['time_create'] = explode(' ', $ret['time_create'])[0];
+
+        #contentPic
+        if($ret['contentPic']) {
+            $contentPicUrl = $ret['url'].'/'.$ret['contentPic'];
+            $this->set('contentPicUrl', $contentPicUrl);
+            $this->set('contentPicCaption', $ret['contentPicCaption']);
+        }
 
         $this->set('name', $ret['name']);
-        $this->set('classification', $ret['classification']);
+        $this->set('mp3Url', $mp3Url);
+        $this->set('randomId', $randomId);
+        $this->set('nextId', $nextId);
+        $this->set('classification', $classification);
+        $this->set('sameCls', $sameCls);
+        $this->set('classificationCn', $classificationCn);
+        $this->set('ori_url', $ret['ori_url']);
         $this->set('time_create', $ret['time_create']);
         $this->set('abstract', $ret['abstract']." | " . $this->generateRandomString(50));
         $this->set('data', $retHtml);

@@ -414,3 +414,25 @@ a.disabled, a.disable:hover, a.disable:focus {
     color:#808080;
 }
 
+div.boxwidget {
+    clear: both;
+    display: block;
+    margin: 0;
+    overflow: hidden;
+    padding: 0;
+    width: 100%;
+}
+
+div.boxwidgetInner {
+    background: none repeat scroll 0 0 #fff;
+    clear: both;
+    display: block;
+    margin: 12px;
+    overflow: hidden;
+}
+
+.main-page-shadow{
+    background-image: url('../img/comeLater.jpeg');
+    width:100%;
+    /*height:xxpx;*/
+}

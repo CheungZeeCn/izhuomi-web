@@ -145,6 +145,7 @@ h6, .h6 {
 .article-title-div {
   position: relative;
   display: inline-block;
+  width: 500px;
 }
 
 .article-player-div {
@@ -173,7 +174,7 @@ h6, .h6 {
   font-weight: normal;
 }
 .blog-description {
-  font-size: 20px;
+  font-size: 18px;
   color: #999;
 }
 
@@ -227,7 +228,7 @@ h6, .h6 {
 }
 .blog-post-title {
   margin-bottom: 5px;
-  font-size: 40px;
+  font-size: 32px;
 }
 .blog-post-meta {
   margin-bottom: 20px;

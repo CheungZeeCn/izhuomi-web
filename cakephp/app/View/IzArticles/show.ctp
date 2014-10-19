@@ -15,7 +15,15 @@
             <div > 
                 <div class="article-title-div">
                     <h2 class="blog-post-title"><?php echo $name ?></h2>
-                    <p class="lead blog-description"><?php echo "from: ".$classification." | time: ".$time_create?></p>
+                    <p class="lead blog-description">
+                    <?php 
+                        echo "分类: "; echo $this->Html->link($classification . "  ", "#"); 
+                        echo "来自: ";
+                        echo $this->Html->link(__('<span class="glyphicon glyphicon-globe"></span>'), $ori_url, array( 'escape' => false));  
+                        echo " | 发布时间: ";
+                        echo $this->Html->link($time_create, "#"); 
+                    ?>
+                    </p>
                 </div> <!-- Title 1-->
 
                 <div class="article-player-div">
@@ -44,7 +52,30 @@
             </div> <!-- Title -->
 
             <div class="cp-abstract-div">
-            <?php echo $abstract ?>
+            <?php
+            if(isset($contentPicUrl)) {
+             ?>
+                <div class="contentImage floatNone" style="width:100%">
+                <div class="watermark">
+             <?php
+                echo "<img style='width:100%' src=";
+                echo $this->Html->url("/".$contentPicUrl);
+                echo " alt='";
+                echo $contentPicCaption;
+                echo "'";
+                echo " >";
+            ?>
+                </div>
+                <span class="imageCaption">
+                    <?php 
+                        echo $contentPicCaption;
+                    ?>
+                </span>
+                </div>
+
+            <?php
+            }
+            ?>
             </div>
 
             <hr class="clear-hr">
@@ -55,8 +86,24 @@
           </div><!-- /.blog-post -->
 
           <ul class="pager">
-            <li><a href="#">随便读</a></li>
-            <li><a href="#">下一篇</a></li>
+            <li>
+                <?php 
+                    echo $this->Html->link(__('随便读'), 
+                                array('controller' => 'IzArticles', 
+                                'action' => 'show',
+                                $randomId)); 
+                ?>
+            </li>
+            <li><?php   
+                    if($nextId) {
+                        echo $this->Html->link(__('下一篇'), 
+                                    array('controller' => 'IzArticles', 
+                                    'action' => 'show',
+                                    $nextId)); 
+                    } else {
+                        echo $this->Html->link(__('已是最新'), '#'); 
+                    }
+            ?></li>
           </ul>
 
         </div><!-- /.blog-main -->
@@ -66,14 +113,30 @@
             <h4>About</h4>
             It's a web page for demonstrating the izhuomi's interaction. <br/>
             这个样例页面用以展示i.啄米的功能.
+            [后续这个地方放‘赞’相关统计, 以及分享按钮]
 
           </div>
-          <div class="sidebar-module">
-            <h4>以往发布</h4>
-            <ol class="list-unstyled">
-              <li><a href="#">2014 年 5 月</a></li>
-              <li><a href="#">2014 年 4 月</a></li>
-            </ol>
+          <div class="blog-sidebar">
+            <h4>更多来自: <?php echo $this->Html->link($classificationCn, "#"); ?></h4>
+            <ul class="list-unstyled">
+                <?php  
+                    foreach($sameCls as $a) {    
+                ?>
+                        <li >
+                            <?php $a = $a['IzArticle'];
+                            if(array_key_exists('zipPicUrl', $a)) { ?>
+                                <img class="" style="width:100%" src="<?php echo $a['zipPicUrl']?>", alt="第一篇的缩略图, 如果有">
+                                <br />
+                            <?php }
+                                echo $this->Html->link("<span class='glyphicon glyphicon-volume-up'></span>  {$a['name']}", array('Controller' => 'IzArticles', 
+                                                        'Action' => 'show', $a['id']), array("style"=>"color:#black", 'escape'=>False));
+                            ?>
+                                
+                        </li>
+                <?php 
+                    }
+                ?>
+            </ul>
           </div>
           <div class="sidebar-module">
             <h4>来这里打个招呼吧</h4>
