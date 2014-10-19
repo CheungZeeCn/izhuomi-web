@@ -84,9 +84,9 @@ CODE;
             <div class="blog-masthead">
               <div class="container">
                 <nav class="menu-nav">
-                  <div class="menu-nav-sitename "> <a href="#"> i.啄米 </a>
+                  <div class="menu-nav-sitename "> <a href="<?php echo $this->Html->url("/")?>"> i.啄米 </a>
                   </div>
-                  <a class="pull-left" href="http://izhuomi.com">
+                  <a class="pull-left" href="<?php echo $this->Html->url("/")?>">
                     <?php echo $this->Html->image('cake.icon.png', array('alt' => 'iZhuomi', 'class' => 'media-object')); ?>
                   </a>
                   <a class="menu-nav-item" href="<?php echo $this->Html->url("/IzArticles/show/")?>">阅读</a>

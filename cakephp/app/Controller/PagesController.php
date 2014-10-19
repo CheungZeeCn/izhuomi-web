@@ -20,6 +20,7 @@
 
 App::uses('AppController', 'Controller');
 App::uses('ArticleDataModel', 'Model');
+App::uses('IzClassificationModel', 'Model');
 
 /**
  * Static content controller
@@ -78,6 +79,7 @@ class PagesController extends AppController {
 
     public function mainPage() {
         $this->loadModel('ArticleDataModel');               
+        $this->loadModel('IzClassification');               
 		$path = func_get_args();
 
 		$count = count($path);
@@ -102,9 +104,28 @@ class PagesController extends AppController {
             $articles[$i] = $this->ArticleDataModel->getArticleWithZipPic($oneArt['id']);
         }
 
-		$this->set(compact('page', 'subpage', 'title_for_layout'));
-		$this->set('recentlyNew', $articles);
+        //get classes  
+        $classesOut = array();
+        $classes = $this->IzClassification->find('list', array(
+                                                        'fields' => array('id', 'classification_cn'),
+                                                ));
+        foreach($classes as $k => $v) {
+            $sameCls = $this->ArticleDataModel->getClsNArticles($k, 3);
+            for($i=0; $i<count($sameCls); $i++) {
+                $a = &$sameCls[$i]['IzArticle'];
+                $zipPicUrl = $this->ArticleDataModel->getArticleZipPicByPath($a['url']);
+                $a['zipPicUrl'] = $zipPicUrl;
+                unset($a);
+            }
 
+            if(count($sameCls) >= 1) {
+                $classesOut[] = array('id'=>$k, 'name' => $v, 'articles' => $sameCls);
+            } 
+        }
+
+		$this->set('recentlyNew', $articles);
+		$this->set('classesOut', $classesOut);
+		$this->set(compact('page', 'subpage', 'title_for_layout'));
 
 		try {
 			$this->render(implode('/', $path));

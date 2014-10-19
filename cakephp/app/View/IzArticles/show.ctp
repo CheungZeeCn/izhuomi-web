@@ -128,8 +128,9 @@
                                 <img class="" style="width:100%" src="<?php echo $a['zipPicUrl']?>", alt="第一篇的缩略图, 如果有">
                                 <br />
                             <?php }
-                                echo $this->Html->link("<span class='glyphicon glyphicon-volume-up'></span>  {$a['name']}", array('Controller' => 'IzArticles', 
-                                                        'Action' => 'show', $a['id']), array("style"=>"color:#black", 'escape'=>False));
+                                echo $this->Html->link("<span class='glyphicon glyphicon-volume-up'></span>  {$a['name']}", 
+                                            array('controller' => 'IzArticles', 'action' => 'show', $a['id']), 
+                                            array("style"=>"color:#black", 'escape'=>False));
                             ?>
                                 
                         </li>
