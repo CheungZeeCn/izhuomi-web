@@ -1,3 +1,7 @@
+    <script type="text/javascript">
+        window.articleId = <?php echo $id ?>;
+    </script>
+
     <div class="container">
 
       <!--<div class="blog-header">

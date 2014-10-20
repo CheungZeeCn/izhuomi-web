@@ -105,6 +105,7 @@ class IzArticlesController extends AppController {
         $this->set('mp3Url', $mp3Url);
         $this->set('randomId', $randomId);
         $this->set('nextId', $nextId);
+        $this->set('id', $id);
         $this->set('classification', $classification);
         $this->set('sameCls', $sameCls);
         $this->set('classificationCn', $classificationCn);

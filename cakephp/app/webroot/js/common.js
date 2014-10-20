@@ -30,7 +30,7 @@ var lastWordId = undefined;
 //reading-the-word
 
 function paintWords(lastWordId, wordId, step) {
-    console.log("lastWordId " + lastWordId + " wordId " + wordId + " step " + step);
+    //console.log("lastWordId " + lastWordId + " wordId " + wordId + " step " + step);
     if(wordId == 1) {
         $('#'+wordId).addClass('reading-the-word');             
     } else {
@@ -45,10 +45,10 @@ function paintWords(lastWordId, wordId, step) {
 
         
         
-        console.log("======");
-        console.log(nowRange);
-        console.log(lastRange);
-        console.log("======");
+        //console.log("======");
+        //console.log(nowRange);
+        //console.log(lastRange);
+        //console.log("======");
         for(i in nowRange) {
             if(-1 == lastRange.indexOf(nowRange[i]) || true) {
                 $('#'+nowRange[i]).addClass('reading-the-word');             
@@ -96,7 +96,11 @@ function countMyTime(percent, duration) {
 
 function makeItDone() {
     isThisArticleDone = true;
-    console.log( "make it done here");
+    console.log( "make it done here" + window.articleId);
+    var url = "../../IzUserDoneArticle/ajax_add/" + window.articleId + ".json";
+    $.ajax({
+        url: url,
+    });
 }
 
 function spanDblClick(e) {
