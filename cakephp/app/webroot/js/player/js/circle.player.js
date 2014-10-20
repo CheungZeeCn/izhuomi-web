@@ -30,6 +30,8 @@
 
 
 var CirclePlayer = function(jPlayerSelector, media, options) {
+    //this.timeLast = 0;
+    //this.percentLast = 0;
 	var	self = this,
 
 		defaults = {
@@ -208,7 +210,12 @@ CirclePlayer.prototype = {
 	},
 	_timeupdate: function(percent) {
 		var degs = percent * 3.6+"deg";
-        //console.log("percent" + percent);
+        //var timeNow = percent * this.audio.duration / 100.0;
+        countMyTime(percent, this.audio.duration);
+        //if(Math.floor(timeNow) > this.timeLast) {
+        //    this.timeLast = Math.floor(timeNow);
+        //    console.log("time: " + this.timeLast);
+        //}
 		var spriteOffset = (Math.floor((Math.round(percent))*this.spriteRatio)-1)*-this.spritePitch;
 
 		if (percent <= 50) {

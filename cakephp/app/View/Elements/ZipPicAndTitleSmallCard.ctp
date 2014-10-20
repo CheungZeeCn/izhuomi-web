@@ -5,7 +5,7 @@
 
         ?>
         <div>
-            <img class="" style="float:left;width:113px;margin-right:3px" src="<?php echo $article['zipPicUrl']?>", alt="No Pic ">
+            <img class="" style="float:left;width:113px;height:64px;margin-right:3px" src="<?php echo $article['zipPicUrl']?>", alt="No Pic found, Sorry~ :(">
         </div>
         <h4 style="">
         <?php

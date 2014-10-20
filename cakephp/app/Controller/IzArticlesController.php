@@ -91,7 +91,8 @@ class IzArticlesController extends AppController {
         $randomId = $this->ArticleDataModel->getRandomArticleId();
         $nextId = $this->ArticleDataModel->getNextArticleId($id);
 
-        $ret['time_create'] = explode(' ', $ret['time_create'])[0];
+        $ret['time_create'] = explode(' ', $ret['time_create']);
+        $ret['time_create'] = $ret['time_create'][0];
 
         #contentPic
         if($ret['contentPic']) {

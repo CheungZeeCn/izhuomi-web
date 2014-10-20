@@ -23,7 +23,8 @@ class ArticleDataModel extends AppModel {
     
     public function getCls($id) {
 		$this->makeModelThere('IzClassification');
-        $ret = $this->IzClassification->findById($id)['IzClassification'];
+        $ret = $this->IzClassification->findById($id);
+        $ret = $ret['IzClassification'];
         return $ret;
     }
 

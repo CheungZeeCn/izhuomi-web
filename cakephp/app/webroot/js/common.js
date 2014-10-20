@@ -1,3 +1,4 @@
+// common for article playing ?
 var action;
 var agent = navigator.userAgent.toLowerCase();
 var platformName = '';
@@ -20,6 +21,82 @@ function spanClick(e) {
     } else {
         //alert(ele.tagName);
     }
+}
+
+var playTimeLast = 0;
+var playStepLast = 0;
+var isThisArticleDone = false;
+var lastWordId = undefined;
+//reading-the-word
+
+function paintWords(lastWordId, wordId, step) {
+    console.log("lastWordId " + lastWordId + " wordId " + wordId + " step " + step);
+    if(wordId == 1) {
+        $('#'+wordId).addClass('reading-the-word');             
+    } else {
+        nowBegin = wordId-step;
+        if(nowBegin <1 ) nowBegin = 1;
+
+        lastBegin = lastWordId-step;
+        if(lastBegin <1 ) lastBegin = 1;
+        
+        var nowRange = range(nowBegin, wordId+1, 1);
+        var lastRange = range(lastBegin, lastWordId+1, 1);
+
+        
+        
+        console.log("======");
+        console.log(nowRange);
+        console.log(lastRange);
+        console.log("======");
+        for(i in nowRange) {
+            if(-1 == lastRange.indexOf(nowRange[i]) || true) {
+                $('#'+nowRange[i]).addClass('reading-the-word');             
+            }
+        }
+        for(i in lastRange) {
+            if(-1 == nowRange.indexOf(lastRange[i])) {
+                $('#'+lastRange[i]).removeClass('reading-the-word');             
+            }
+        }
+
+    }
+}
+
+function countMyTime(percent, duration) {
+    // make it article done for sbd;
+    if(percent >= 60 && isThisArticleDone==false) {
+        makeItDone();  
+    }
+
+    var timeNow = Math.floor(duration * percent / 100.0);
+    if(timeNow != playTimeLast) {
+        //action here
+        //locate new
+        wordId = ids_index_by_time[timeNow];
+        if(wordId != lastWordId ) {
+            //delete old
+            //add new
+            //console.log("add #"+wordId);
+            //$("#"+wordId).addClass("reading-the-word");
+            ////rm
+            //$("#"+lastWordId).removeClass("reading-the-word");
+            paintWords(lastWordId, wordId, 6);
+            lastWordId = wordId;
+        }
+    }
+    
+
+    //if(Math.floor(timeNow) != playTimeLast && timeNow >= 0.0) {
+    //    playTimeLast = Math.floor(timeNow);
+    //    console.log( "timeNow:" + playTimeLast);
+    //}
+}
+
+
+function makeItDone() {
+    isThisArticleDone = true;
+    console.log( "make it done here");
 }
 
 function spanDblClick(e) {
@@ -231,6 +308,56 @@ function bodyDidLoad() {
 	addSpanListener();
     
 	console.log("on load");
+}
+
+var range = function(start, end, step) {
+    var range = [];
+    var typeofStart = typeof start;
+    var typeofEnd = typeof end;
+
+    if (step === 0) {
+        throw TypeError("Step cannot be zero.");
+    }
+
+    if (typeofStart == "undefined" || typeofEnd == "undefined") {
+        throw TypeError("Must pass start and end arguments.");
+    } else if (typeofStart != typeofEnd) {
+        throw TypeError("Start and end arguments must be of same type.");
+    }
+
+    typeof step == "undefined" && (step = 1);
+
+    if (end < start) {
+        step = -step;
+    }
+
+    if (typeofStart == "number") {
+
+        while (step > 0 ? end >= start : end <= start) {
+            range.push(start);
+            start += step;
+        }
+
+    } else if (typeofStart == "string") {
+
+        if (start.length != 1 || end.length != 1) {
+            throw TypeError("Only strings with one character are supported.");
+        }
+
+        start = start.charCodeAt(0);
+        end = end.charCodeAt(0);
+
+        while (step > 0 ? end >= start : end <= start) {
+            range.push(String.fromCharCode(start));
+            start += step;
+        }
+
+    } else {
+        throw TypeError("Only string and number types are supported");
+    }
+
+    return range;
+
 }
 
 // window.onload=bodyDidLoad;
