@@ -1,9 +1,15 @@
 <div class="container izpage">
 
 <div class="boxwidget">
-    <div class="boxwidgetInner">
+        <a href="<?php echo $this->Html->url(array(
+                        "controller" => 'IzArticles', 
+                        "action" => 'show', 
+                        )); ?>" > 
+
+         <?php echo $this->Html->image("main2.jpg", array('width'=>'100%'));?>
          
-        <div class="jumbotron" style="width:100%">
+        </a>
+        <!--<div class="jumbotron" style="width:100%">
         <div style="width:100%">
          <?php //echo $this->Html->image("comeLater.jpeg", array('width'=>'100%'));?>
         </div>
@@ -29,8 +35,7 @@
                     ); 
         ?>
         </p>
-         </div>
-    </div>
+         </div> -->
 </div>
 
 <div class="delimiter"><hr class="delimiter"></div>
