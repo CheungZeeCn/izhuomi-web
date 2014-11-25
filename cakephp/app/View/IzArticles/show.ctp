@@ -1,5 +1,7 @@
     <script type="text/javascript">
         window.articleId = <?php echo $id ?>;
+        window.articleName = '<?php echo $name ?>';
+        window.wordId = <?php echo $wordId?$wordId:0 ?>;
     </script>
 
     <div class="container">
@@ -90,6 +92,16 @@
           </div><!-- /.blog-post -->
 
           <ul class="pager">
+            <li><?php   
+                    if($preId) {
+                        echo $this->Html->link(__('上一篇'), 
+                                    array('controller' => 'IzArticles', 
+                                    'action' => 'show',
+                                    $preId)); 
+                    } else {
+                        echo $this->Html->link(__('已是最旧'), '#'); 
+                    }
+            ?></li>
             <li>
                 <?php 
                     echo $this->Html->link(__('随便读'), 
@@ -151,6 +163,13 @@
               <li><a href="#">AppStore</a></li>
               <li><a href="#">Google Play</a></li>
             </ol>
+          </div>
+          <div class="sidebar-module ui-field-contain">
+            <div class="form-group">
+              <label >美句摘录:</label>
+                <textarea  id='digest' data-role="none" style="padding:5px; border-radius:5px; width:100%; height:80px" rows="10" placeholder="拷贝你喜欢的句子到这里，然后点击摘录"></textarea>
+            </div>
+            <button id="digestButton" onclick="storeDigest($('#digest').val())"; return false" type="button" class="btn btn-info" data-role="none" style="width:100%;"> <span style="margin-right:2px" class="glyphicon glyphicon-floppy-saved"></span> 摘录 <span style="margin-left:2px" id='digestMsgReturn'></span></button>
           </div>
         </div><!-- /.blog-sidebar -->
 

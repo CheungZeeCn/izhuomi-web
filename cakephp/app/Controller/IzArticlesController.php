@@ -64,7 +64,8 @@ class IzArticlesController extends AppController {
     //    );
     //}
 
-    public function show($id=-1) {
+    public function show($id=-1) {//can't add params here any more, since we use some hard code about url in js 
+        $wordId = $this->request->query('wordId');
         $ret = $this->ArticleDataModel->getArticle($id);
         if (!$ret) {
             throw new NotFoundException(__('Invalid id'));
@@ -90,6 +91,7 @@ class IzArticlesController extends AppController {
         $mp3Url = $ret['url'].'/content.mp3'; 
         $randomId = $this->ArticleDataModel->getRandomArticleId();
         $nextId = $this->ArticleDataModel->getNextArticleId($id);
+        $preId = $this->ArticleDataModel->getPreArticleId($id);
 
         $ret['time_create'] = explode(' ', $ret['time_create']);
         $ret['time_create'] = $ret['time_create'][0];
@@ -105,7 +107,9 @@ class IzArticlesController extends AppController {
         $this->set('mp3Url', $mp3Url);
         $this->set('randomId', $randomId);
         $this->set('nextId', $nextId);
+        $this->set('preId', $preId);
         $this->set('id', $id);
+        $this->set('wordId', $wordId);
         $this->set('classification', $classification);
         $this->set('sameCls', $sameCls);
         $this->set('classificationCn', $classificationCn);

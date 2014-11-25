@@ -33,17 +33,17 @@ function paintWords(lastWordId, wordId, step) {
     //console.log("lastWordId " + lastWordId + " wordId " + wordId + " step " + step);
     if(wordId == 1) {
         $('#'+wordId).addClass('reading-the-word');             
+        return [1];
     } else {
-        nowBegin = wordId-step;
+        var paintedRange = [];
+        var nowBegin = wordId-step;
         if(nowBegin <1 ) nowBegin = 1;
 
-        lastBegin = lastWordId-step;
+        var lastBegin = lastWordId-step;
         if(lastBegin <1 ) lastBegin = 1;
         
         var nowRange = range(nowBegin, wordId+1, 1);
         var lastRange = range(lastBegin, lastWordId+1, 1);
-
-        
         
         //console.log("======");
         //console.log(nowRange);
@@ -52,6 +52,7 @@ function paintWords(lastWordId, wordId, step) {
         for(i in nowRange) {
             if(-1 == lastRange.indexOf(nowRange[i]) || true) {
                 $('#'+nowRange[i]).addClass('reading-the-word');             
+                //paintedRange.push(i);
             }
         }
         for(i in lastRange) {
@@ -59,10 +60,12 @@ function paintWords(lastWordId, wordId, step) {
                 $('#'+lastRange[i]).removeClass('reading-the-word');             
             }
         }
-
+        return  nowRange;
     }
 }
 
+var lastStepCount = 0;
+var stepSize = 10;
 function countMyTime(percent, duration) {
     // make it article done for sbd;
     if(percent >= 60 && isThisArticleDone==false) {
@@ -70,10 +73,12 @@ function countMyTime(percent, duration) {
     }
 
     var timeNow = Math.floor(duration * percent / 100.0);
+    var paintedRange = [];
+    var paintedWords = '';
     if(timeNow != playTimeLast) {
         //action here
         //locate new
-        wordId = ids_index_by_time[timeNow];
+        var wordId = ids_index_by_time[timeNow];
         if(wordId != lastWordId ) {
             //delete old
             //add new
@@ -81,16 +86,57 @@ function countMyTime(percent, duration) {
             //$("#"+wordId).addClass("reading-the-word");
             ////rm
             //$("#"+lastWordId).removeClass("reading-the-word");
-            paintWords(lastWordId, wordId, 6);
+            paintedRange = paintWords(lastWordId, wordId, 6);
             lastWordId = wordId;
+            //step count
+            var stepCount = Math.floor(wordId / stepSize);
+            if(stepCount != lastStepCount) {
+                lastStepCount = stepCount;
+                // log the step
+                //console.log(lastStepCount); 
+                // ajax the data
+                paintedWordRange = [];
+                var sentence = '';
+                $(paintedRange).each(function () {
+                    sentence += $('#'+this).text();
+                });
+                
+                //console.log(paintedWordRange);
+                var word = $('#'+wordId).text();
+                //console.log(sentence);
+                //log: articleId, articleName, word, sentence
+                var articleId = window.articleId
+                var articleName = window.articleName
+                var url = "../../IzUserLastReadingProgresses/addOrEditAjax/" + window.articleId + ".json";
+                $.ajax({
+                    type:'POST',
+                    url: url,
+                    data: {
+                        articleId: articleId,
+                        articleName: articleName,
+                        word: word,
+                        wordId: wordId,
+                        sentence: sentence 
+                    }
+                }).done(function(data){
+                    if(data.status == 'OK'){
+                        //;
+                    } else if (data.msg != undefined) {
+                        console.log(data.msg);
+                    } else if (data.message != undefined) {
+                        console.log(data.message);
+                    } else {
+                        //todo show error msg near the "Add icon"
+                        //do nothing now;
+                        //alert("ERROR: " + data.msg);
+                        console.log(" 失败，服务器错 ");
+                    }
+                }).fail(function(data){ 
+                    console.log(" 失败，服务器错 ");
+                });
+            }
         }
     }
-    
-
-    //if(Math.floor(timeNow) != playTimeLast && timeNow >= 0.0) {
-    //    playTimeLast = Math.floor(timeNow);
-    //    console.log( "timeNow:" + playTimeLast);
-    //}
 }
 
 
@@ -310,6 +356,12 @@ function bodyDidLoad() {
     }
 
 	addSpanListener();
+     
+    //var time = times_indexed_by_id[window.wordId];
+    ////$('jquery_jplayer_1').jPlayer( "playHeadTime", time);
+    //if(window.wordId != 0) {
+    //    // todo set play time here
+    //}
     
 	console.log("on load");
 }
@@ -361,6 +413,43 @@ var range = function(start, end, step) {
     }
 
     return range;
+
+}
+
+var lastDigest = "";
+function storeDigest(digest) {
+    //var empty = /\s+/;
+    if(lastDigest == digest) {
+        $('#digestMsgReturn').text("请勿重复添加");
+    } else {
+        var url = "../../IzUserDigests/ajax_add/" + window.articleId + ".json";
+        $.ajax({
+            type:'POST',
+            url: url,
+            data:{data:digest},
+        }).done(function(data){
+            if(data.status == 'OK'){
+                $('#digestMsgReturn').text(" 成功 ：）");
+                lastDigest = digest;
+            } else if (data.msg != undefined) {
+                $('#digestMsgReturn').text(data.msg);
+            } else {
+                //todo show error msg near the "Add icon"
+                //do nothing now;
+                //alert("ERROR: " + data.msg);
+                $('#digestMsgReturn').text("失败，服务器错");
+            }
+        }).fail(function(data){ 
+                $('#digestMsgReturn').text('失败, 服务器错');
+        });
+    }
+    $('#digestButton').hover(
+        null,
+         function () { $('#digestMsgReturn').text('');} 
+        );
+    setTimeout(function () {  
+            $("#digestMsgReturn").text('');
+                }, 1000); 
 
 }
 

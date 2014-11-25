@@ -19,6 +19,9 @@
 */
 
 App::uses('UserMgmtAppController', 'Usermgmt.Controller');
+App::uses('IzUserDigest', 'Model');
+App::uses('UserDataModel', 'Model');
+
 
 class UsersController extends UserMgmtAppController {
 	/**
@@ -26,7 +29,10 @@ class UsersController extends UserMgmtAppController {
 	 *
 	 * @var array
 	 */
-	public $uses = array('Usermgmt.User', 'Usermgmt.UserGroup', 'Usermgmt.LoginToken');
+	public $uses = array('Usermgmt.User', 'Usermgmt.UserGroup', 
+                        'Usermgmt.LoginToken', 'IzUserDigest', 
+                        'UserDataModel');
+    //private $UserData = NULL;
 	/**
 	 * Called before the controller action.  You can use this method to configure and customize components
 	 * or perform logic that needs to happen before each controller action.
@@ -77,6 +83,7 @@ class UsersController extends UserMgmtAppController {
         } else {
             $isMine = FALSE;
         }
+        //todo if it is not my id, jump to the right page to view the profile;
 
 		$user = $this->User->read(null, $userId);
         $user['largeUserLogo'] = $this->User->IzUsersLogo->genLogoUrl($user['IzUsersLogo']['large_logo_addr'], 'large', false);
@@ -84,8 +91,29 @@ class UsersController extends UserMgmtAppController {
         $user['User']['date_created'] = date("M d, Y", strtotime($user['User']['created']));
         //var_dump($user);
 
+        //debug
+        //conditions 
+        $mapping = array(
+                        'user_id' => 'user_id',
+                    );
+        $values = array(
+                        'user_id' => $userId,
+                    );
+        
+        $userDigests = $this->UserDataModel->getUserDigests($userId, 3);
+        $userDoneArticlesCount = $this->UserDataModel->countUserDoneArticles($userId);
+        //$this->UserDataModel->updateUserLastingDays($userId);
+        $lastingDays = $this->UserDataModel->getUserLastingDays($userId);
+        $userRanks = $this->UserDataModel->getUserRanks($userId);
+        $lastReadingProgress = $this->UserDataModel->getUserLastReadingProgress($userId);
+
 		$this->set('user', $user); 
 		$this->set('isMine', $isMine); 
+		$this->set('userDigests', $userDigests); 
+		$this->set('lastingDays', $lastingDays); 
+		$this->set('userRanks', $userRanks); 
+        $this->set('lastReadingProgress', $lastReadingProgress);
+		$this->set('userDoneArticlesCount', $userDoneArticlesCount); 
 	}
 	/**
 	 * Used to logged in the site

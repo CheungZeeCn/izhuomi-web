@@ -45,9 +45,9 @@
             });
         </script>
         <?php
+		echo $this->Html->script("jquery.mobile-1.4.2.js");
 		echo $this->Html->script(array("hammer", "common"));
         echo $this->Html->script("../dist/js/bootstrap.min.js");
-		echo $this->Html->script("jquery.mobile-1.4.2.js");
         if(!(isset($turnOffThePlayer) && $turnOffThePlayer==true)) {
             echo $this->Html->script("player/js/jquery.jplayer.min.js");           
             echo $this->Html->script("player/js/jquery.transform2d.js");

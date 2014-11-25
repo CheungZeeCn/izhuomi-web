@@ -83,8 +83,25 @@ echo $this->Html->script("cal-heatmap.min.js");
                             完成11个， 平均一周阅读3篇。    
                     </li>
                     <li class="public source">   
-                        上次读到 xxxx 中的 <br />
-                            She walks in beauty.
+                        <?php 
+                            if($lastReadingProgress != NULL) {
+                                $v = $lastReadingProgress['IzUserLastReadingProgress'];
+                                $articleName = $v['article_name'];
+                                $articleId = $v['article_id'];
+                                $sentences = $v['last_reading_sentences'];
+                                $wordId = $v['last_step_word_id'];
+                                $url = $this->Html->url("/IzArticles/show/{$articleId}?last_step_word_id=$wordId");
+                                echo __("上次读到") . " <a href='$url'> $articleName </a> " . __("中的") . 
+                                    "<br /> <p style='word-wrap: break-word;'>{$sentences}</p> ";
+                             } else {
+                                $url = $this->Html->url("/IzArticles/show/");
+                                echo __("暂时还没有最近的阅读记录").
+                                    "<br /> <p style='word-wrap: break-word;'> 先来一篇读读看？ <a href='$url'> <span class='glyphicon glyphicon-play'></span> </a></p> ";
+                                
+                             }
+
+
+                        ?>
                     </li>
                 </ul>
             </div>
@@ -92,26 +109,35 @@ echo $this->Html->script("cal-heatmap.min.js");
             <div class="columns popular-repos">
                 <div class="single-column">
                         <div class="boxed-group flush">
-                            <h3>美句摘录</h3>
+                            <h3>美句摘录 <span style="float:right"><a href="#"> More >> </a></span></h3>
                             <ul class="boxed-group-inner repo-list">
-                                <li class="public source repo-list-item" style="padding:5px">
-                                      <div class="note-sent-content" style="">
-                                        At the University of Michigan in Ann Arbor he spoke about creating smarter and better government. He also spoke at Hampton University, a historically black university in Virginia. And he spoke at the United States Military Academy at West Point, New York.
-                                      </div>
-                                      <span class="glyphicon glyphicon-paperclip"></span> 出自 <a style="" href="<?php echo $this->Html->url('/IzArticles/show/2');?>">BBB</a>
-                                </li>
-                                <li class="public source repo-list-item" style="padding:5px">
-                                      <div class="note-sent-content" style="">
-                                        At the University of Michigan in Ann Arbor he spoke about creating smarter and better government. He also spoke at Hampton University, a historically black university in Virginia. And he spoke at the United States Military Academy at West Point, New York.
-                                      </div>
-                                      <span class="glyphicon glyphicon-paperclip"></span> 出自 <a style="" href="<?php echo $this->Html->url('/IzArticles/show/2');?>">BBB</a>
-                                </li>
-                                <li class="public source repo-list-item" style="padding:5px">
-                                      <div class="note-sent-content" style="">
-                                        At the University of Michigan in Ann Arbor he spoke about creating smarter and better government. He also spoke at Hampton University, a historically black university in Virginia. And he spoke at the United States Military Academy at West Point, New York.
-                                      </div>
-                                      <span class="glyphicon glyphicon-paperclip"></span> 出自 <a style="" href="<?php echo $this->Html->url('/IzArticles/show/2');?>">BBB</a>
-                                </li>
+                                <?php 
+
+
+                                    foreach($userDigests as $v) {
+                                        $url = $this->Html->url("/IzArticles/show/{$v['IzUserDigest']['article_id']}");
+                                        echo <<<EOS
+                                        <li class="public source repo-list-item" style="padding:5px">
+                                              <div class="note-sent-content" style="">
+                                                {$v['IzUserDigest']['digest']}
+                                              </div>
+                                              <span class="glyphicon glyphicon-paperclip"></span> 出自 <a style="" href="{$url}">{$v['IzArticle']['name']}</a>
+                                        </li>
+EOS;
+                                    }
+                                    if(count($userDigests) == 0) {
+                                        $url = $this->Html->url("/IzArticles/show/");
+                                        echo <<<EOS
+                                        <li class="public source repo-list-item" style="padding:5px">
+                                              <div class="note-sent-content" style="">
+                                                你暂时还没有摘录过美句啊( ⊙ o ⊙ ), 要不要赶紧在<a href="{$url}">阅读页面</a>试试这个功能?
+                                              </div>
+                                              <span class="glyphicon glyphicon-paperclip"></span> (๑´灬`๑)  <a style="margin-left:3px" href="{$url}">去消灭零蛋</a>
+                                        </li>
+EOS;
+
+                                    }
+                                ?>
                             </ul>
                         </div>
                 </div> 
@@ -121,6 +147,7 @@ echo $this->Html->script("cal-heatmap.min.js");
         <div id="izhuomi-heatmap" class="boxed-group flush">
             <h3> <?php echo "{$user['User']['username']}的持久力"?> </h3>
             <div id="contributions-calendar" class="boxed-group-inner">
+                <!--
                 <div class="js-graph js-calendar-graph graph-canvas calendar-graph" data-url="">
 
                     <div style="position:auto; margin-left:5px; margin-bottom:5px;" id="cal-heatmap"></div>
@@ -136,23 +163,45 @@ echo $this->Html->script("cal-heatmap.min.js");
                                     });
                     </script>
                 </div>
+                -->
                 <div class="contrib-details">
                     <div class="table-column contrib-day">
                       <span class="lbl">累计完成文章</span>
-                      <span class="num">共 67 篇</span>
-                      排名第11
+                      <span class="num">共 <?php echo $userDoneArticlesCount; ?> 篇</span>
+                      <?php 
+                        $rank = $userRanks['IzUserRank']['article_done_rank'];
+                        if($rank == NULL or $rank <=0 ) {
+                            echo __("暂无排名"); 
+                        } else {
+                            echo __("排名第")."<span style='color:orange;font-size:14px'> {$rank} </span> ";
+                        }
+                      ?>
                     </div>
                     <div class="table-column contrib-streak">
                       <span class="lbl">最长持续天数</span>
-                        <span class="num">10 连击</span>
-                        October 04 -
-                        October 14
+                        <?php 
+                            echo $this->Html->tag('span', 
+                                "{$lastingDays['IzUserLastingDay']['max_lasting_days']}", 
+                                array('class' =>'num')
+                            );
+                            $beginDay = $this->Time->format($lastingDays['IzUserLastingDay']['max_begin_day'], '%b. %d');
+                            $endDay = $this->Time->format($lastingDays['IzUserLastingDay']['max_end_day'], '%b. %d');
+                            
+                            echo "{$beginDay} - {$endDay}";
+                        ?>
                     </div>
                     <div class="table-column contrib-streak-current">
                       <span class="lbl">当前持续天数</span>
-                        <span class="num">2 连击</span>
-                        August 15 -
-                        August 16
+                        <?php 
+                            echo $this->Html->tag('span', 
+                                "{$lastingDays['IzUserLastingDay']['now_lasting_days']} 连击", 
+                                array('class' =>'num')
+                            );
+                            $beginDay = $this->Time->format($lastingDays['IzUserLastingDay']['now_begin_day'], '%b. %d');
+                            $endDay = $this->Time->format($lastingDays['IzUserLastingDay']['now_end_day'], '%b. %d');
+                            
+                            echo "{$beginDay} - {$endDay}";
+                        ?>
                     </div>
                 </div> 
         </div>

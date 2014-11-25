@@ -11,16 +11,6 @@ class ArticleDataModel extends AppModel {
     public $useTable = FALSE;
     public $IzArticle = NULL;
 
-    public function makeModelThere() {
-        $arg_array = func_get_args();
-        foreach($arg_array as $modelName) {
-            if($this->$modelName == NULL) {
-                $this->$modelName = new $modelName();
-            }
-        }
-        return TRUE;
-    }
-    
     public function getCls($id) {
 		$this->makeModelThere('IzClassification');
         $ret = $this->IzClassification->findById($id);
@@ -117,6 +107,17 @@ class ArticleDataModel extends AppModel {
         $ret = $this->IzArticle->find('first', array('fields' => array('MAX(id) as id')));
         $id = rand(1, $ret[0]['id']);
         return $id;
+    }
+
+    public function getPreArticleId($id) {
+		$this->makeModelThere('IzArticle');
+        $id = $id - 1;
+        //if($this->IzArticle->exists($id)) {
+        if($id != 0) {
+            return $id;
+        } else {
+            return NULL;
+        }
     }
 
     public function getNextArticleId($id) {

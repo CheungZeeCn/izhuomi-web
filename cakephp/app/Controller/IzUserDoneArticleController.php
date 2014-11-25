@@ -1,5 +1,6 @@
 <?php
 App::uses('AppController', 'Controller');
+App::uses('UserDataModel', 'Model');
 /**
  * IzUserDoneArticle Controller
  *
@@ -14,6 +15,7 @@ class IzUserDoneArticleController extends AppController {
  * @var array
  */
 	public $components = array('Paginator', 'RequestHandler');
+    public $uses = array('UserDataModel', 'IzUserDoneArticle');
 
 /**
  * index method
@@ -62,10 +64,10 @@ class IzUserDoneArticleController extends AppController {
         if($myUserId==null) {
             $msg = 'ERROR, need login';
         } else if($this->IzUserDoneArticle->find('first', 
-                                                array('conditions' => array('user_id' => $myUserId, 'article_id' => $articleId))
-                                                )) {
-                $msg = 'OK, but it is already done before :) ';
-                $status = 'OK';
+            array('conditions' => array('user_id' => $myUserId, 'article_id' => $articleId))
+            )) {
+            $msg = 'OK, but it is already done before :) ';
+            $status = 'OK';
         } else {
             //$now = new DateTime();
             //$created = $now->format('Y-m-d H:i:s');
@@ -84,7 +86,7 @@ class IzUserDoneArticleController extends AppController {
 		    }
             
         }
-		    
+        $this->UserDataModel->updateUserLastingDays($myUserId);
         $this->set(array('msg'=>$msg, "status"=>$status, '_serialize' => array("status", "msg")));
     }
 

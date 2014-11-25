@@ -32,6 +32,17 @@ App::uses('File', 'Utility');
  * @package       app.Model
  */
 class AppModel extends Model {
+    
+    protected function makeModelThere() {
+        $arg_array = func_get_args();
+        foreach($arg_array as $modelName) {
+            if($this->$modelName == NULL) {
+                $this->$modelName = new $modelName();
+            }
+        }
+        return TRUE;
+    }
+    
     public function deleteModelNameFromData($data) {
         $ret = array();    
         foreach ($data as $d) {
