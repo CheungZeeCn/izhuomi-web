@@ -78,32 +78,32 @@ class User extends UserMgmtAppModel {
 		$validate1 = array(
 				"user_group_id" => array(
 					'rule' => array('comparison', '!=', 0),
-					'message'=> 'Please select group'),
+					'message'=> '请选择群组'),
 				'username'=> array(
 					'mustNotEmpty'=>array(
 						'rule' => 'notEmpty',
-						'message'=> 'Please enter username',
+						'message'=> '请输入用户名',
 						'last'=>true),
 					'mustUnique'=>array(
 						'rule' =>'isUnique',
-						'message' =>'This username is already token',
+						'message' =>'用户名已被占用',
 					'last'=>true),
 					'mustBeLonger'=>array(
 						'rule' => array('minLength', 8),
-						'message'=> 'Username must be >= 8 characters',
+						'message'=> '用户名必须大于等于8个字符',
 						'last'=>true),
 					),
 				'first_name'=> array(
 					'mustNotEmpty'=>array(
 						'rule' => 'notEmpty',
-						'message'=> 'Please enter first name')
+						'message'=> '请输入昵称')
 					),
-				'last_name'=> array(
-					'mustNotEmpty'=>array(
-						'rule' => 'notEmpty',
-						'on' => 'create',
-						'message'=> 'Please enter last name')
-					),
+				//'last_name'=> array(
+				//	'mustNotEmpty'=>array(
+				//		'rule' => 'notEmpty',
+				//		'on' => 'create',
+				//		'message'=> 'Please enter last name')
+				//	),
 				'email'=>array(
 					'mustNotEmpty'=>array(
 						'rule' => 'notEmpty',
@@ -206,10 +206,10 @@ class User extends UserMgmtAppModel {
 		$email->from(array( $fromConfig => $fromNameConfig));
 		$email->sender(array( $fromConfig => $fromNameConfig));
 		$email->to($user['User']['email']);
-		$email->subject('Your registration is complete');
+		$email->subject('您在i.啄米的注册已完成, 谢谢您。');
 		//$email->transport('Debug');
 		$body="Welcome ".$user['User']['first_name'].", Thank you for your registration on ".SITE_URL." \n\n Thanks,\n".EMAIL_FROM_NAME;
-		$body="欢迎您！ ".$user['User']['first_name']."， 感谢您在 ".SITE_URL."注册了i.啄米的账号。 \n\n 此致敬礼，\n".EMAIL_FROM_NAME;
+		$body="欢迎您！ ".$user['User']['first_name']."， 感谢您在 ".SITE_URL."注册了i.啄米的账号。 \n\n让我们赶紧开始这段旅程吧！ \n\n 此致敬礼，\n".EMAIL_FROM_NAME;
 		try{
 			$result = $email->send($body);
 		} catch (Exception $ex) {
@@ -233,7 +233,7 @@ class User extends UserMgmtAppModel {
 		$email->from(array( $fromConfig => $fromNameConfig));
 		$email->sender(array( $fromConfig => $fromNameConfig));
 		$email->to($user['User']['email']);
-		$email->subject('Email Verification Mail');
+		$email->subject('i.啄米 确认邮件');
 		$activate_key = $this->getActivationKey($user['User']['password']);
 		$link = Router::url("/userVerification?ident=$userId&activate=$activate_key",true);
 		$body="Hi ".$user['User']['first_name'].", Click the link below to complete your registration \n\n ".$link;

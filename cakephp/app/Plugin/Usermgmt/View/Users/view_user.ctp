@@ -18,7 +18,7 @@
 	along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 */
 ?>
-<div class="umtop">
+<div class="container">
 	<?php echo $this->Session->flash(); ?>
 	<?php echo $this->element('dashboard'); ?>
 	<div class="um_box_up"></div>

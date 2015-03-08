@@ -23,12 +23,12 @@
         //icon
 	    echo $this->Html->css('font-awesome');
 
-	    echo $this->Html->css(array('themes/my-custom-theme'));
-	    echo $this->Html->css(array('themes/jquery.mobile.icons.min'));
-	    echo $this->Html->css(array('jquery.mobile.structure-1.4.2'));
+	    //echo $this->Html->css(array('themes/my-custom-theme'));
+	    //echo $this->Html->css(array('themes/jquery.mobile.icons.min'));
+	    //echo $this->Html->css(array('jquery.mobile.structure-1.4.2'));
 	    echo $this->Html->css(array('bootstrap', 'blog'));
 	    //echo $this->Html->css(array('bootstrap', 'voa_template', 'blog'));
-        echo $this->Html->css('/usermgmt/css/umstyle'); 
+        echo $this->Html->css('/usermgmt/css/umstyle2'); 
 	    echo $this->Html->css('basic');
 	    //echo $this->Html->css(array('../dist/css/bootstrap.css'));
 	    //echo $this->Html->css(array('../dist/css/bootstrap-theme.css'));
@@ -55,7 +55,7 @@
 		//echo $this->Html->script(array("hammer", "common"));
 		//echo $this->Html->script(array("hammer", "common"));
         echo $this->Html->script("../dist/js/bootstrap.min.js");
-		echo $this->Html->script("jquery.mobile-1.4.2.js");
+		//echo $this->Html->script("jquery.mobile-1.4.2.js");
         /*
         if(!(isset($turnOffThePlayer) && $turnOffThePlayer==true)) {
             echo $this->Html->script("player/js/jquery.jplayer.min.js");           

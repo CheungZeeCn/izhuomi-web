@@ -235,6 +235,7 @@ class UsersController extends UserMgmtAppController {
 	public function register() {
 		$userId = $this->UserAuth->getUserId();
 		if ($userId) {
+		    $this->Session->setFlash(__('已经登录，跳转到用户主页，请先退出登录后再注册'));
 			$this->redirect("/dashboard");
 		}
 		if (SITE_REGISTRATION) {
@@ -249,7 +250,7 @@ class UsersController extends UserMgmtAppController {
 					if (!isset($this->data['User']['user_group_id'])) {
 						$this->request->data['User']['user_group_id']=DEFAULT_GROUP_ID;
 					} elseif (!$this->UserGroup->isAllowedForRegistration($this->data['User']['user_group_id'])) {
-						$this->Session->setFlash(__('Please select correct register as'));
+						$this->Session->setFlash(__('请选择群组'));
 						return;
 					}
 					$this->request->data['User']['active']=1;
@@ -264,7 +265,7 @@ class UsersController extends UserMgmtAppController {
 					$salt=$this->UserAuth->makeSalt();
 					$this->request->data['User']['salt'] = $salt;
 					$this->request->data['User']['password'] = $this->UserAuth->makePassword($this->request->data['User']['password'], $salt);
-					$this->User->save($this->request->data,false);
+					$this->User->save($this->request->data, false);
 					$userId=$this->User->getLastInsertID();
 					$user = $this->User->findById($userId);
 					if (SEND_REGISTRATION_MAIL && !EMAIL_VERIFICATION) {
@@ -277,13 +278,13 @@ class UsersController extends UserMgmtAppController {
 						$this->UserAuth->login($user);
 						$this->redirect('/');
 					} else {
-						$this->Session->setFlash(__('Please check your mail and confirm your registration'));
+						$this->Session->setFlash(__('验证邮件已发到您的信箱，请前往确认。'));
 						$this->redirect('/register');
 					}
 				}
 			}
 		} else {
-			$this->Session->setFlash(__('Sorry new registration is currently disabled, please try again later'));
+			$this->Session->setFlash(__('Oops，当前网站还没有开放注册。'));
 			$this->redirect('/login');
 		}
 	}
@@ -319,6 +320,11 @@ class UsersController extends UserMgmtAppController {
 	 */
 	public function changeUserPassword($userId=null) {
 		if (!empty($userId)) {
+            //todo check userId not exists
+			if(!$this->User->findById($userId)) {
+				$this->Session->setFlash(__('用户Id无效, 客观莫要乱来!~'));
+		        $this->redirect('/allUsers');
+            }
 			$name=$this->User->getNameById($userId);
 			$this->set('name', $name);
 			if ($this->request -> isPost()) {

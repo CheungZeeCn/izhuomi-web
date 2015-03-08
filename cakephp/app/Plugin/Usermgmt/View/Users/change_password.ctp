@@ -4,20 +4,46 @@
 
 	Author: Chetan Varshney (http://ektasoftwares.com)
 
-	UserMgmt is free software: you can redistribute it and/or modify
-	it under the terms of the GNU General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
-
-	UserMgmt is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU General Public License for more details.
-
-	You should have received a copy of the GNU General Public License
-	along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 */
 ?>
+
+
+<div class="container" style="margin-top:20px">
+	<div class="page-canvas">
+	            <?php //echo $this->element('dashboard'); ?>
+		<div class="small-wrapper">
+					<?php echo $this->Form->create('User', array('action' => 'changePassword')); ?>
+            <div class="form-group">
+                <?php echo $this->Form->input('oldpassword', 
+                    array('type'=>'password', 'placeholder'=>'请输入当前密码', 'label'=>'旧密码', 'class'=>'form-control'));
+                ?>
+            </div>
+            <div class="form-group">
+                <?php echo $this->Form->input('password', 
+                    array('type'=>'password', 'placeholder'=>'请输入新密码', 'label'=>'新密码', 'class'=>'form-control'));
+                ?>
+            </div>
+            <div class="form-group">
+                <?php echo $this->Form->input('cpassword', 
+                    array('type'=>'password', 'placeholder'=>'请重复输入新密码', 'label'=>'重复输入新密码', 'class'=>'form-control'));
+                ?>
+            </div>
+		    <div class="" style="">
+                <button class="btn btn-lg btn-primary btn-shadow" style="width:100px" role="button"> 修改密码</button>
+		    	<div style="clear:both"></div>
+		    </div>
+					<?php echo $this->Form->end(); ?>
+                <?php 
+                    $msg = $this->Session->flash();     
+                    if($msg != NULL) { 
+                        echo "<h4 class=''>$msg</h4>";
+                    }
+                ?>
+        </div>
+	</div>
+</div>
+
+<!--
 <div class="umtop">
 	<?php echo $this->Session->flash(); ?>
 	<?php echo $this->element('dashboard'); ?>
@@ -62,6 +88,7 @@
 	</div>
 	<div class="um_box_down"></div>
 </div>
+-->
 <script>
 document.getElementById("UserPassword").focus();
 </script>

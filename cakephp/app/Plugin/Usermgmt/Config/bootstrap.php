@@ -67,14 +67,14 @@ function UsermgmtInIt(&$controller) { // seems nothing to do with controller yet
 		set email address for sending emails
 	*/
 	if(!defined("EMAIL_FROM_ADDRESS")) {
-		define("EMAIL_FROM_ADDRESS", 'cheungzeecn@gmail.com');
+		define("EMAIL_FROM_ADDRESS", 'noreply@izhuomi.cheungzee.com');
 	}
 
 	/*
 		set site name for sending emails
 	*/
 	if(!defined("EMAIL_FROM_NAME")) {
-		define("EMAIL_FROM_NAME", 'User Management Plugin');
+		define("EMAIL_FROM_NAME", 'izhuomi.com');
 	}
 
 	/*

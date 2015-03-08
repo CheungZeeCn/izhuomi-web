@@ -1,0 +1,102 @@
+.content-main, .content-narrow, .page-canvas, .permalink {
+  border-radius: 6px;
+}
+
+.content-narrow, .page-canvas {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.content-inner, .content-narrow, .page-canvas, .permalink {
+  background-clip: padding-box;
+}
+
+.page-canvas {
+  margin: 0 auto;
+  position: relative;
+}
+
+.page-canvas {
+  margin-bottom: 15px;
+}
+
+.content-main, .content-narrow, .page-canvas, .permalink {
+  border-radius: 6px;
+}
+
+.content-narrow, .page-canvas {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.content-inner, .content-narrow, .page-canvas, .permalink {
+  background-clip: padding-box;
+}
+
+.page-canvas {
+  margin: 0 auto;
+  position: relative;
+}
+
+.small-wrapper{
+    margin: 0px auto 10px;
+}
+.small-wrapper{
+    clear: both;
+    display: block;
+    width: 320px;
+}
+.small-wrapper{
+  clear: both;
+  padding: 40px 0 20px;
+}
+
+.signin-wrapper, .signup-wrapper {
+    margin: 0 auto 10px;
+}
+.signin-wrapper, .signup-wrapper, .resend-password-wrapper, .mobile-complete-wrapper {
+    clear: both;
+    display: block;
+    width: 585px;
+}
+.signin-wrapper, .signup-wrapper {
+    margin: 0 auto 10px;
+}
+.signin-wrapper, .signup-wrapper, .resend-password-wrapper, .mobile-complete-wrapper {
+    clear: both;
+    display: block;
+    width: 585px;
+}
+
+.regH1 {
+    font-size: 24px;
+    line-height: 0.8;
+}
+
+.signin-wrapper h1, .signup-wrapper h1, .resend-password-wrapper h1, .mobile-complete-wrapper h1 {
+  clear: both;
+  padding: 40px 0 20px;
+}
+
+
+.dash-left-menu-wrap {
+    float: left;
+    position: relative;
+    background-color:#ADC0E0;
+}
+
+.marginTop56 {
+    margin-top:30px;
+}
+
+.span2 {
+  width: 170px;
+  float: left;
+  margin-left: 30px;
+  min-height: 1px;
+}
+
+.span9 {
+  width: 770px;
+  float: left;
+  margin-left: 30px;
+  min-height: 1px;
+}

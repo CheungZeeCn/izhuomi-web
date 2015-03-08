@@ -18,7 +18,30 @@
 	along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 */
 ?>
-<div class="umtop">
+
+
+<div class="row">
+    <?php 
+        echo $this->element('LeftUserMenu');
+    ?>
+    <div id='rightContentDiv' class="marginTop56 span9" data-role='content'>
+    xx
+    </div>
+</div>
+
+<!--
+<div class="">
+    <div class="dash-left-menu-wrap col-md-2">
+        <span  class="umstyle6"><?php echo $this->Html->link(__("A",true),"/addUser") ?></span><br/><br/>
+        <span  class="umstyle6"><?php echo $this->Html->link(__("B",true),"/allUsers") ?></span><br/><br/>
+        <span  class="umstyle6"><?php echo $this->Html->link(__("C",true),"/addGroup") ?></span><br/><br/>
+    </div>
+    <div class="col-md-10">
+        x
+
+    </div >
+	<div style="clear:both"></div>
+
 	<?php echo $this->Session->flash(); ?>
 	<?php echo $this->element('dashboard'); ?>
 	<div class="um_box_up"></div>
@@ -54,3 +77,4 @@
 	</div>
 	<div class="um_box_down"></div>
 </div>
+-->
