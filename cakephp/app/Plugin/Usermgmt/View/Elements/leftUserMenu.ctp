@@ -26,6 +26,9 @@
                 <li class="<?php echo $this->UserNavBar->getIfActiveActionClass('', '')?>">
                     <?php echo $this->Html->link('修改密码', '/changePassword', array('target'=>'_blank'));?>
                 </li>
+                <li class="<?php echo $this->UserNavBar->getIfActiveActionClass('dashboard', '')?>">
+                    <?php echo $this->Html->link('设置个人信息', '/dashboard');?>
+                </li>
                 <li class="<?php echo $this->UserNavBar->getIfActiveActionClass('', '')?>">
                     <?php echo $this->Html->link('我的主页', '/myprofile', array('target'=>'_blank'));?>
                 </li>

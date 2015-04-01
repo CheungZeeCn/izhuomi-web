@@ -35,13 +35,20 @@ class User extends UserMgmtAppModel {
 	 * @var array
 	 */
 	var $hasMany = array('LoginToken'=>array('className'=>'Usermgmt.LoginToken','limit' =>1));
-	var $hasOne = array('IzUsersLogo');
+	var $hasOne = array('IzUsersLogo', 'UserProfile' => array('foreignKey' => 'id'));
 	/**
 	 * model validation array
 	 *
 	 * @var array
 	 */
-	var $validate = array();
+	var $validate = array(
+				'first_name'=> array(
+					'mustNotEmpty'=>array(
+						'rule' => 'notEmpty',
+						'message'=> 'Please enter your name'),
+					'maxLength'=>array('rule' => array('maxLength', 16))
+					)
+                    );
 	/**
 	 * UsetAuth component object
 	 *
@@ -89,8 +96,8 @@ class User extends UserMgmtAppModel {
 						'message' =>'用户名已被占用',
 					'last'=>true),
 					'mustBeLonger'=>array(
-						'rule' => array('minLength', 8),
-						'message'=> '用户名必须大于等于8个字符',
+						'rule' => array('minLength', 6),
+						'message'=> '用户名必须大于等于6个字符',
 						'last'=>true),
 					),
 				'first_name'=> array(

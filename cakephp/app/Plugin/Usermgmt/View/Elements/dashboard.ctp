@@ -29,6 +29,7 @@
 	<div style="float:left;padding-left:10px"><?php echo $this->Html->link(__("Profile",true),"/viewUser/".$this->UserAuth->getUserId()) ?></div>
 	<div style="float:left;padding-left:10px"><?php echo $this->Html->link(__("Edit Profile",true),"/editUser/".$this->UserAuth->getUserId()) ?></div>
 <?php   } else {?>
+	<div style="float:left;padding-left:10px"><?php echo $this->Html->link(__("我的个人信息",true),"/dashboard") ?></div>
 	<div style="float:left;padding-left:10px"><?php echo $this->Html->link(__("Profile",true),"/myprofile") ?></div>
 <?php   } ?>
 	<div style="float:left;padding-left:10px"><?php echo $this->Html->link(__("Change Password",true),"/changePassword") ?></div>

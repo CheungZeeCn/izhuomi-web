@@ -32,6 +32,8 @@ class UsersController extends UserMgmtAppController {
 	public $uses = array('Usermgmt.User', 'Usermgmt.UserGroup', 
                         'Usermgmt.LoginToken', 'IzUserDigest', 
                         'UserDataModel');
+
+    public $components = array('Paginator', 'RequestHandler');
     //private $UserData = NULL;
 	/**
 	 * Called before the controller action.  You can use this method to configure and customize components
@@ -69,6 +71,8 @@ class UsersController extends UserMgmtAppController {
 			$this->redirect('/allUsers');
 		}
 	}
+
+
 	/**
 	 * Used to display detail of user by user
 	 *
@@ -79,16 +83,22 @@ class UsersController extends UserMgmtAppController {
         $myUserId = $this->UserAuth->getUserId(); 
         if($userId==0) {
 		    $userId = $myUserId;
+        }
+
+        if($myUserId == $userId) {
             $isMine = TRUE;
         } else {
             $isMine = FALSE;
         }
+
         //todo if it is not my id, jump to the right page to view the profile;
 
 		$user = $this->User->read(null, $userId);
         $user['largeUserLogo'] = $this->User->IzUsersLogo->genLogoUrl($user['IzUsersLogo']['large_logo_addr'], 'large', false);
         $user['smallUserLogo'] = $this->User->IzUsersLogo->genLogoUrl($user['IzUsersLogo']['small_logo_addr'], 'small', false);
         $user['User']['date_created'] = date("M d, Y", strtotime($user['User']['created']));
+        //$userIntro = $this->User->UserProfile->findById($userId);
+        //var_dump($userIntro);
         //var_dump($user);
 
         //debug
@@ -368,6 +378,60 @@ class UsersController extends UserMgmtAppController {
 			}
 		}
 	}
+
+	public function updateMyProfile() {
+        $status = 'ERROR';
+        $msg = 'ERROR';
+        //get id    
+        $userId = $this->UserAuth->getUserId(); 
+        //set data
+        // done return
+		if (!empty($userId)) { // logged in
+				//$this->User->set($this->data);
+                $this->request->data['User']['id'] = $userId;
+			    $ret = $this->User->saveAssociated($this->request->data);
+			    //$ret = $this->User->UserProfile->save($this->request->data);
+                if($ret) {
+                    $status = 'OK';
+                    $msg = 'OK';
+				    $this->redirect('/myprofile');
+                } else {
+                    $msg = '保存失败，有非法输入?';
+                    $this->Session->setFlash($msg);
+				    $this->redirect($this->referer());
+                }
+            
+        }
+	}
+
+	/**
+	 * Used to edit user on the site by User
+	 */
+     
+	public function updateMyProfile_ajax() {
+        $status = 'ERROR';
+        $msg = 'ERROR';
+        //get id    
+        $userId = $this->UserAuth->getUserId(); 
+        //set data
+        // done return
+		if (!empty($userId)) { // logged in
+				//$this->User->set($this->data);
+                $this->request->data['User']['id'] = $userId;
+			    $ret = $this->User->saveAssociated($this->request->data);
+			    //$ret = $this->User->UserProfile->save($this->request->data);
+                if($ret) {
+                    $status = 'OK';
+                    $msg = 'OK';
+                } else {
+                    $msg = '保存失败，有非法输入?';
+                }
+            
+        }
+        $this->set(array('msg'=>$msg, "status"=>$status, "ret" =>$ret, '_serialize' => array("status", "msg", "ret")));
+	}
+   
+
 	/**
 	 * Used to edit user on the site by Admin
 	 *
@@ -426,8 +490,10 @@ class UsersController extends UserMgmtAppController {
 	 */
 	public function dashboard() {
 		$userId=$this->UserAuth->getUserId();
+        $userGroups=$this->UserGroup->getGroupsForRegistration();
 		$user = $this->User->findById($userId);
 		$this->set('user', $user);
+        $this->set('userGroups', $userGroups);
 	}
 	/**
 	 * Used to activate or deactivate user by Admin

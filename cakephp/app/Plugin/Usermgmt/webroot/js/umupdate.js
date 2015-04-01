@@ -38,3 +38,5 @@ function update_fields(value) {
 	}
 	self.xmlHttpReq.send(qstr);
 }
+
+

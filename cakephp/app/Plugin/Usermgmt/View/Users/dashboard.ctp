@@ -25,56 +25,61 @@
         echo $this->element('LeftUserMenu');
     ?>
     <div id='rightContentDiv' class="marginTop56 span9" data-role='content'>
-    xx
+	    <div class="um_box_mid">
+	    	<div class="um_box_mid_content">
+	    		<div class="umhr"></div>
+	    		<div class="um_box_mid_content_mid" id="register">
+	    		<div class="">
+	    			<span class=""><h1><?php echo __('设置个人信息'); ?></h1></span>
+                    <?php 
+                        $error = $this->Session->flash();
+                        if($error!='') { ?>
+                        <div class="alert alert-danger" role="alert" id='updateMsgReturn' ><?php echo $error; ?></div>
+                        <?php 
+                        }
+                    ?>
+                    <div class="alert" role="alert" id='updateMsgReturn' style="display:none" ></div>
+	    			<div style="clear:both"></div>
+	    		</div>
+	    			<div class="col-md-4">
+	    				<?php echo $this->Form->create('User', array('action'=>'updateMyProfile')); ?>
+	    		<?php   if (count($userGroups) >2) { ?>
+	    					<div>
+	    						<div class="umstyle3"><?php echo __('群组');?><font color='red'>*</font></div>
+	    						<div class="umstyle4" ><?php echo $this->Form->input("user_group_id" ,array('type' => 'select', 'label' => false,'div' => false,'class'=>"umstyle5" ))?></div>
+	    						<div style="clear:both"></div>
+	    					</div>
+	    		<?php   }   ?>
+
+                        <div class="form-group">
+                        <?php 
+                            echo $this->Form->input('first_name', 
+                            array('type'=>'', 'value'=>"{$user['User']['first_name']}", 'placeholder'=>'', 'label'=>'姓名<font color="red">(必填，最长16个字)</font>', 'class'=>'form-control'));
+                        ?>
+                        <?php echo $this->Form->input('UserProfile.weibo', 
+                            array('type'=>'', 'value'=>"{$user['UserProfile']['weibo']}", 'placeholder'=>'', 'label'=>'新浪微博账号', 'class'=>'form-control'));
+                        ?>
+                        <?php echo $this->Form->input('UserProfile.wechat', 
+                            array('type'=>'', 'value'=>"{$user['UserProfile']['wechat']}", 'placeholder'=>'', 'label'=>'微信账号', 'class'=>'form-control'));
+                        ?>
+                        <?php echo $this->Form->input('UserProfile.qq', 
+                            array('type'=>'', 'value'=>"{$user['UserProfile']['qq']}", 'placeholder'=>'', 'label'=>'QQ账号', 'class'=>'form-control'));
+                        ?>
+                        <?php echo $this->Form->input('UserProfile.self_intro', 
+                            array('type'=>'textarea', 'maxlength'=>'256', 'value'=>"{$user['UserProfile']['self_intro']}",  'placeholder'=>'', 'label'=>'简介<font color="red">(最长256个字)</font>', 'class'=>'form-control'));
+                        ?>
+                        </div>
+
+	    				<div>
+	    					<div style="clear:both"></div>
+                            <button class="btn btn-lg btn-primary btn-shadow" style="width:100px" role="button">提交修改 </button>
+	    				</div>
+	    				<?php echo $this->Form->end(); ?>
+	    			</div>
+	    			<div class="um_box_mid_content_mid_right" align="right"></div>
+	    			<div style="clear:both"></div>
+	    		</div>
+	    	</div>
+	    </div>
     </div>
 </div>
-
-<!--
-<div class="">
-    <div class="dash-left-menu-wrap col-md-2">
-        <span  class="umstyle6"><?php echo $this->Html->link(__("A",true),"/addUser") ?></span><br/><br/>
-        <span  class="umstyle6"><?php echo $this->Html->link(__("B",true),"/allUsers") ?></span><br/><br/>
-        <span  class="umstyle6"><?php echo $this->Html->link(__("C",true),"/addGroup") ?></span><br/><br/>
-    </div>
-    <div class="col-md-10">
-        x
-
-    </div >
-	<div style="clear:both"></div>
-
-	<?php echo $this->Session->flash(); ?>
-	<?php echo $this->element('dashboard'); ?>
-	<div class="um_box_up"></div>
-	<div class="um_box_mid">
-		<div class="um_box_mid_content">
-			<div class="um_box_mid_content_top">
-				<span class="umstyle1"><?php echo __('Dashboard'); ?></span>
-				<span class="umstyle2" style="float:right"><?php echo $this->Html->link(__("Home",true),"/") ?></span>
-				<div style="clear:both"></div>
-			</div>
-			<div class="umhr"></div>
-			<div class="um_box_mid_content_mid">
-				<div class="um_box_mid_content_mid_left">
-					Hello <?php echo h($user['User']['first_name']).' '.h($user['User']['last_name']); ?>
-					<br/><br/>
-			<?php   if ($this->UserAuth->getGroupName()=='Admin') { ?>
-						<span  class="umstyle6"><?php echo $this->Html->link(__("Add User",true),"/addUser") ?></span><br/><br/>
-						<span  class="umstyle6"><?php echo $this->Html->link(__("All Users",true),"/allUsers") ?></span><br/><br/>
-						<span  class="umstyle6"><?php echo $this->Html->link(__("Add Group",true),"/addGroup") ?></span><br/><br/>
-						<span  class="umstyle6"><?php echo $this->Html->link(__("All Groups",true),"/allGroups") ?></span><br/><br/>
-						<span  class="umstyle6"><?php echo $this->Html->link(__("Permissions",true),"/permissions") ?></span><br/><br/>
-						<span  class="umstyle6"><?php echo $this->Html->link(__("Profile",true),"/viewUser/".$this->UserAuth->getUserId()) ?></span><br/><br/>
-						<span  class="umstyle6"><?php echo $this->Html->link(__("Edit Profile",true),"/editUser/".$this->UserAuth->getUserId()) ?></span><br/><br/>
-			<?php   } ?>
-						<span  class="umstyle6"><?php echo $this->Html->link(__("Change Password",true),"/changePassword") ?></span><br/><br/>
-						<span  class="umstyle6"><?php echo $this->Html->link(__("Profile",true),"/myprofile") ?></span><br/><br/>
-						<span  class="umstyle6"><?php echo $this->Html->link(__("设置头像",true),"/IzUsersLogos/show") ?></span><br/><br/>
-				</div>
-				<div class="um_box_mid_content_mid_right" align="right"></div>
-				<div style="clear:both"></div>
-			</div>
-		</div>
-	</div>
-	<div class="um_box_down"></div>
-</div>
--->

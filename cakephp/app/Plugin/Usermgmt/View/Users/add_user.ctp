@@ -19,7 +19,7 @@
 				<!--<div class="um_box_mid_content_mid_left">-->
 				<div class="col-md-4">
 					<?php echo $this->Form->create('User', array('action' => 'addUser')); ?>
-			<?php   if (count($userGroups) >2) { ?>
+			<?php   if (count($userGroups) >2 and false) { ?>
 						<div  class="form-group">
 							<div class="umstyle3"><?php echo __('群组');?><font color='red'>*</font></div>
 							<div class="umstyle4" ><?php echo $this->Form->input("user_group_id" ,array('type' => 'select', 'label' => false,'div' => false,'class'=>"umstyle5" ))?></div>

@@ -1,25 +1,8 @@
 <?php
-/*
-	This file is part of UserMgmt.
-
-	Author: Chetan Varshney (http://ektasoftwares.com)
-
-	UserMgmt is free software: you can redistribute it and/or modify
-	it under the terms of the GNU General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
-
-	UserMgmt is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU General Public License for more details.
-
-	You should have received a copy of the GNU General Public License
-	along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
-*/
-echo $this->Html->script("d3.v3.min.js");
-echo $this->Html->css("cal-heatmap.css");
-echo $this->Html->script("cal-heatmap.min.js");
+//echo $this->Html->script("d3.v3.min.js");
+//echo $this->Html->css("cal-heatmap.css");
+//echo $this->Html->script("cal-heatmap.min.js");
+echo $this->Html->script("Usermgmt.umupdate");
 
 ?>
 
@@ -34,24 +17,34 @@ echo $this->Html->script("cal-heatmap.min.js");
                                             'fullBase'=>true))?>
         </a>
         <h1 class="vcard-names">
+            <div style="display:inline-block;width:75%">
             <span class="vcard-fullname"><?php echo $user['User']['first_name'] ?></span>
             <span class="vcard-username"><?php  echo $user['User']['username'] ?></span>
+            </div>
+            <div style="display:inline-block; float:right">
+            <?php if($isMine){?>
+            <span type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal">
+                修改
+            </span> 
+            <?php } ?>
+            </div>
         </h1>
         <div class="vcard-stats" style="word-break:break-all;text-align:left">
-        <h4> <span class="glyphicon glyphicon-user"></span> 简介 </h4>
-        这是我的一个测试账号, 我是这里管理员， 有投诉或者建议请发往cheungzeecn@gmail.com. 非常感谢。
+        <h4> <span class="glyphicon glyphicon-user"></span> 简介 
+        </h4>
+        <div class='editable_textarea'><?php echo $user['UserProfile']['self_intro']; ?></div>
         </div>
         <ul class="vcard-details">
-            <li class="vcard-detail"><span class="octicon glyphicon glyphicon-envelope"></span><a href="mailto:Cheungzeecn@gmail.com" class="email">Cheungzeecn@gmail.com</a></li>
+            <li class="vcard-detail"><span class="octicon glyphicon glyphicon-envelope"></span><a href="mailto:<?php echo $user['User']['email']; ?>" class="email"> <?php echo  $user['User']['email'];?></a></li>
           
           <li class="vcard-detail"><span class="octicon glyphicon glyphicon-time"></span><span>Joined on <?php echo $user['User']['date_created'] ?></span></li>
         </ul>
         <div class="vcard-stats">
-         <a href="/CheungZeeCn/followers" class="vcard-stat">
+         <a href="" class="vcard-stat">
            <strong class="vcard-stat-count">123</strong>
             等级
          </a>
-           <a href="/stars/CheungZeeCn" class="vcard-stat">
+           <a href="" class="vcard-stat">
              <strong class="vcard-stat-count">456</strong>
              积分
            </a>
@@ -59,13 +52,15 @@ echo $this->Html->script("cal-heatmap.min.js");
         <div class="vcard-social">
           <h4 class="vcard-social-h4"> <span class="glyphicon glyphicon-home" ></span> 找到我 </h4>
             <ul >
-            <li class="octicon"><i class="fa fa-weibo fa-2x vcard-social-i"> </i> </li>
-            <li class="octicon"><i class="fa fa-weixin fa-2x vcard-social-i"> </i> </li>
-            <li class="octicon"><i class="fa fa-qq fa-2x vcard-social-i"> </i> </li>
+            <li data-toggle="tooltip" title=<?php echo "'weibo: {$user['UserProfile']['weibo']}'"; ?> class="octicon"><i class='fa fa-weibo fa-2x <?php if(strlen($user['UserProfile']['weibo'])) echo 'sns-on';?> '> </i> </li>
+            <li data-toggle="tooltip" title=<?php echo "'wechat: {$user['UserProfile']['wechat']}'"; ?> class="octicon"><i class="fa fa-weixin fa-2x <?php if(strlen($user['UserProfile']['wechat'])) echo 'sns-on';?> "> </i> </li>
+            <li cdata-toggle="tooltip" title=<?php echo "'QQ: {$user['UserProfile']['qq']}'"; ?> class="octicon"><i class="fa fa-qq fa-2x <?php if(strlen($user['UserProfile']['qq'])) echo 'sns-on';?> "> </i> </li>
+            <!--
             <li class="octicon"><i class="fa fa-twitter fa-2x vcard-social-i"> </i> </li>
             <li class="octicon"><i class="fa fa-facebook fa-2x vcard-social-i"> </i> </li>
             <li class="octicon"><i class="fa fa-github-alt fa-2x vcard-social-i"> </i> </li>
             <li class="octicon"><i class="fa fa-google fa-2x vcard-social-i"> </i> </li>
+            -->
             </ul>
         </div>
     </div>
@@ -75,12 +70,12 @@ echo $this->Html->script("cal-heatmap.min.js");
             <div style="wdith:100%; ">
                 <ul class="repolist js-repo-list">
                     <li class="public source">   
-                        当前承诺 <br />
+                        当前目标(好吧，这个功能也在开发中) <br />
                             7天内，完成难度为x的阅读3篇， 已完成1篇，还剩下2天
                     </li>
                     <li class="public source">   
-                        已完成承诺 <br/>
-                            完成11个， 平均一周阅读3篇。    
+                        战绩 (也是还没有实现的)<br/>
+                            完成目标11个， 平均一周阅读3篇。    
                     </li>
                     <li class="public source">   
                         <?php 
@@ -109,7 +104,7 @@ echo $this->Html->script("cal-heatmap.min.js");
             <div class="columns popular-repos">
                 <div class="single-column">
                         <div class="boxed-group flush">
-                            <h3>美句摘录 <span style="float:right"><a href="#"> More >> </a></span></h3>
+                            <h3>美句摘录 <span style="float:right"><a href="#">(还木有实现) More >> </a></span></h3>
                             <ul class="boxed-group-inner repo-list">
                                 <?php 
 
@@ -208,93 +203,89 @@ EOS;
     </div>
 </div>
 
+<!-- Button trigger modal -->
+<!-- Button trigger modal -->
 
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">修改个人信息</h4>
+      </div>
 
-
-<!--
-
-<div class="umtop">
-	<?php if($isMine) {echo $this->element('dashboard'); }?>
-	<div class="um_box_up"></div>
-	<div class="um_box_mid">
-		<div class="um_box_mid_content">
-			<div class="um_box_mid_content_top">
-				<span class="umstyle1"><?php echo __('My Profile'); ?></span>
-				<span class="umstyle2" style="float:right"><?php echo $this->Html->link(__("Home",true),"/") ?></span>
-				<div style="clear:both"></div>
-			</div>
-			<div class="umhr"></div>
-			<div class="um_box_mid_content_mid" id="index">
-				<table cellspacing="0" cellpadding="0" width="100%" border="0" >
-					<tbody>
-			<?php       if (!empty($user)) { ?>
-							<tr>
-								<td><strong><?php echo __('User Id');?></strong></td>
-								<td><?php echo $user['User']['id']?></td>
-							</tr>
-							<tr>
-								<td><strong><?php echo __('User Group');?></strong></td>
-								<td><?php echo h($user['UserGroup']['name'])?></td>
-							</tr>
-							<tr>
-								<td><strong><?php echo __('Username');?></strong></td>
-								<td><?php echo h($user['User']['username'])?></td>
-							</tr>
-							<tr>
-								<td><strong><?php echo __('First Name');?></strong></td>
-								<td><?php echo h($user['User']['first_name'])?></td>
-							</tr>
-							<tr>
-								<td><strong><?php echo __('Last Name');?></strong></td>
-								<td><?php echo h($user['User']['last_name'])?></td>
-							</tr>
-							<tr>
-								<td><strong><?php echo __('Email');?></strong></td>
-								<td><?php echo h($user['User']['email'])?></td>
-							</tr>
-							<tr>
-								<td><strong><?php echo __('Email Verified');?></strong></td>
-								<td><?php
-										if ($user['User']['email_verified']) {
-											echo 'Yes';
-										} else {
-											echo 'No';
-										}
-									?>
-								</td>
-							</tr>
-							<tr>
-								<td><strong><?php echo __('Status');?></strong></td>
-								<td><?php
-										if ($user['User']['active']) {
-											echo 'Active';
-										} else {
-											echo 'Inactive';
-										}
-									?>
-								</td>
-							</tr>
-							<tr>
-								<td><strong><?php echo __('Created');?></strong></td>
-								<td><?php echo date('d-M-Y',strtotime($user['User']['created']))?></td>
-							</tr>
-							<tr>
-								<td><strong><?php echo __('Small Logo');?></strong></td>
-								<td><?php echo $this->Html->image($user['smallUserLogo'], array('alt'=>'urSmallLogo', 'fullBase'=>true))?></td>
-							</tr>
-							<tr>
-								<td><strong><?php echo __('Large Logo');?></strong></td>
-								<td><?php echo $this->Html->image($user['largeUserLogo'], array('alt'=>'urLargeLogo', 'fullBase'=>true))?></td>
-							</tr>
-				<?php   } else {
-							echo "<tr><td colspan=2><br/><br/>No Data</td></tr>";
-						}
-					?>
-					</tbody>
-				</table>
-			</div>
-		</div>
-	</div>
-	<div class="um_box_down"></div>
+	<?php echo $this->Form->create('User'); ?>
+      <div class="modal-body">
+                    <div class="form-group">
+                        <?php echo $this->Form->input('first_name', 
+                            array('type'=>'', 'maxlength'=>'16', 'value'=>"{$user['User']['first_name']}", 'placeholder'=>'', 'label'=>'姓名<font color="red">(必填，最长16个字)</font>', 'class'=>'form-control'));
+                        ?>
+                        <?php echo $this->Form->input('UserProfile.weibo', 
+                            array('type'=>'', 'value'=>"{$user['UserProfile']['weibo']}", 'placeholder'=>'', 'label'=>'新浪微博账号', 'class'=>'form-control'));
+                        ?>
+                        <?php echo $this->Form->input('UserProfile.wechat', 
+                            array('type'=>'', 'value'=>"{$user['UserProfile']['wechat']}", 'placeholder'=>'', 'label'=>'微信账号', 'class'=>'form-control'));
+                        ?>
+                        <?php echo $this->Form->input('UserProfile.qq', 
+                            array('type'=>'', 'value'=>"{$user['UserProfile']['qq']}", 'placeholder'=>'', 'label'=>'QQ账号', 'class'=>'form-control'));
+                        ?>
+                        <?php echo $this->Form->input('UserProfile.self_intro', 
+                            array('type'=>'textarea', 'maxlength'=>'256', 'value'=>"{$user['UserProfile']['self_intro']}",  'placeholder'=>'', 'label'=>'简介<font color="red">(最长256个字)</font>', 'class'=>'form-control'));
+                        ?>
+                    </div>
+      </div>
+      <div class="modal-footer">
+        <div class="alert" role="alert" id='updateMsgReturn' style="display:none" ></div>
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        <button class="btn btn-lg btn-primary btn-shadow" style="width:100px" role="button">提交修改 </button>
+      </div>
+	<?php echo $this->Form->end(); ?>
+    </div>
+  </div>
 </div>
--->
+
+<script>
+
+var form =  $("#UserMyprofileForm");
+form.submit(function() {
+    var url = "<?php echo $this->Html->url("updateMyProfile_ajax.json");?>"; 
+    var data = form.serialize();
+    console.log(url);
+    $.ajax({
+        type:'POST',
+        url: url,
+        data:data,
+    }).done(function(data){
+        console.log("get the data");
+        console.log(data );
+        if(data.status == 'OK'){
+            $('#updateMsgReturn').attr("class", "alert-success alert");
+            $('#updateMsgReturn').text("修改成功 ");
+            $('#updateMsgReturn').show();
+            //setTimeout 500ms  //refresh()
+            setTimeout(function() {
+                window.location.reload();
+            }
+            , 800);
+            
+        } else if (data.msg != undefined) {
+            $('#updateMsgReturn').attr("class", "alert-danger alert");
+            $('#updateMsgReturn').text(data.msg);
+            $('#updateMsgReturn').show();
+        } else {
+            $('#updateMsgReturn').attr("class", "alert-danger alert");
+            $('#updateMsgReturn').text("失败，服务器错");
+            $('#updateMsgReturn').show();
+        }
+    }).fail(function(data){ 
+            $('#updateMsgReturn').attr("class", "alert-danger alert");
+            $('#updateMsgReturn').text('失败, 服务器错');
+    });
+    //$('#myModal').close();
+    
+    return false;
+});
+
+</script>
+
