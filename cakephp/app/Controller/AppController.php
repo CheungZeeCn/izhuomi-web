@@ -37,12 +37,25 @@ class AppController extends Controller {
 
     public $components = array('Session','RequestHandler', 'Usermgmt.UserAuth');
 
+    public $userAgent = '';
+
     function beforeFilter(){
+        $this->userAgent = $this->getUserAgent();
         $this->userAuth();
     }
+
     private function userAuth(){
         $this->UserAuth->beforeFilter($this);
     } 
+    
+    public function getUserAgent() {
+        $ua = $_SERVER['HTTP_USER_AGENT'];   
+        if(strpos($ua, 'MicroMessenger')!=FALSE) {
+            $ua = 'wechat';
+        }
+        return $ua;
+    }
+
 
 
     //public $components = array(
@@ -90,6 +103,8 @@ class AppController extends Controller {
         return false;
     }
 
+
+    //deprecated
     //get username
     public function setUser() {
         $user = $this->Auth->user();

@@ -21,6 +21,7 @@
 App::uses('UserMgmtAppController', 'Usermgmt.Controller');
 App::uses('IzUserDigest', 'Model');
 App::uses('UserDataModel', 'Model');
+App::uses('WechatUserModel', 'Model');
 
 
 class UsersController extends UserMgmtAppController {
@@ -31,7 +32,7 @@ class UsersController extends UserMgmtAppController {
 	 */
 	public $uses = array('Usermgmt.User', 'Usermgmt.UserGroup', 
                         'Usermgmt.LoginToken', 'IzUserDigest', 
-                        'UserDataModel');
+                        'UserDataModel', 'WechatUser');
 
     public $components = array('Paginator', 'RequestHandler');
     //private $UserData = NULL;
@@ -152,6 +153,11 @@ class UsersController extends UserMgmtAppController {
 					$this->Session->setFlash(__('抱歉, 你的账户当前被关闭中，请联系管理员。'));
 					return;
 				}
+				if ($user['User']['allow_web_login'] != 1) {
+					//$this->Session->setFlash(__('Sorry your account is not active, please contact to Administrator'));
+					$this->Session->setFlash(__('抱歉, 你的账户不允许从网站登录哦，试试用微信服务号打开看看？'));
+					return;
+				}
 				// check for verified account
 				if ($user['User']['id'] != 1 and $user['User']['email_verified']==0) {
 					//$this->Session->setFlash(__('Your registration has not been confirmed please verify your email or contact to Administrator'));
@@ -236,6 +242,9 @@ class UsersController extends UserMgmtAppController {
 		$this->Session->setFlash(__('You are successfully signed out'));
 		$this->redirect(LOGOUT_REDIRECT_URL);
 	}
+
+
+
 	/**
 	 * Used to register on the site
 	 *

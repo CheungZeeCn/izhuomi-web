@@ -399,4 +399,13 @@ Configure::write('userLogoNullPath', array(
                 ));
 
 
+Configure::write('wechat', array(
+    'TOKEN' => 'w4z1edIen0M4JvPa',
+    'EncodingAESKey' => '4v7YlTKUASd9RhbFr0LadPPbtNIStq9Gml1dgJk3z80',
+    'accessKeyFile' => '/tmp/izhuomi_wechat_access_token',
+    'wechatServerIpListFile' => '/tmp/izhuomi_wechat_ip_list',
+    'appid' => 'wxb2560b47587c5804', 
+    'appsecret' => '61c469ae7c3ef354f627bfd3b6e5cf9d',
+));
+
 
