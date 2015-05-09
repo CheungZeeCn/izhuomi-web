@@ -123,6 +123,8 @@ class WeChatController extends AppController {
                 $article = $this->getArticleRecord();
                 echo $this->_response_news($postObj, $article);
                 exit(0);
+            }elseif($keyword=="p"){
+                $contentStr =  "<a href='http://izhuomi.com/IzUserDoneArticle/rank/' >temp</a>";
             }else{
                 $contentStr = "hello";
             }

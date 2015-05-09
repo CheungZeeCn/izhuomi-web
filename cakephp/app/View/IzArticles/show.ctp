@@ -1,7 +1,7 @@
     <script type="text/javascript">
-        window.articleId = <?php echo $id ?>;
-        window.articleName = '<?php echo $name ?>';
-        window.wordId = <?php echo $wordId?$wordId:0 ?>;
+        window.articleId = <?php echo $id; ?>;
+        window.articleName = '<?php echo addslashes($name); ?>';
+        window.wordId = <?php echo $wordId?$wordId:0 ;?>;
     </script>
 
     <div class="container">

@@ -16,6 +16,7 @@ class IzUserDoneArticleController extends AppController {
  */
 	public $components = array('Paginator', 'RequestHandler');
     public $uses = array('UserDataModel', 'IzUserDoneArticle');
+    public $layout = 'wechat';
 
 /**
  * index method
@@ -26,6 +27,23 @@ class IzUserDoneArticleController extends AppController {
 		$this->IzUserDoneArticle->recursive = 0;
 		$this->set('izUserDoneArticles', $this->Paginator->paginate());
 	}
+
+    public function rank() {
+        if($this->userAgent == 'wechat') {
+            //echo "wechat ";
+        }
+
+        $user = $this->UserAuth->getUser();
+        $myNick = $user['User']['first_name'];
+
+        $rankInfo = $this->IzUserDoneArticle->rank($this->UserAuth->getUserId());
+        $this->set('topRanks', $rankInfo[0]); 
+        $this->set('myRank', $rankInfo[1]); 
+        $this->set('myCount', $rankInfo[2]); 
+        $this->set('myNick', $myNick); 
+    }
+
+
 
 /**
  * view method
