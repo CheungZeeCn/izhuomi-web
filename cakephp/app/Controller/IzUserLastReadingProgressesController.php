@@ -1,5 +1,6 @@
 <?php
 App::uses('AppController', 'Controller');
+App::uses('IzUserReadWordCount', 'Model');
 /**
  * IzUserLastReadingProgresses Controller
  *
@@ -21,6 +22,8 @@ class IzUserLastReadingProgressesController extends AppController {
  * @var array
  */
 	public $components = array('Paginator');
+
+    public $uses = array('IzUserReadWordCount', 'IzUserLastReadingProgress');
 
 /**
  * index method
@@ -65,7 +68,43 @@ class IzUserLastReadingProgressesController extends AppController {
 
 /*
 */
+    private function countWordRead($wordId) {
+        //records there? 
+        $myUserId = $this->UserAuth->getUserId();
+        $today = date("Y-m-d");
+        $record = $this->IzUserReadWordCount->find('first',
+                array('conditions' => array('user_id' => $myUserId, 'date'=>$today))
+                );
+        $add = 0;
+        if($record) { // 
+            $id = $record['IzUserReadWordCount']['id'];
+            $lastWordId = $record['IzUserReadWordCount']['last_word_id'];
+            if($lastWordId > $wordId ) {
+                $add = $wordId + 10; //magic
+            } else {
+                $add = $wordId - $lastWordId;
+            }
+            $count = $record['IzUserReadWordCount']['count'] + $add;
+            $record['IzUserReadWordCount']['count'] += $add;
+            $record['IzUserReadWordCount']['last_word_id'] = $wordId;
+            $this->IzUserReadWordCount->save($record, true, array("last_word_id", "count"));
+        } else {// new
+            $add = $wordId;
+            $count = $add;
+
+	        $this->IzUserReadWordCount->create(false);
+	        $this->IzUserReadWordCount->set('user_id', $myUserId);
+	        $this->IzUserReadWordCount->set('count', $count);
+	        $this->IzUserReadWordCount->set('date', $today);
+	        $this->IzUserReadWordCount->set('last_word_id', $wordId);
+
+            $this->IzUserReadWordCount->save();
+        }
+        
+    }
+
 	public function addOrEditAjax($articleId) {
+        //$ret = $this->IzUserReadWordCount->find('all');
         // get user id
         $myUserId = $this->UserAuth->getUserId();
         $articleId = $this->request->data('articleId');
@@ -106,6 +145,7 @@ class IzUserLastReadingProgressesController extends AppController {
                 $msg = "DB Save ERROR";
             }
         }
+        $this->countWordRead($wordId);
         $this->set(array('msg'=>$msg, "status"=>$status, '_serialize' => array("status", "msg"))); 
 	}
 /**
