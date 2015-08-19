@@ -69,6 +69,7 @@ $(document).ready(function(){
 		keyEnabled: true
 	});
     window.myCirclePlayer = myCirclePlayer;
+    console.log("hello ");
 });
 CODE;
             $this->Html->scriptBlock($code, array('inline'=>false, 'block'=>'player'));

@@ -321,7 +321,7 @@ function addSpanListener() {
     //single click or tap
     h.on("tap", function(e){
         _timeout = setTimeout(function(e){
-            spanClick(e);             
+            spanClick(e);
             window.clearTimeout(_timeout);   // clear the timeout
         }, 400, e);
     });
@@ -338,6 +338,20 @@ function addSpanListener() {
     }
     //long tap for android and all
     hh.on("hold", function(e) {
+        e.preventDefault();
+        //clean thimeout;
+        window.clearTimeout(_timeout);
+        _timeout = null; 
+        spanDblClick(e);
+    });
+    hh.on("panleft", function(e) {
+        e.preventDefault();
+        //clean thimeout;
+        window.clearTimeout(_timeout);
+        _timeout = null; 
+        spanDblClick(e);
+    });
+    hh.on("panright", function(e) {
         e.preventDefault();
         //clean thimeout;
         window.clearTimeout(_timeout);
