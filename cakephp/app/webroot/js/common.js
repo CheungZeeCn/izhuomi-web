@@ -4,6 +4,14 @@ var agent = navigator.userAgent.toLowerCase();
 var platformName = '';
 var _timeout;
 var search_word
+
+g_cache = {
+    'username':undefined
+};
+
+
+
+
 //var search_description
 
 function spanClick(e) {
@@ -67,6 +75,10 @@ function paintWords(lastWordId, wordId, step) {
 var lastStepCount = 0;
 var stepSize = 10;
 function countMyTime(percent, duration) {
+    if(g_cache['username'] == undefined) {
+        return false;     
+    }
+
     // make it article done for sbd;
     if(percent >= 60 && isThisArticleDone==false) {
         makeItDone();  
@@ -310,11 +322,12 @@ function spanIdFromPoint(x, y) {
 
 function addSpanListener() {
     var ele = document.getElementsByTagName('body')[0];
+    $(ele).nodoubletapzoom();
     var options = {
         preventDefault: true,
         tap_always:false,
         behavior: {
-            userSelect: true
+            userSelect: false
        }
     };
     var h = new Hammer(ele, {tap_always:false, behavior: { userSelect: true }});
@@ -337,27 +350,31 @@ function addSpanListener() {
         });
     }
     //long tap for android and all
-    hh.on("hold", function(e) {
+     
+    //hh.on("hold", function(e) {
+    //    e.preventDefault();
+    //    //clean thimeout;
+    //    console.log("hold");
+    //    window.clearTimeout(_timeout);
+    //    _timeout = null; 
+    //    spanDblClick(e);
+    //});
+    hh.on("doubletap", function(e) {
         e.preventDefault();
         //clean thimeout;
+        console.log("hold");
         window.clearTimeout(_timeout);
         _timeout = null; 
         spanDblClick(e);
     });
-    hh.on("panleft", function(e) {
-        e.preventDefault();
-        //clean thimeout;
-        window.clearTimeout(_timeout);
-        _timeout = null; 
-        spanDblClick(e);
-    });
-    hh.on("panright", function(e) {
-        e.preventDefault();
-        //clean thimeout;
-        window.clearTimeout(_timeout);
-        _timeout = null; 
-        spanDblClick(e);
-    });
+    //hh.on("swiperight", function(e) {
+    //    e.preventDefault();
+    //    console.log("swipe right");
+    //    //clean thimeout;
+    //    window.clearTimeout(_timeout);
+    //    _timeout = null; 
+    //    spanDblClick(e);
+    //});
 }
 
 function bodyDidLoad() {
@@ -368,7 +385,6 @@ function bodyDidLoad() {
     } else {// not exactly
         platformName = 'desktop';
     }
-
 	addSpanListener();
      
     //var time = times_indexed_by_id[window.wordId];
