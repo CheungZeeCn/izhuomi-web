@@ -395,7 +395,7 @@ function bodyDidLoad() {
     } else {// not exactly
         platformName = 'desktop';
     }
-    alert(agent);
+    //alert(agent);
 	addSpanListener();
      
     //var time = times_indexed_by_id[window.wordId];
