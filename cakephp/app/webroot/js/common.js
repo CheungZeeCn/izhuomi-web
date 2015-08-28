@@ -75,12 +75,8 @@ function paintWords(lastWordId, wordId, step) {
 var lastStepCount = 0;
 var stepSize = 10;
 function countMyTime(percent, duration) {
-    if(g_cache['username'] == undefined) {
-        return false;     
-    }
-
     // make it article done for sbd;
-    if(percent >= 60 && isThisArticleDone==false) {
+    if( g_cache['username'] != undefined && percent >= 60 && isThisArticleDone==false) {
         makeItDone();  
     }
 
@@ -113,39 +109,41 @@ function countMyTime(percent, duration) {
                     sentence += $('#'+this).text();
                 });
                 
-                //console.log(paintedWordRange);
-                var word = $('#'+wordId).text();
-                //console.log(sentence);
-                //log: articleId, articleName, word, sentence
-                var articleId = window.articleId
-                var articleName = window.articleName
-                var url = "../../IzUserLastReadingProgresses/addOrEditAjax/" + window.articleId + ".json";
-                $.ajax({
-                    type:'POST',
-                    url: url,
-                    data: {
-                        articleId: articleId,
-                        articleName: articleName,
-                        word: word,
-                        wordId: wordId,
-                        sentence: sentence 
-                    }
-                }).done(function(data){
-                    if(data.status == 'OK'){
-                        //;
-                    } else if (data.msg != undefined) {
-                        console.log(data.msg);
-                    } else if (data.message != undefined) {
-                        console.log(data.message);
-                    } else {
-                        //todo show error msg near the "Add icon"
-                        //do nothing now;
-                        //alert("ERROR: " + data.msg);
+                if(g_cache['username'] != undefined) {
+                    //console.log(paintedWordRange);
+                    var word = $('#'+wordId).text();
+                    //console.log(sentence);
+                    //log: articleId, articleName, word, sentence
+                    var articleId = window.articleId
+                    var articleName = window.articleName
+                    var url = "../../IzUserLastReadingProgresses/addOrEditAjax/" + window.articleId + ".json";
+                    $.ajax({
+                        type:'POST',
+                        url: url,
+                        data: {
+                            articleId: articleId,
+                            articleName: articleName,
+                            word: word,
+                            wordId: wordId,
+                            sentence: sentence 
+                        }
+                    }).done(function(data){
+                        if(data.status == 'OK'){
+                            //;
+                        } else if (data.msg != undefined) {
+                            console.log(data.msg);
+                        } else if (data.message != undefined) {
+                            console.log(data.message);
+                        } else {
+                            //todo show error msg near the "Add icon"
+                            //do nothing now;
+                            //alert("ERROR: " + data.msg);
+                            console.log(" 失败，服务器错 ");
+                        }
+                    }).fail(function(data){ 
                         console.log(" 失败，服务器错 ");
-                    }
-                }).fail(function(data){ 
-                    console.log(" 失败，服务器错 ");
-                });
+                    });
+                }
             }
         }
     }
@@ -322,7 +320,9 @@ function spanIdFromPoint(x, y) {
 
 function addSpanListener() {
     var ele = document.getElementsByTagName('body')[0];
-    $(ele).nodoubletapzoom();
+    if (platformName != 'wechat') {
+        $(ele).nodoubletapzoom();
+    }
     var options = {
         preventDefault: true,
         tap_always:false,
@@ -340,18 +340,26 @@ function addSpanListener() {
     });
     var hh = new Hammer(ele, options);
     //double click or tap for all except android
-    if(platformName == 'desktop') {
-        hh.on("doubletap", function(e){
-            e.preventDefault();
-            //clean thimeout;
-            window.clearTimeout(_timeout);
-            _timeout = null; 
-            spanDblClick(e);
-        });
-    }
+    //if(platformName == 'desktop' ) {
+    //    hh.on("doubletap", function(e){
+    //        e.preventDefault();
+    //        //clean thimeout;
+    //        window.clearTimeout(_timeout);
+    //        _timeout = null; 
+    //        spanDblClick(e);
+    //    });
+    //}
     //long tap for android and all
      
-    //hh.on("hold", function(e) {
+    hh.on("hold", function(e) {
+        e.preventDefault();
+        //clean thimeout;
+        console.log("hold");
+        window.clearTimeout(_timeout);
+        _timeout = null; 
+        spanDblClick(e);
+    });
+    //hh.on("longtap", function(e) {
     //    e.preventDefault();
     //    //clean thimeout;
     //    console.log("hold");
@@ -378,13 +386,16 @@ function addSpanListener() {
 }
 
 function bodyDidLoad() {
-    if(agent.indexOf('iphone') >= 0 || agent.indexOf('ipad') >= 0){
+    if(agent.indexOf('micromessenger') >= 0) {
+        platformName = 'wechat';
+    } else if(agent.indexOf('iphone') >= 0 || agent.indexOf('ipad') >= 0){
         platformName = 'ios';
     } else if(agent.indexOf('android') >= 0 || agent.indexOf('xiaomi') >= 0) {
         platformName = 'android';
     } else {// not exactly
         platformName = 'desktop';
     }
+    alert(agent);
 	addSpanListener();
      
     //var time = times_indexed_by_id[window.wordId];

@@ -12,6 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="izhuomi.com, JiaYouO">
     <meta name="author" content="cheungzeecn@gmail.com">
+    <!--  <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" />-->
 
 
 	<?php
@@ -132,9 +133,10 @@ CODE;
 <?php }?>
 
 (function($) {
-  var IS_IOS = /iphone|ipad|android/i.test(navigator.userAgent);
+  //var IS_IOS = /iphone|ipad|android|micromessenger/i.test(navigator.userAgent);
+  var SHOULD_DISABLE = /android/i.test(navigator.userAgent.toLowerCase());
   $.fn.nodoubletapzoom = function() {
-    if (IS_IOS)
+    if (SHOULD_DISABLE)
       $(this).bind('touchstart', function preventZoom(e) {
         var t2 = e.timeStamp
           , t1 = $(this).data('lastTouch') || t2

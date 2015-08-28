@@ -93,6 +93,7 @@ class WeChatDataModel extends AppModel {
         if($body->openid == NULL) {
             //log the error?
             //$body == NULL;
+            var_dump($body);  
         }
         return $body;
     }

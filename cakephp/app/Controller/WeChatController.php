@@ -119,12 +119,12 @@ class WeChatController extends AppController {
                 $str = "昵称_{$userInfo->nickname}|" . "头像_{$userInfo->headimgurl} <a src='http://www.baidu.com'>t</a>". '<img src="../../_static/cake-logo.png" alt="CakePHP" width="70">';
                 $contentStr .= $str;
             }elseif($keyword=="r"){
-                $userInfo = $this->WeChatDataModel->getWechatUser($fromUsername);
+                //$userInfo = $this->WeChatDataModel->getWechatUser($fromUsername);
                 $article = $this->getArticleRecord();
                 echo $this->_response_news($postObj, $article);
                 exit(0);
             }elseif($keyword=="p"){
-                $contentStr =  "<a href='http://izhuomi.com/IzUserDoneArticle/rank/' >temp</a>";
+                $contentStr =  "<a href='http://izhuomi.com/IzUserReadWordCounts/rank/'>temp</a>";
             }else{
                 $contentStr = "hello";
             }
@@ -163,6 +163,7 @@ class WeChatController extends AppController {
             //'picUrl' => 'http://izhuomi.com/izhuomi-data/201409/_content_youngest-designer-ever-in-new-york-fashion-week_2446387.html/content.jpg',
             'picUrl' => Router::url('/'.$contentPicUrl, true),
             'url' => 'http://izhuomi.com/IzArticles/show/',
+            //'url' => 'http://www.baidu.com/',
         );
         return $record;
     }
@@ -254,6 +255,7 @@ class WeChatController extends AppController {
     }
 
     public function receive() {
+        //$this->valid();
         $this->responseMsg2();
         exit(0);
     }
@@ -278,7 +280,8 @@ class WeChatController extends AppController {
 
     public function filterBeforeAction() {
         //call it manually now
-        $wechatUserInfo = $this->Session->read('wechatUserInfo');
+        //$wechatUserInfo = $this->Session->read('wechatUserInfo');
+        $wechatUserInfo = NULL;
         $acToken = '';
         $rToken = '';
         $acExpr = 0;

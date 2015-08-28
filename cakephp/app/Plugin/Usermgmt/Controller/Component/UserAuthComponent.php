@@ -63,6 +63,8 @@ class UserAuthComponent extends Component {
         // set user info here
         if($c->userAgent == 'wechat') { // update location ?
             $wechatUserInfo = $this->Session->read('wechatUserInfo');
+            //$wechatUserInfo = NULL;
+
             $acToken = '';
             $rToken = '';
             $acExpr = 0;
@@ -186,8 +188,9 @@ class UserAuthComponent extends Component {
 	}
 
     private function redirectForCode() {
-        $cUrl = rawurlencode(Router::url('/', true). $this->c->request->here());
+        $cUrl = rawurlencode(rtrim(Router::url('/', true), '/'). $this->c->request->here());
         $fwdUrl = "https://open.weixin.qq.com/connect/oauth2/authorize?appid={$this->WeChatDataModel->appid}&redirect_uri={$cUrl}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
+        $this->log("DBUG:::".$cUrl);
         $this->c->redirect($fwdUrl);
     }
 
