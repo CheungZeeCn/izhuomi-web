@@ -441,3 +441,74 @@ div.boxwidgetInner {
     color:brown;
 }
 
+.btn-lg.round {
+    border-radius: 24px;
+}
+
+.dashboard-stat {
+  border-radius: 4px;
+  display: block;
+  margin-bottom: 25px;
+  overflow: hidden;
+  font-family: "Open Sans",sans-serif;
+  text-shadow: none;    
+  direction: ltr;
+}
+
+.dashboard-stat.blue {
+  background-color: #3598dc;
+}
+
+.dashboard-stat .visual {
+  display: block;
+  float: left;
+  font-size: 35px;
+  height: 80px;
+  line-height: 35px;
+  margin-bottom: 15px;
+  padding-left: 15px;
+  padding-top: 10px;
+  width: 80px;
+}
+
+.fa-bar-chart-o::before, .fa-bar-chart::before {
+    content: "";
+}
+
+.dashboard-stat.blue .visual > i {
+  color: #ffffff;
+  opacity: 0.1;
+}
+
+.dashboard-stat .visual > i {
+  font-size: 110px;
+  line-height: 110px;
+  margin-left: -35px;
+}
+
+.dashboard-stat .details {
+  padding-right: 15px;
+  position: absolute;
+  right: 15px;
+}
+
+.dashboard-stat.blue .details .number {
+  color: #ffffff;
+}
+
+.dashboard-stat .details .number {
+  font-size: 34px;
+  font-weight: 300;
+  letter-spacing: -1px;
+  line-height: 36px;
+  margin-bottom: 0;
+  padding-top: 25px;
+  text-align: right;
+}
+
+
+
+.dashboard-stat.blue .details .desc {
+  color: #ffffff;
+  opacity: 1;
+}

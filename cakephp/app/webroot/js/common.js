@@ -494,4 +494,21 @@ function storeDigest(digest) {
 
 }
 
+function addArticleLike(id) {
+    var url = "../ajax_addLikeNum/" + id + ".json";
+    $.ajax({
+        url: url,
+    }).done(function(data){
+        if(data.status == 'OK'){
+            $('#likeNum').text(data.return);
+        }else{
+            //todo show error msg near the "Add icon"
+            //do nothing now;
+            //alert("ERROR: " + data.msg);
+            //pass
+            ;
+        }
+    });
+}
+
 // window.onload=bodyDidLoad;

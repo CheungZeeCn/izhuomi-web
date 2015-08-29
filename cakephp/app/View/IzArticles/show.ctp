@@ -125,15 +125,38 @@
         </div><!-- /.blog-main -->
 
         <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
-          <div class="sidebar-module sidebar-module-inset">
-            <h4>About</h4>
-            It's a web page for demonstrating the izhuomi's interaction. <br/>
-            这个样例页面用以展示i.啄米的功能.
-            [后续这个地方放‘赞’相关统计, 以及分享按钮]
-
+          <div style="display:block;padding:0px" class="sidebar-module sidebar-module-inset">
+                <div class="dashboard-stat blue">
+                    <div class="visual">
+                        <i class="fa fa-bar-chart-o"></i>
+                    </div>
+                    <div class="details">
+                        <div class="number">
+                            <?php echo $readNum ; ?> 
+                        </div>
+                        <div class="desc">
+                             阅读量
+                        </div>
+                    </div>
+                </div>            
+                
+                <div class="dashboard-stat blue" onclick="addArticleLike(<?php echo $id; ?>)">
+                    <div class="visual" style="width:90px">
+                        <i class="fa fa-thumbs-o-up"></i>
+                    </div>
+                    <div class="details">
+                        <div class="number" id='likeNum'>
+                            <?php echo $likeNum; ?>
+                        </div>
+                        <div class="desc">
+                             点我+赞
+                        </div>
+                    </div>
+                </div>            
           </div>
+
           <div class="blog-sidebar">
-            <h4>更多来自: <?php echo $this->Html->link($classificationCn, "#"); ?></h4>
+            <h4>同分类阅读: <?php echo $this->Html->link($classificationCn, "#"); ?></h4>
             <ul class="list-unstyled">
                 <?php  
                     foreach($sameCls as $a) {    
@@ -155,6 +178,7 @@
                 ?>
             </ul>
           </div>
+            <!--
           <div class="sidebar-module">
             <h4>来这里打个招呼吧</h4>
             <ol class="list-unstyled">
@@ -164,6 +188,7 @@
               <li><a href="#">Google Play</a></li>
             </ol>
           </div>
+            -->
           <div class="sidebar-module ui-field-contain">
             <div class="form-group">
               <label >美句摘录:</label>

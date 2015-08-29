@@ -48,6 +48,70 @@ class ArticleDataModel extends AppModel {
         return $article;
     }
 
+    public function addArtcleLikeNum($id) {
+		$this->makeModelThere('IzArticle');
+        $this->IzArticle->setDataSource('w');
+        if($id == -1) {
+            $ret = $this->IzArticle->find('first', array("limit" => 1, "order" => "id DESC", "fields"=>array('id', 'like')));
+        } else {
+            $mapping = array(
+                            //'timeBegin' => 'date >=', 
+                            //'timeEnd' => 'date <=',
+                            'id' => 'id'
+                        );
+            $values = array(
+                            //'timeBegin' => $timeBegin, 
+                            //'timeEnd' => $timeEnd,
+                            'id' => $id,
+                        );
+             
+            $conditions = $this->makeConditions($mapping, $values);
+            $ret = $this->IzArticle->find('first', array("conditions" => $conditions, "fields"=>array('id', 'like')));
+        }
+        if (!$ret) {
+            throw new NotFoundException(__('Invalid id'));
+            return NULL;
+        }
+        $ret['IzArticle']['like'] += 1;
+        if($this->IzArticle->save($ret)) {
+            return $ret['IzArticle']['like'];
+        } else {
+            return False;
+        }
+    }
+
+    public function addArtcleReadNum($id) {
+		$this->makeModelThere('IzArticle');
+        $this->IzArticle->setDataSource('w');
+        if($id == -1) {
+            $ret = $this->IzArticle->find('first', array("limit" => 1, "order" => "id DESC", "fields"=>array('id', 'read')));
+        } else {
+            $mapping = array(
+                            //'timeBegin' => 'date >=', 
+                            //'timeEnd' => 'date <=',
+                            'id' => 'id'
+                        );
+            $values = array(
+                            //'timeBegin' => $timeBegin, 
+                            //'timeEnd' => $timeEnd,
+                            'id' => $id,
+                        );
+             
+            $conditions = $this->makeConditions($mapping, $values);
+            $ret = $this->IzArticle->find('first', array("conditions" => $conditions, "fields"=>array('id', 'read')));
+        }
+        if (!$ret) {
+            throw new NotFoundException(__('Invalid id'));
+            return NULL;
+        }
+        $ret['IzArticle']['read'] += 1;
+        if($this->IzArticle->save($ret)) {
+            return $ret['IzArticle']['read'];
+        } else {
+            return False;
+        }
+    }
+
     public function getArticle($id) {
 		$this->makeModelThere('IzArticle');
         if($id == -1) {

@@ -64,8 +64,24 @@ class IzArticlesController extends AppController {
     //    );
     //}
 
+    public function ajax_addLikeNum($id) {
+        $status = 'OK';
+        $likeNum = $this->ArticleDataModel->addArtcleLikeNum($id);
+        if($likeNum === False) {
+            $status = 'DB ERROR';
+        }
+
+        $this->set( array(
+            'return' => $likeNum,
+            'status' => $status,
+            '_serialize' => array('return', 'status')
+            )
+        );
+    }
+
     public function show($id=-1) {//can't add params here any more, since we use some hard code about url in js 
         $wordId = $this->request->query('wordId');
+        $readNum = $this->ArticleDataModel->addArtcleReadNum($id);
         $ret = $this->ArticleDataModel->getArticle($id);
         if (!$ret) {
             throw new NotFoundException(__('Invalid id'));
@@ -88,6 +104,8 @@ class IzArticlesController extends AppController {
 
         $retHtml = $this->ArticleDataModel->getArticleHtmlByPath($ret['url'], True);
         $id = $ret['id'];
+        //$readNum = $ret['read'];
+        $likeNum = $ret['like'];
         $mp3Url = $ret['url'].'/content.mp3'; 
         $randomId = $this->ArticleDataModel->getRandomArticleId();
         $nextId = $this->ArticleDataModel->getNextArticleId($id);
@@ -107,6 +125,8 @@ class IzArticlesController extends AppController {
         $this->set('mp3Url', $mp3Url);
         $this->set('randomId', $randomId);
         $this->set('nextId', $nextId);
+        $this->set('readNum', $readNum);
+        $this->set('likeNum', $likeNum);
         $this->set('preId', $preId);
         $this->set('id', $id);
         $this->set('wordId', $wordId);
