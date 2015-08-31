@@ -40,9 +40,19 @@ class ArticleDataModel extends AppModel {
         return $ret;
     }
 
+    public function getArticleWithPic($id) {
+        $article = $this->getArticle($id);  
+        $url = $article['url'];
+        $contentPic = $article['contentPic'];
+        $zipPicUrl = $this->getArticlePicByPath($url, $contentPic);
+        $article['zipPicUrl'] = $zipPicUrl;
+        return $article;
+    }
+
     public function getArticleWithZipPic($id) {
         $article = $this->getArticle($id);  
         $url = $article['url'];
+        $contentPic = $article['contentPic'];
         $zipPicUrl = $this->getArticleZipPicByPath($url);
         $article['zipPicUrl'] = $zipPicUrl;
         return $article;
@@ -149,6 +159,17 @@ class ArticleDataModel extends AppModel {
     public function getArticleZipPicByPath($path) {
         $path = $path."/__zipPic__.jpg";
         $path = Router::url("/".$path);
+        return $path;
+    }
+
+    public function getArticlePicByPath($path, $contentPic) {
+        if($contentPic) {
+            $path = $path."/{$contentPic}";
+            $path = Router::url("/".$path);
+        } else {
+            $path = $path."/__zipPic__.jpg";
+            $path = Router::url("/".$path);
+        }
         return $path;
     }
 

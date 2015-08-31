@@ -156,7 +156,8 @@
           </div>
 
           <div class="blog-sidebar">
-            <h4>同分类阅读: <?php echo $this->Html->link($classificationCn, "#"); ?></h4>
+            <span>同分类阅读: <?php echo $this->Html->link($classificationCn, array( 'controller' =>'IzClassifications', 'action' =>'show', $cId)); ?></span>
+            <span class="span20px"> </span>
             <ul class="list-unstyled">
                 <?php  
                     foreach($sameCls as $a) {    

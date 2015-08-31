@@ -196,7 +196,7 @@ ul, ol {
   -moz-border-right-colors: none;
   -moz-border-top-colors: none;
   background-color: #f5f5f5;
-  border-color: #d8d8d8 #d8d8d8 -moz-use-text-color;
+  border-color: #d8d8d8 #d8d8d8;
   border-image: none;
   border-radius: 3px 3px 0 0;
   border-style: solid solid none;
@@ -511,4 +511,10 @@ div.boxwidgetInner {
 .dashboard-stat.blue .details .desc {
   color: #ffffff;
   opacity: 1;
+}
+
+.span20px {
+    margin-top:20px;
+    clear:both;
+    display:block    
 }

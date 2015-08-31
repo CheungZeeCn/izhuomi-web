@@ -15,13 +15,25 @@ class IzUserDigestsController extends AppController {
  */
 	public $components = array('Paginator', 'RequestHandler');
 
+    public $paginate = array(
+        'limit' => 25,
+        'maxLimit' => 25,
+        'order' => array(
+            'addtime' => 'desc'
+        ),
+    );
+
 /**
  * index method
  *
  * @return void
  */
 	public function index() {
+        $myUserId = $this->UserAuth->getUserId();
 		$this->IzUserDigest->recursive = 0;
+        $this->paginate['conditions'] = array('user_id =' => $myUserId);
+        $this->Paginator->settings = $this->paginate;
+        //var_dump($this->paginate);
 		$this->set('izUserDigests', $this->Paginator->paginate());
 	}
 

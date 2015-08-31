@@ -1,6 +1,9 @@
 <div class="container izpage">
 <div class="izWordbooks index">
-	<h2><span class="glyphicon glyphicon-list-alt"></span><?php echo __('单词本'); ?></h2>
+    <ul class="nav nav-tabs">
+        <li role="presentation" class="active"><a href="#"><span class="glyphicon glyphicon-list-alt"></span><?php echo __('单词本'); ?></a></li>
+        <li role="presentation"><a href="<?php echo $this->Html->url('/IzUserDigests');?>">美句摘录</a></li>
+    </ul>
 	<table style="" class="table table-bordered table-responsive table-condensed table-hover table-striped radius-3px" cellpadding="0" cellspacing="0">
 	<tr class="info">
 			<th><?php echo $this->Paginator->sort('word', '单词'); ?></th>

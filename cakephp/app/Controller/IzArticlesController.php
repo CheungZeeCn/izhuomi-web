@@ -129,6 +129,7 @@ class IzArticlesController extends AppController {
         $this->set('likeNum', $likeNum);
         $this->set('preId', $preId);
         $this->set('id', $id);
+        $this->set('cId', $cId);
         $this->set('wordId', $wordId);
         $this->set('classification', $classification);
         $this->set('sameCls', $sameCls);

@@ -130,7 +130,7 @@ CODE;
 <script>
 
 <?php if(isset($_username)) {?>
-    g_cache['username'] = <?php echo "\"$_username\""; ?>
+    g_cache['username'] = <?php echo "\"$_username\";"; ?>
 <?php }?>
 
 (function($) {

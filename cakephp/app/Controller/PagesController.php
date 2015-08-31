@@ -101,7 +101,7 @@ class PagesController extends AppController {
         //get recently article ids
         $articles = $this->ArticleDataModel->getNArticleIds(4);
         foreach($articles as $i => $oneArt) {
-            $articles[$i] = $this->ArticleDataModel->getArticleWithZipPic($oneArt['id']);
+            $articles[$i] = $this->ArticleDataModel->getArticleWithPic($oneArt['id']);
         }
 
         //get classes  

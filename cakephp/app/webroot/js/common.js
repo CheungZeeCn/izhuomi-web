@@ -10,6 +10,13 @@ g_cache = {
 };
 
 
+String.format = function(src){
+    if (arguments.length == 0) return null;
+    var args = Array.prototype.slice.call(arguments, 1);
+    return src.replace(/\{(\d+)\}/g, function(m, i){
+        return args[i];
+    });
+};
 
 
 //var search_description
@@ -181,6 +188,10 @@ function spanDblClick(e) {
             var html = makeItHtml(ret);
             if(html == '') {
                 html = '嗷嗷~ 没有找到关于 ' + word +' 的解释。';
+                var tmp = '' +
+                    '嗷嗷~ 没有找到关于 {0} 的解释, 去有道' +
+                '<a id="more" href="http://dict.youdao.com/search?keyfrom=selector&amp;q={1}" target="_blank" hidefocus="true"><span style="" class="glyphicon glyphicon-globe"> </span></a>看看';
+                html = String.format(tmp, word, word);
             }
             $( '#wordMsg').html(html);
             $( '#popupWordDict').popup('open', {positionTo: '#' + e.target.id});
@@ -510,5 +521,7 @@ function addArticleLike(id) {
         }
     });
 }
+
+
 
 // window.onload=bodyDidLoad;

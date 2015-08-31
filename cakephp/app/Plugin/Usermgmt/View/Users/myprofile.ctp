@@ -39,6 +39,7 @@ echo $this->Html->script("Usermgmt.umupdate");
           
           <li class="vcard-detail"><span class="octicon glyphicon glyphicon-time"></span><span>Joined on <?php echo $user['User']['date_created'] ?></span></li>
         </ul>
+        <!--
         <div class="vcard-stats">
          <a href="" class="vcard-stat">
            <strong class="vcard-stat-count">123</strong>
@@ -49,6 +50,7 @@ echo $this->Html->script("Usermgmt.umupdate");
              积分
            </a>
        </div> 
+       -->
         <div class="vcard-social">
           <h4 class="vcard-social-h4"> <span class="glyphicon glyphicon-home" ></span> 找到我 </h4>
             <ul >
@@ -69,6 +71,7 @@ echo $this->Html->script("Usermgmt.umupdate");
             <h4> <span style="font-size:30px" class="glyphicon glyphicon-bookmark"></span> 足迹 </h4>
             <div style="wdith:100%; ">
                 <ul class="repolist js-repo-list">
+                    <!--
                     <li class="public source">   
                         当前目标(好吧，这个功能也在开发中) <br />
                             7天内，完成难度为x的阅读3篇， 已完成1篇，还剩下2天
@@ -77,6 +80,7 @@ echo $this->Html->script("Usermgmt.umupdate");
                         战绩 (也是还没有实现的)<br/>
                             完成目标11个， 平均一周阅读3篇。    
                     </li>
+                    -->
                     <li class="public source">   
                         <?php 
                             if($lastReadingProgress != NULL) {
@@ -100,46 +104,8 @@ echo $this->Html->script("Usermgmt.umupdate");
                     </li>
                 </ul>
             </div>
-            
-            <div class="columns popular-repos">
-                <div class="single-column">
-                        <div class="boxed-group flush">
-                            <h3>美句摘录 <span style="float:right"><a href="#">(还木有实现) More >> </a></span></h3>
-                            <ul class="boxed-group-inner repo-list">
-                                <?php 
 
-
-                                    foreach($userDigests as $v) {
-                                        $url = $this->Html->url("/IzArticles/show/{$v['IzUserDigest']['article_id']}");
-                                        echo <<<EOS
-                                        <li class="public source repo-list-item" style="padding:5px">
-                                              <div class="note-sent-content" style="">
-                                                {$v['IzUserDigest']['digest']}
-                                              </div>
-                                              <span class="glyphicon glyphicon-paperclip"></span> 出自 <a style="" href="{$url}">{$v['IzArticle']['name']}</a>
-                                        </li>
-EOS;
-                                    }
-                                    if(count($userDigests) == 0) {
-                                        $url = $this->Html->url("/IzArticles/show/");
-                                        echo <<<EOS
-                                        <li class="public source repo-list-item" style="padding:5px">
-                                              <div class="note-sent-content" style="">
-                                                你暂时还没有摘录过美句啊( ⊙ o ⊙ ), 要不要赶紧在<a href="{$url}">阅读页面</a>试试这个功能?
-                                              </div>
-                                              <span class="glyphicon glyphicon-paperclip"></span> (๑´灬`๑)  <a style="margin-left:3px" href="{$url}">去消灭零蛋</a>
-                                        </li>
-EOS;
-
-                                    }
-                                ?>
-                            </ul>
-                        </div>
-                </div> 
-            </div>
-        </div>
-
-        <div id="izhuomi-heatmap" class="boxed-group flush">
+        <div id="izhuomi-heatmap" class="boxed-group flush"> 
             <h3> <?php echo "{$user['User']['username']}的持久力"?> </h3>
             <div id="contributions-calendar" class="boxed-group-inner">
                 <!--
@@ -200,7 +166,46 @@ EOS;
                     </div>
                 </div> 
         </div>
-    </div>
+    </div> <!-- end izhuomi-heatmap -->
+            
+            <div class="columns popular-repos">
+                <div class="single-column">
+                        <div class="boxed-group flush">
+                            <h3>美句摘录 <span style="float:right"><a href="<?php echo $this->Html->url('/IzUserDigests');?> ">More >> </a></span></h3>
+                            <ul class="boxed-group-inner repo-list">
+                                <?php 
+
+
+                                    foreach($userDigests as $v) {
+                                        $url = $this->Html->url("/IzArticles/show/{$v['IzUserDigest']['article_id']}");
+                                        echo <<<EOS
+                                        <li class="public source repo-list-item" style="padding:5px">
+                                              <div class="note-sent-content" style="">
+                                                {$v['IzUserDigest']['digest']}
+                                              </div>
+                                              <span class="glyphicon glyphicon-paperclip"></span> 出自 <a style="" href="{$url}">{$v['IzArticle']['name']}</a>
+                                        </li>
+EOS;
+                                    }
+                                    if(count($userDigests) == 0) {
+                                        $url = $this->Html->url("/IzArticles/show/");
+                                        echo <<<EOS
+                                        <li class="public source repo-list-item" style="padding:5px">
+                                              <div class="note-sent-content" style="">
+                                                你暂时还没有摘录过美句啊( ⊙ o ⊙ ), 要不要赶紧在<a href="{$url}">阅读页面</a>试试这个功能?
+                                              </div>
+                                              <span class="glyphicon glyphicon-paperclip"></span> (๑´灬`๑)  <a style="margin-left:3px" href="{$url}">去消灭零蛋</a>
+                                        </li>
+EOS;
+
+                                    }
+                                ?>
+                            </ul>
+                        </div>
+                </div> 
+            </div>
+        </div>
+
 </div>
 
 <!-- Button trigger modal -->

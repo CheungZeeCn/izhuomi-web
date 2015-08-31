@@ -1,6 +1,5 @@
 <?php
-
-
+App::uses('ArticleDataModel', 'Model');
 App::uses('AppController', 'Controller');
 /**
  * IzClassifications Controller
@@ -16,15 +15,45 @@ class IzClassificationsController extends AppController {
  * @var array
  */
 	public $components = array('Paginator');
+    public $uses = array('IzClassification', 'IzArticle', 'ArticleDataModel');
+
 
 /**
  * index method
  *
  * @return void
  */
-	public function index() {
+	public function show($id = -1) {
 		$this->IzClassification->recursive = 0;
-		$this->set('izClassifications', $this->Paginator->paginate());
+        $allCls = $this->IzClassification->find('all');
+        if($id == -1) { $id = 2; }
+        $thisCls = NULL;
+        foreach($allCls as $cls) {
+            if($cls['IzClassification']['id'] == $id) {
+                $thisCls = $cls;
+                break;
+            }
+        }
+        # get all articles ?
+        //$options = array(
+        //    'conditons' => array(
+        //        'classification_id' => $id
+        //     ),
+        //     'order' => 'time_create DESC',
+        //);
+        //$articles = $this->IzArticle->find('all', $options);
+        // todo page it 
+        $articles = $this->ArticleDataModel->getClsNArticles($id, 1000);
+        //add pic
+        foreach($articles as $k => $v) {
+            $url = $v['IzArticle']['url'];
+            $contentPic = $v['IzArticle']['contentPic'];
+            $articles[$k]['IzArticle']['picUrl'] = $this->ArticleDataModel->getArticlePicByPath($url, $contentPic); 
+        }
+
+		$this->set('thisCls', $thisCls);
+		$this->set('articles', $articles);
+		$this->set('izClassifications', $allCls);
 	}
 
 /**
