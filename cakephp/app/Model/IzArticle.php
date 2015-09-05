@@ -19,5 +19,6 @@ class IzArticle extends AppModel {
  * @var string
  */
 	public $displayField = 'name';
+    public $primaryKey = 'id';
 
 }

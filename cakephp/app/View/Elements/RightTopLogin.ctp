@@ -25,7 +25,7 @@
                                     </fieldset>
                                     </div>
 	    					<div style="clear:both"></div>
-                            <button class="btn btn-sm btn-primary btn-shadow" style="width:100px" role="button">Login</button>
+                            <button class="btn btn-sm btn-primary btn-shadow" data-role=none style="width:100px" role="button">Login</button>
                                 <?php echo $this->Form->end(); ?>
                                 <div class="form-group">
                                 <span class="pull-right"><a href="<?php echo Router::url('/')?>register?tag=test&redirect2=<?php echo $this->Html->url(null, true);?>">注册</a></span><span><a href="#" mark="todo">忘记密码？</a></span>

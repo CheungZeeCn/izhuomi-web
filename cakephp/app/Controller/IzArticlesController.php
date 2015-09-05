@@ -7,7 +7,9 @@ App::uses('CakeTime', 'Utility');
  *
  */
 class IzArticlesController extends AppController {
-    public $components = array('RequestHandler');
+    public $components = array('RequestHandler', 'Paginator');
+    public $uses = array("IzArticle", "IzComment", "IzUsersLogo");
+    //public $helpers = array('Comments.CommentWidget');
 
 /**
  * Scaffold
@@ -80,6 +82,8 @@ class IzArticlesController extends AppController {
     }
 
     public function show($id=-1) {//can't add params here any more, since we use some hard code about url in js 
+        $myUser = $this->UserAuth->getUser();
+        $myUserId = $this->UserAuth->getUserId();
         $wordId = $this->request->query('wordId');
         $readNum = $this->ArticleDataModel->addArtcleReadNum($id);
         $ret = $this->ArticleDataModel->getArticle($id);
@@ -121,7 +125,33 @@ class IzArticlesController extends AppController {
             $this->set('contentPicCaption', $ret['contentPicCaption']);
         }
 
+        $cOptions = array(
+            'conditions' => array(
+                'model' => 'IzArticle',
+                'foreign_key' => $id,
+            ),
+            'order' => 'IzComment.created',
+        );
+        $comments = $this->IzComment->find('all', $cOptions);
+        foreach($comments as $k => $v) {
+            $comments[$k]['UserLogo']['small_logo_addr'] = $this->IzUsersLogo->genLogoUrl($v['UserLogo']['small_logo_addr'], 'small', false);
+            $comments[$k]['UserLogo']['large_logo_addr'] = $this->IzUsersLogo->genLogoUrl($v['UserLogo']['large_logo_addr'], 'large', false);
+            $comments[$k]['IzComment']['isMine'] = $v['IzComment']['user_id']==$myUserId?TRUE:FALSE;
+        }
+        if($myUser) {
+            $myUserLogo = $this->IzUsersLogo->genLogoUrl($myUser['IzUsersLogo']['small_logo_addr'], 'small', false);
+        } else {
+            $myUserLogo = NULL;
+        }
+
+        //var_dump(Inflector::variable($this->modelClass));
+        //exit(0);
+
         $this->set('name', $ret['name']);
+        $this->set('myUser', $myUser);
+        $this->set('myUserId', $myUserId);
+        $this->set('myUserLogo', $myUserLogo);
+        $this->set('comments', $comments);
         $this->set('mp3Url', $mp3Url);
         $this->set('randomId', $randomId);
         $this->set('nextId', $nextId);
@@ -138,6 +168,7 @@ class IzArticlesController extends AppController {
         $this->set('time_create', $ret['time_create']);
         $this->set('abstract', $ret['abstract']." | " . $this->generateRandomString(50));
         $this->set('data', $retHtml);
+        $this->set('izArticle', $this->IzArticle->read(null, $id));
     }
 
     public function view($id) {

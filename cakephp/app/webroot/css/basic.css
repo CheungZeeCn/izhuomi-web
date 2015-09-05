@@ -518,3 +518,20 @@ div.boxwidgetInner {
     clear:both;
     display:block    
 }
+
+.margin1010 {
+    margin-top:10px;
+    margin-bottom:10px;
+    clear:both;
+    display:block    
+}
+
+.comment-username {
+  font-size: 17px;
+}
+
+h4.media-heading span {
+  color: #777777;
+  font-size: 12px;
+  float:right;
+}

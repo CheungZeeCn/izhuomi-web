@@ -2,6 +2,7 @@
         window.articleId = <?php echo $id; ?>;
         window.articleName = '<?php echo addslashes($name); ?>';
         window.wordId = <?php echo $wordId?$wordId:0 ;?>;
+        window.myUserId = <?php echo $myUserId; ?>;
     </script>
 
     <div class="container">
@@ -121,6 +122,68 @@
                     }
             ?></li>
           </ul>
+
+        <hr class="margin1010"> </hr>
+        <div id="post-comments">
+            <h2> 评论 </h2>
+            <div id="comment-list">
+            <?php foreach($comments as $c) { ?>
+                <div class="media" id=<?php echo "IzComment-".$c['IzComment']['id']; ?>>
+                    <a class="pull-left" href="javascript:;">
+                    <img class="media-object" src="<?php echo $this->Html->url($c['UserLogo']['small_logo_addr']); ?>" alt="">
+                    </a>
+                    <div class="media-body">
+                        <h4 class="media-heading comment-username"> <?php echo $c['User']['first_name']?>
+                        <span>
+                            <?php echo $c['IzComment']['created']; 
+                                if($c['IzComment']['isMine']) {
+                                    echo "/ <a onclick='deleteComment(\"{$c['IzComment']['id']}\")' href='#'>  删除 </a>";
+                                }
+                            ?>
+                            
+                        </span>
+                        </h4>
+                        <p>
+                            <?php echo $c['IzComment']['body']; ?>
+                        </p>
+                    </div>
+                </div>
+            <?php } ?>
+            </div>
+
+            <?php  if($myUserId) { ?>
+            <span class="margin1010"></span>
+            
+            <div id="post-div" style="">
+                <div class="media">
+                    <a class="pull-left" href="javascript:;">
+                    <img class="media-object" src="<?php echo $this->Html->url($myUserLogo); ?>" alt="">
+                    </a>
+                    <div class="media-body">
+                        <textarea id="comment-input" rows="8" class="col-md-10 form-control"></textarea> 
+                        <h4 class="media-heading"><span>
+                            <button class="btn btn-primary btn-sm" data-role=none onclick="postComment('IzArticle', '<?php echo $id; ?>')">  留言 </button>
+                        </span>
+                        </h4>
+                    </div>
+                </div>
+            </div>
+            <?php } else { ?>
+            <div id="post-div" style="">
+                <div class="media">
+                    <div class="media-body">
+                        <textarea id="comment-input" rows="8" class="col-md-10 form-control"></textarea> 
+                        <h4 class="media-heading"><span>
+                            <button class="btn btn-primary btn-sm" data-role=none >  请登陆后再留言 </button>
+                        </span>
+                        </h4>
+                    </div>
+                </div>
+            </div>
+            <?php }  ?>
+        </div><!-- / id post-comments -->
+
+        <hr class="margin1010"> </hr>
 
         </div><!-- /.blog-main -->
 

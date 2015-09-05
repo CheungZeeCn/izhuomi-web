@@ -501,6 +501,7 @@ function storeDigest(digest) {
         );
     setTimeout(function () {  
             $("#digestMsgReturn").text('');
+            $('#digest').val("");
                 }, 1000); 
 
 }
@@ -520,6 +521,106 @@ function addArticleLike(id) {
             ;
         }
     });
+}
+
+function refreshPostComment(model, id) {
+    var url = "../../IzComments/ajax_list/"+model+"/" + id + ".json";
+    $.ajax({
+        type:'GET',
+        url: url,
+    }).done(function(data){
+        if(data.status == 'OK'){
+            //refresh
+            var htmlText = '<div class="media" id="IzComment-{4}"><a class="pull-left" href="javascript:;">'
+                + '<img class="media-object" src="../../{0}" alt=""></a>'
+                + '<div class="media-body">'
+                +     '<h4 class="media-heading comment-username"> {1}'
+                +     '<span>{2}{5}</span>'
+                +     '</h4>'
+                +     '<p>{3}</p>'
+                + '</div>'
+            + '</div>';
+            
+            $('#comment-list').empty();
+            
+            for(var i in data.data) {
+                var deleteStr = '';
+                if(data.data[i]['User']['id'] == window.myUserId) {
+                    deleteStr = ' / <a class="ui-link" href="#" onclick="deleteComment(\''+ data.data[i]['IzComment']['id'] +'\')"> 删除 </a>';
+                }
+
+                var htmlStr = String.format(htmlText, data.data[i]['UserLogo']['small_logo_addr'], 
+                    data.data[i]['User']['first_name'], data.data[i]['IzComment']['created'],
+                    data.data[i]['IzComment']['body'], data.data[i]['IzComment']['id'], deleteStr);
+                $('#comment-list').append(htmlStr);  
+            }
+
+
+        } else if (data.msg != undefined) {
+            ;
+        } else {
+            console.log("Get ERROR");
+        }
+    }).fail(function(data){ 
+            console.log("Get ERROR");
+    });
+    
+}
+
+function deleteComment(id) {
+    var url = "../../IzComments/ajax_delete/" + id + ".json";
+    $.ajax({
+        type:'GET',
+        url: url,
+    }).done(function(data){
+        if(data.status == 'OK'){
+            //refresh
+            console.log("delete OK");
+            $('#IzComment-'+id).remove();
+        } else if (data.msg != undefined) {
+            ;
+        } else {
+            console.log("post ERROR");
+        }
+    }).fail(function(data){ 
+            console.log("post ERROR");
+    });
+    return false; 
+}
+
+function postComment(model, id) {
+    inputText = $('#comment-input').val();
+    if(inputText == '') {
+        return false;
+    } else {
+        var url = "../../IzComments/ajax_add/"+model+"/" + id + ".json";
+        var comment = {
+            'body': inputText,
+        }
+        $.ajax({
+            type:'POST',
+            url: url,
+            data:{
+                Comment:comment,
+            },
+        }).done(function(data){
+            if(data.status == 'OK'){
+                //refresh
+                console.log("post OK");
+                $('#post-div textarea').val('');
+                refreshPostComment(model, id);  
+
+            } else if (data.msg != undefined) {
+                ;
+            } else {
+                console.log("post ERROR");
+            }
+        }).fail(function(data){ 
+                console.log("post ERROR");
+        });
+        
+    }
+    
 }
 
 

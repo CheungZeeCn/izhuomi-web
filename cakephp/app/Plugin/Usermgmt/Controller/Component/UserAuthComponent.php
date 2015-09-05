@@ -314,6 +314,7 @@ class UserAuthComponent extends Component {
 	public function getUser() {
 		return $this->Session->read('UserAuth');
 	}
+
 	/**
 	 * Used to get user id from session
 	 *

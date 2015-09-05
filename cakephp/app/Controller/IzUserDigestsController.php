@@ -45,6 +45,7 @@ class IzUserDigestsController extends AppController {
  * @return void
  */
 	public function view($id = null) {
+        return false;
 		if (!$this->IzUserDigest->exists($id)) {
 			throw new NotFoundException(__('Invalid iz user digest'));
 		}
@@ -58,6 +59,7 @@ class IzUserDigestsController extends AppController {
  * @return void
  */
 	public function add() {
+        return false;
 		if ($this->request->is('post')) {
 			$this->IzUserDigest->create();
 			if ($this->IzUserDigest->save($this->request->data)) {
@@ -101,6 +103,7 @@ class IzUserDigestsController extends AppController {
  * @return void
  */
 	public function delete($id = null) {
+        return false;
 		$this->IzUserDigest->id = $id;
 		if (!$this->IzUserDigest->exists()) {
 			throw new NotFoundException(__('Invalid iz user digest'));
@@ -112,6 +115,31 @@ class IzUserDigestsController extends AppController {
 			$this->Session->setFlash(__('The iz user digest could not be deleted. Please, try again.'));
 		}
 		return $this->redirect(array('action' => 'index'));
+	}
+
+	public function ajax_delete($id) {
+        $msg = 'ERROR';
+        $status = 'ERROR';
+        
+        $myUserId = $this->UserAuth->getUserId(); 
+		$this->IzUserDigest->id = $id;
+		if (!$this->IzUserDigest->exists()) {
+            $msg = "Not exist";
+		} else {
+            $rec = $this->IzUserDigest->findById($id);
+            if($rec['IzUserDigest']['user_id'] != $myUserId) {
+                $msg = "No Privilege";
+            } else {
+		        $this->request->allowMethod('post', 'delete', 'get');
+		        if ($this->IzUserDigest->delete()) {
+                    $msg = "OK";
+                    $status = "OK";
+		        } else {
+                    $msg = "TRY AGAIN";
+		        }
+            }
+        }
+        $this->set(array('msg'=>$msg, "status"=>$status, '_serialize' => array("status", "msg")));
 	}
 
     public function ajax_add($articleId) {
@@ -140,4 +168,42 @@ class IzUserDigestsController extends AppController {
 		    
         $this->set(array('msg'=>$msg, "status"=>$status, '_serialize' => array("status", "msg")));
     }
+
+	public function ajax_edit() {
+        $status = 'ERROR';
+        $msg = 'ERROR';
+        $requestData = $this->request->data; 
+        $id = $requestData['digestId'];
+        $debug = array();
+        $wordData = $this->IzUserDigest->findById($id);
+
+		if (!$this->IzUserDigest->exists($id)) {
+            $msg = __('出错啦，digestId 不存在'); 
+		} else {// exists
+		    if ($this->request->is(array('post', 'put'))) {
+                //validation here
+                //check user_id
+                $myUserId = $this->UserAuth->getUserId();
+                if($wordData != NULL) {
+                    $dataUserId = $wordData['IzUserDigest']['user_id'];
+                    if($dataUserId != $myUserId || 
+                        !in_array($requestData['wordField'], array('digest'))) {
+                        $msg = __('出错啦，提交的数据有误');      
+                    } else {
+                        $wordData['IzUserDigest'][$requestData['wordField']] = $requestData['value'];
+                        if($this->IzUserDigest->save($wordData)) {
+                            $status = 'OK';   
+                        } else {
+                            $msg = __('Save ERROR... :-(');
+                        }
+                    }
+                }
+                $debug = $wordData;
+		    } 
+        }
+        $data = $wordData['IzUserDigest'][$requestData['wordField']];
+
+        $this->set(array('msg' => $msg, "status"=>$status, "requestData"=>$requestData, "debug" => $debug,
+                    "return" => $data, '_serialize' => array("return", "msg", "status", "requestData", "debug")));
+	}
 }
