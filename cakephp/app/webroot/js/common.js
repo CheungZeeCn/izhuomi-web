@@ -531,10 +531,11 @@ function refreshPostComment(model, id) {
     }).done(function(data){
         if(data.status == 'OK'){
             //refresh
-            var htmlText = '<div class="media" id="IzComment-{4}"><a class="pull-left" href="javascript:;">'
+            var htmlText = '<div class="media" id="IzComment-{4}"><a class="pull-left" href="../../myprofile/{6}">'
                 + '<img class="media-object" src="../../{0}" alt=""></a>'
                 + '<div class="media-body">'
-                +     '<h4 class="media-heading comment-username"> {1}'
+                +     '<h4 class="media-heading comment-username">'
+                +       '<a href="../../myprofile/{6}">{1}</a>'
                 +     '<span>{2}{5}</span>'
                 +     '</h4>'
                 +     '<p>{3}</p>'
@@ -551,7 +552,8 @@ function refreshPostComment(model, id) {
 
                 var htmlStr = String.format(htmlText, data.data[i]['UserLogo']['small_logo_addr'], 
                     data.data[i]['User']['first_name'], data.data[i]['IzComment']['created'],
-                    data.data[i]['IzComment']['body'], data.data[i]['IzComment']['id'], deleteStr);
+                    data.data[i]['IzComment']['body'], data.data[i]['IzComment']['id'], 
+                    deleteStr, data.data[i]['User']['id']);
                 $('#comment-list').append(htmlStr);  
             }
 

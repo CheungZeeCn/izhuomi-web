@@ -129,11 +129,11 @@
             <div id="comment-list">
             <?php foreach($comments as $c) { ?>
                 <div class="media" id=<?php echo "IzComment-".$c['IzComment']['id']; ?>>
-                    <a class="pull-left" href="javascript:;">
+                    <a class="pull-left" href="<?php echo $this->Html->url("/myprofile/{$c['User']['id']}");?>">
                     <img class="media-object" src="<?php echo $this->Html->url($c['UserLogo']['small_logo_addr']); ?>" alt="">
                     </a>
                     <div class="media-body">
-                        <h4 class="media-heading comment-username"> <?php echo $c['User']['first_name']?>
+                        <h4 class="media-heading comment-username"> <a href="<?php echo $this->Html->url("/myprofile/{$c['User']['id']}");?>" ><?php echo $c['User']['first_name']?></a>
                         <span>
                             <?php echo $c['IzComment']['created']; 
                                 if($c['IzComment']['isMine']) {
@@ -156,7 +156,7 @@
             
             <div id="post-div" style="">
                 <div class="media">
-                    <a class="pull-left" href="javascript:;">
+                    <a class="pull-left" href="<?php echo $this->Html->url("/myprofile/{$myUserId}");?>">
                     <img class="media-object" src="<?php echo $this->Html->url($myUserLogo); ?>" alt="">
                     </a>
                     <div class="media-body">
