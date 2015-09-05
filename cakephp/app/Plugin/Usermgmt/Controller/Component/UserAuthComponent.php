@@ -49,6 +49,18 @@ class UserAuthComponent extends Component {
 	function startup(Controller $controller = null) {
 
 	}
+
+
+    function redirectLogin(&$c) {
+        $cUrl = '/'.$c->params->url;
+        if(!empty($_SERVER['QUERY_STRING'])) {
+        	$rUrl = $_SERVER['REQUEST_URI'];
+        	$pos =strpos($rUrl, $cUrl);
+        	$cUrl=substr($rUrl, $pos, strlen($rUrl));
+        }
+        $c->Session->write('Usermgmt.OriginAfterLogin', $cUrl);
+        $c->redirect('/login');
+    }
 	/**
 	 * Called before the controller action.  You can use this method to configure and customize components
 	 * or perform logic that needs to happen before each controller action.

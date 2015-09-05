@@ -83,7 +83,12 @@ class UsersController extends UserMgmtAppController {
 	public function myprofile($userId=0) {
         $myUserId = $this->UserAuth->getUserId(); 
         if($userId==0) {
-		    $userId = $myUserId;
+            if(!$myUserId) {
+                //redirect
+                $this->UserAuth->redirectLogin($this);
+            } else {
+		        $userId = $myUserId;
+            }
         }
 
         if($myUserId == $userId) {
