@@ -26,6 +26,11 @@
                                     </div>
 	    					<div style="clear:both"></div>
                             <button class="btn btn-sm btn-primary btn-shadow" data-role=none style="width:100px" role="button">Login</button>
+                                <span style="float:right;">
+                                    <div style="float:left;font-size:20px">
+                                    <a href="<?php echo $this->Html->url('/usermgmt/Users/oauth2Login/weibo');?>" data-original-title="facebook" class=""><i class="fa fa-weibo"></i></a>
+                                    </div>
+                                </span>
                                 <?php echo $this->Form->end(); ?>
                                 <div class="form-group">
                                 <span class="pull-right"><a href="<?php echo Router::url('/')?>register?tag=test&redirect2=<?php echo $this->Html->url(null, true);?>">注册</a></span><span><a href="#" mark="todo">忘记密码？</a></span>

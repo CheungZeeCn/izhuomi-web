@@ -1,0 +1,29 @@
+.login-social-icons-ul {
+    float: right;
+    padding-top: 3px;
+}
+
+.login-social-icons-ul li {
+  display: inline;
+  float: left;
+  list-style: outside none none;
+  margin-bottom: 5px;
+  margin-right: 5px;
+  text-indent: -9999px;
+  /*background: rgba(0, 0, 0, 0) url("../img/facebook.png") no-repeat scroll 0 0;*/
+}
+
+.login-a {
+  background-position: 0 0;
+  background-repeat: no-repeat;
+  border-radius: 2px;
+  display: block;
+  height: 28px;
+  transition: all 0.3s ease-in-out 0s;
+  width: 28px;
+}
+
+.social-icon-color {
+  background-position: 0 -38px !important;
+}
+

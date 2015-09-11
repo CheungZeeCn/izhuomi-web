@@ -105,6 +105,10 @@ class User extends UserMgmtAppModel {
 						'rule' => 'notEmpty',
 						'message'=> '请输入昵称')
 					),
+					'mustUnique'=>array(
+						'rule' =>'isUnique',
+						'message' =>'昵称已经被占用, 换一个？',
+					'last'=>true),
 				//'last_name'=> array(
 				//	'mustNotEmpty'=>array(
 				//		'rule' => 'notEmpty',

@@ -32,9 +32,10 @@ class UsersController extends UserMgmtAppController {
 	 */
 	public $uses = array('Usermgmt.User', 'Usermgmt.UserGroup', 
                         'Usermgmt.LoginToken', 'IzUserDigest', 
-                        'UserDataModel', 'WechatUser');
+                        'UserDataModel', 'WechatUser', 'Usermgmt.Oauth2User');
 
     public $components = array('Paginator', 'RequestHandler');
+
     //private $UserData = NULL;
 	/**
 	 * Called before the controller action.  You can use this method to configure and customize components
@@ -131,6 +132,122 @@ class UsersController extends UserMgmtAppController {
         $this->set('lastReadingProgress', $lastReadingProgress);
 		$this->set('userDoneArticlesCount', $userDoneArticlesCount); 
 	}
+
+    protected function redirectLoginWithError($msg) {
+	    $this->Session->setFlash(__($msg));
+        $redirect = Router::url('/login');
+        $this->redirect($redirect);
+    }
+    
+    public function oauth2Login($fromSys) {
+        $code = $this->Oauth2User->getCode($fromSys, $this);                
+        $acTokenInfo = $this->Oauth2User->getAcTokenByCode($code);
+        //
+        if($fromSys == 'weibo') {
+            if(array_key_exists('error', $acTokenInfo)) {
+                $this->redirectLoginWithError('账号验证错误');
+            }
+        }
+        $userInfo = array();
+        //getUser
+        try {
+            $acToken = $acTokenInfo['access_token'];
+            $expiresIn = $acTokenInfo['expires_in'];
+            $openId = $acTokenInfo['uid'];  
+            //getUser
+            $userInfo = $this->Oauth2User->getUserInfo($acToken, $openId);
+            if($userInfo == NULL) {
+                $this->redirectLoginWithError('未授权? 请联系管理员');     
+            }
+
+            $this->Session->write('oauth2UserInfo', $userInfo);
+
+            $options = array(
+                'conditions' => array(
+                    'open_id' => $openId,
+                    'from_system' => $fromSys,
+                ),
+            );
+            $oauth2User = $this->Oauth2User->find('first', $options);
+            if($fromSys == 'weibo') { 
+                //logic here only for weibo now   
+                if($oauth2User == NULL) {// new user
+                    //new it
+                    $smallPicUrl = $userInfo['profile_image_url']; 
+                    $largePicUrl = $userInfo['avatar_hd'];
+                    $username = $userInfo['name'];
+                    //username should be unique
+                    $count = 0;
+                    while($this->findByFirstName($username)){
+                        if($count == 0) {
+                            $username = '来自'.$fromSys.'的_'.$username;
+                        }
+                        else {
+                            $username = $userInfo['name'] . "{$count}";
+                            $count += 1;
+                        }
+                    }
+
+                    $newUser = $this->UserAuth->getEmptyUserTemplateByOauth2(
+                        $openId, $username, 'weibo', 
+                        $smallPicUrl, $largePicUrl
+                    );
+                    $this->User->save($newUser);
+                    //new iz user saved;
+	                $izUserId=$this->User->getLastInsertID(); //here
+	                $izUser = $this->User->findById($izUserId);
+                     
+                    //acTokenExpire
+
+                    $acTokenExpireTime = strtotime("+ {$acTokenInfo['expires_in']} seconds");
+                    $acTokenExpire = date("Y-m-d H:i:s", $acTokenExpireTime); 
+
+                    //create oauth2User
+                    if(!$this->Oauth2User->newOrUpdateOauth2User(
+                        $openId, 
+                        $username, $izUserId,
+                        $acToken, $acTokenExpire, 
+                        $userInfo, $fromSys
+                    )) {
+                        $this->redirectLoginWithError(__('登陆失败，新增用户失败'));
+                    }
+                    $oauth2User = $this->Oauth2User->find('first', $options);
+                }
+                //$oauth2User is ready
+                //bind iz user done too
+
+                $options =  array(
+                    'conditions' => array(
+                        'User.id' => $oauth2User['Oauth2User']['iz_user_id'],
+                    )
+                );
+                $izUser = $this->User->find('first', $options);
+
+				if ($izUser['User']['id'] != 1 and $izUser['User']['active']==0) {
+                    $this->redirectLoginWithError(__('抱歉, 你的账户当前被关闭中，请联系管理员。'));
+				}
+
+			    $this->UserAuth->login($izUser);//login user in with user's data
+			    $remember = true;
+			    if ($remember) {
+			    	$this->UserAuth->persist('2 weeks');
+			    }
+			    $OriginAfterLogin=$this->Session->read('Usermgmt.OriginAfterLogin');
+			    $this->Session->delete('Usermgmt.OriginAfterLogin');
+                $redirect = LOGIN_REDIRECT_URL;
+                if(!empty($OriginAfterLogin)) {
+                    $redirect = $OriginAfterLogin;    
+                }else{
+                    $redirect = $this->getLoginRedirectUrl();
+                }
+			    $this->redirect($redirect);
+            }
+        } catch(Exception $e) {
+            //error
+            $this->redirectLoginWithError(__('登陆失败:'). "{$e}");
+        }
+    }
+
 	/**
 	 * Used to logged in the site
 	 *
@@ -403,6 +520,14 @@ class UsersController extends UserMgmtAppController {
 		if (!empty($userId)) { // logged in
 				//$this->User->set($this->data);
                 $this->request->data['User']['id'] = $userId;
+                //manual check
+                $retUser = $this->User->findByFirstName($this->request->data['User']['first_name']);
+                if($retUser != NULL && $retUser['User']['id'] != $userId) {
+                    $msg = '这个昵称已被被人占用了~';
+                    $this->Session->setFlash($msg);
+				    $this->redirect($this->referer());
+                }
+
 			    $ret = $this->User->saveAssociated($this->request->data);
 			    //$ret = $this->User->UserProfile->save($this->request->data);
                 if($ret) {
@@ -425,6 +550,7 @@ class UsersController extends UserMgmtAppController {
 	public function updateMyProfile_ajax() {
         $status = 'ERROR';
         $msg = 'ERROR';
+        $ret = array();
         //get id    
         $userId = $this->UserAuth->getUserId(); 
         //set data
@@ -432,15 +558,19 @@ class UsersController extends UserMgmtAppController {
 		if (!empty($userId)) { // logged in
 				//$this->User->set($this->data);
                 $this->request->data['User']['id'] = $userId;
-			    $ret = $this->User->saveAssociated($this->request->data);
-			    //$ret = $this->User->UserProfile->save($this->request->data);
-                if($ret) {
-                    $status = 'OK';
-                    $msg = 'OK';
+                $retUser = $this->User->findByFirstName($this->request->data['User']['first_name']);
+                if($retUser != NULL && $retUser['User']['id'] != $userId) {
+                    $msg = '这个昵称已被被人占用了~';
                 } else {
-                    $msg = '保存失败，有非法输入?';
+			        $ret = $this->User->saveAssociated($this->request->data);
+			        //$ret = $this->User->UserProfile->save($this->request->data);
+                    if($ret) {
+                        $status = 'OK';
+                        $msg = 'OK';
+                    } else {
+                        $msg = '保存失败，有非法输入?';
+                    }
                 }
-            
         }
         $this->set(array('msg'=>$msg, "status"=>$status, "ret" =>$ret, '_serialize' => array("status", "msg", "ret")));
 	}

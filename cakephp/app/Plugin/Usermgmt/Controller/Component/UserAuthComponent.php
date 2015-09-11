@@ -86,12 +86,15 @@ class UserAuthComponent extends Component {
             $this->WeChatDataModel = new WeChatDataModel;
 		    App::import("Model", "Usermgmt.User");
 		    $this->User = new User;
-		    App::import("Model", "WeChatDataModel");
+		    App::import("Model", "WeChatUser");
 		    $this->WechatUser = new WechatUser;
 
             if($wechatUserInfo) {
                 $openId = $wechatUserInfo->openid;
             } else {
+                //use refresh token first
+                //shall we refresh first ? 
+
                 $code = '';
                 if(array_key_exists('code', $_GET)) {
                     if($_GET['code']=='code') {
@@ -105,7 +108,6 @@ class UserAuthComponent extends Component {
                 }
 
                 $ret = $this->WeChatDataModel->getWebAcToken($code);
-
                 $user = $this->WeChatDataModel->getUserByWebAcToken($ret->openid, $ret->access_token);
                 $acToken = $ret->access_token;
                 $rToken = $ret->refresh_token;
@@ -130,6 +132,18 @@ class UserAuthComponent extends Component {
                     $username = $wechatUserInfo->nickname;
                 }
                 //create and bind it
+                
+                $count = 0;
+                while($this->findByFirstName($username)){
+                    if($count == 0) {
+                        $username = '来自微信的_'.$username;
+                    }
+                    else {
+                        $username = $userInfo['name'] . "{$count}";
+                        $count += 1;
+                    }
+                }
+
                 $sysUser = $this->newEmptyUserByWechat($openId, $username);
                 //$this->UserAuth->debug($openId, $username);
                 //var_dump($sysUser);
@@ -210,90 +224,6 @@ class UserAuthComponent extends Component {
     public function wechatFilter() {// deprecated
         return TRUE;
 
-/*
-        $wechatUserInfo = $this->Session->read('wechatUserInfo');
-        $acToken = '';
-        $rToken = '';
-        $acExpr = 0;
-        $openId = NULL;
-
-        if($wechatUserInfo) {
-            $openId = $wechatUserInfo->openid;
-        } else {
-            $code = '';
-            if(array_key_exists('code', $_GET)) {
-                if($_GET['code']=='code') {
-                    //redirect for the code        
-                    $this->redirectForCode();
-                } else {
-                    $code = $_GET['code'];
-                }
-            } else {
-                $this->redirectForCode();
-            }
-
-            $ret = $this->WeChatDataModel->getWebAcToken($code);
-            //echo "acToken: {$ret->access_token} <br/>";
-            //echo "refresh_token: {$ret->refresh_token} <br/>";
-            //echo "openid: {$ret->openid} <br/>";
-            //echo "scope: {$ret->scope} <br/>";
-
-            $user = $this->WeChatDataModel->getUserByWebAcToken($ret->openid, $ret->access_token);
-            $acToken = $ret->access_token;
-            $rToken = $ret->refresh_token;
-            $acExpr = $ret->expires_in;
-
-            $this->Session->write('wechatUserInfo', $user);
-            $wechatUserInfo = $user;
-            $openId=$ret->openid;
-        }
-        //user account about wechat's system is done
-
-        //bind our system id;
-        //wechat user data stored in db
-        // wechatUser: in our DB ; wechatUserInfo: in cookie and wechat's system
-        // they are different
-        $username = $wechatUserInfo->nickname;
-        $wechatUser = $this->WeChatDataModel->getWechatUserByOpenId($openId);
-        if(!$wechatUser) {///yes
-            //create sys user
-            if($username == '' ) {
-                $wechatUserInfo = $this->Session->read('wechatUserInfo');
-                $username = $wechatUserInfo->nickname;
-            }
-            //create and bind it
-            $sysUser = $this->newEmptyUserByWechat($openId, $username);
-            //$this->UserAuth->debug($openId, $username);
-            //var_dump($sysUser);
-            //bind
-            $userId = $sysUser['User']['id'];
-            $data = array();
-            $data['WechatUser']['iz_user_id'] = $userId;
-            $data['WechatUser']['wechat_name'] = $username; // when we update these? todo
-            $data['WechatUser']['open_id'] = $openId;
-            $data['WechatUser']['access_token'] = $acToken;
-            $expTime = $acExpr + time();
-            $exptimeStamp = date("Y-m-d H:i:s", $expTime);
-            $data['WechatUser']['access_token_expire'] = $exptimeStamp;
-            $data['WechatUser']['refresh_token'] = $rToken;
-            $this->WechatUser->save($data);
-            $wechatUser = $this->WeChatDataModel->getWechatUserByOpenId($openId);
-        }
-
-        $this->wechatUser = $wechatUser; 
-        // got the info of our system' user account
-        $userId = $wechatUser['WechatUser']['iz_user_id'];    
-        // login our sys
-        $sysUser = $this->User->findById($userId);
-        $this->login($sysUser);
-        $this->setUser($this->c);
-		if (!$userGroupModel->isUserGroupAccess($controller, $action, $this->getGroupId())) {
-			$this->c->log('permission: actionUrl-'.$actionUrl, LOG_DEBUG);
-			$this->c->Session->write('permission_error_redirect','/users/login');
-			$this->c->redirect('/accessDenied');
-		}
-        return TRUE;
-        */
     }
     
 
@@ -526,6 +456,36 @@ class UserAuthComponent extends Component {
 		return $this->login('guest');
 	}
 
+    public function getEmptyUserTemplateByOauth2($openId, $username, $fromSystem='weibo', $smallPic='', $largePic='', $userInfo=array()) {
+        $user = array();
+        $user['User']['user_group_id']=DEFAULT_GROUP_ID;       
+        $user['User']['active']=1;
+	    $ip='';
+	    if(isset($_SERVER['REMOTE_ADDR'])) {
+	    	$ip=$_SERVER['REMOTE_ADDR'];
+	    }
+	    $user['User']['ip_address']=$ip;
+	    $user['User']['allow_web_login'] = FALSE; //disallow web login, sns login only since we may have no passwd
+
+	    $salt=$this->makeSalt();//random int
+        //username, email, nick 
+        $tmpStr = substr($salt, 0, 6);
+        $loginUsername = "{$fromSystem}_{$username}_{$tmpStr}";
+        $email = "{$loginUsername}.nologin@oauth2.izhuomi.com";
+        $nick = "$username";
+            
+	    $user['User']['salt'] = $salt;
+	    $user['User']['password'] = $this->makePassword("izhuomi.com", $salt);
+	    $user['User']['username'] = $loginUsername;
+	    $user['User']['email'] = $email; 
+	    $user['User']['first_name'] = $nick; 
+	    $user['User']['from_sys'] = $fromSystem; 
+	    $user['User']['open_id'] = $openId; 
+	    $user['User']['others'] = json_encode($userInfo); 
+
+        return $user;
+    }
+
     public function getEmptyUserTemplateByWechat($openId, $username) {
         $user = array();
         $user['User']['user_group_id']=DEFAULT_GROUP_ID;       
@@ -549,6 +509,8 @@ class UserAuthComponent extends Component {
 	    $user['User']['username'] = $loginUsername;
 	    $user['User']['email'] = $email; 
 	    $user['User']['first_name'] = $nick; 
+	    $user['User']['from_sys'] = 'wechat'; 
+	    $user['User']['open_id'] = $openId; 
 
         return $user;
     }

@@ -224,7 +224,7 @@ EOS;
       <div class="modal-body">
                     <div class="form-group">
                         <?php echo $this->Form->input('first_name', 
-                            array('type'=>'', 'maxlength'=>'16', 'value'=>"{$user['User']['first_name']}", 'placeholder'=>'', 'label'=>'姓名<font color="red">(必填，最长16个字)</font>', 'class'=>'form-control'));
+                            array('type'=>'', 'maxlength'=>'16', 'value'=>"{$user['User']['first_name']}", 'placeholder'=>'', 'label'=>'昵称<font color="red">(必填，最长16个字)</font>', 'class'=>'form-control'));
                         ?>
                         <?php echo $this->Form->input('UserProfile.weibo', 
                             array('type'=>'', 'value'=>"{$user['UserProfile']['weibo']}", 'placeholder'=>'', 'label'=>'新浪微博账号', 'class'=>'form-control'));
