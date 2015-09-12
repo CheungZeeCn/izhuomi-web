@@ -109,6 +109,25 @@
 
         <?php 
                 }
+
+                ?>
+                <div class="row"> 
+
+                    <div class="col-md-4">
+                        <?php 
+                                echo "┏ (゜ω゜)=☞";
+                        ?>
+                    </div>
+                    <div class="col-md-8">
+                        <a class="pull-right" href="http://izhuomi.com/IzArticles/show/">
+                        <?php 
+                                echo "去读一篇？";    
+                        ?>
+                        </a>
+                    </div>
+                </div>
+
+        <?php 
             }
         ?>
 
