@@ -108,6 +108,12 @@ class UserAuthComponent extends Component {
                 }
 
                 $ret = $this->WeChatDataModel->getWebAcToken($code);
+                if($ret==NULL) {
+                    //again?
+                    $this->log("redirect again ");
+                    $this->redirectForCode();
+                }
+
                 $user = $this->WeChatDataModel->getUserByWebAcToken($ret->openid, $ret->access_token);
                 $acToken = $ret->access_token;
                 $rToken = $ret->refresh_token;
@@ -214,6 +220,10 @@ class UserAuthComponent extends Component {
 	}
 
     private function redirectForCode() {
+        if(array_key_exists('code', $this->request->query)) {
+            unset($this->request->query['code']);
+        }
+        
         $cUrl = rawurlencode(rtrim(Router::url('/', true), '/'). $this->c->request->here());
         $fwdUrl = "https://open.weixin.qq.com/connect/oauth2/authorize?appid={$this->WeChatDataModel->appid}&redirect_uri={$cUrl}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
         $this->log("DBUG:::".$cUrl);
