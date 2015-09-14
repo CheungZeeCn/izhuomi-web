@@ -134,7 +134,7 @@ class UserAuthComponent extends Component {
                 //create and bind it
                 
                 $count = 0;
-                while($this->findByFirstName($username)){
+                while($this->User->findByFirstName($username)){
                     if($count == 0) {
                         $username = '来自微信的_'.$username;
                     }
@@ -347,6 +347,12 @@ class UserAuthComponent extends Component {
 			$user = $userModel->authsomeLogin($type, $credentials);
 		} elseif (is_array($type)) {
 			$user = $type;
+            //update last login
+			App::import("Model", "Usermgmt.User");
+            $user['User']['last_login'] = date("Y-m-d H:i:s");
+			$userModel = new User;
+            $userModel->save($user);
+
 		}
 		Configure::write($this->configureKey, $user);
 		$this->Session->write('UserAuth', $user);

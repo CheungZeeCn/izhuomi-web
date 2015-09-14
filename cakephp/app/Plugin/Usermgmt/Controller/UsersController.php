@@ -178,7 +178,7 @@ class UsersController extends UserMgmtAppController {
                     $username = $userInfo['name'];
                     //username should be unique
                     $count = 0;
-                    while($this->findByFirstName($username)){
+                    while($this->User->findByFirstName($username)){
                         if($count == 0) {
                             $username = '来自'.$fromSys.'的_'.$username;
                         }
@@ -539,7 +539,6 @@ class UsersController extends UserMgmtAppController {
                     $this->Session->setFlash($msg);
 				    $this->redirect($this->referer());
                 }
-            
         }
 	}
 
