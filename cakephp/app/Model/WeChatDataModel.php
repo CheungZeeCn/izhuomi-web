@@ -94,10 +94,11 @@ class WeChatDataModel extends AppModel {
             //log the error?
             //$body == NULL;
             //var_dump($body);  
-            CakeLog::write('error', "getWebAcTokenError:[code:{$code}][cUrl:" . $cUrl . "][body:" .var_export($body). "]");
+            CakeLog::write('error', "getWebAcTokenError:[code:{$code}][body:" .json_encode($body). "]");
             return NULL;
         }
-        CakeLog::write('debug', "getWebAcTokenError:[code:{$code}][cUrl:" . $cUrl . "][body:" .var_export($body). "]");
+        CakeLog::write('debug', "getWebAcTokenDebug:[code:{$code}][body:" .json_encode($body). "]");
+        //CakeLog::write('debug', "getWebAcTokenError:[code:{$code}]");
         return $body;
     }
 

@@ -220,8 +220,8 @@ class UserAuthComponent extends Component {
 	}
 
     private function redirectForCode() {
-        if(array_key_exists('code', $this->request->query)) {
-            unset($this->request->query['code']);
+        if(array_key_exists('code', $this->c->request->query)) {
+            unset($this->c->request->query['code']);
         }
         
         $cUrl = rawurlencode(rtrim(Router::url('/', true), '/'). $this->c->request->here());
