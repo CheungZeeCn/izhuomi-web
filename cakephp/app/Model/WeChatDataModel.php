@@ -90,11 +90,14 @@ class WeChatDataModel extends AppModel {
 
         $results = $HttpSocket->get($url, $q);
         $body = json_decode($results->body());
-        if($body->openid == NULL) {
+        if(!property_exists($body, 'openid')) {
             //log the error?
             //$body == NULL;
-            var_dump($body);  
+            //var_dump($body);  
+            CakeLog::write('error', "getWebAcTokenError:[code:{$code}][cUrl:" . $cUrl . "][body:" .var_export($body). "]");
+            return NULL;
         }
+        CakeLog::write('debug', "getWebAcTokenError:[code:{$code}][cUrl:" . $cUrl . "][body:" .var_export($body). "]");
         return $body;
     }
 
