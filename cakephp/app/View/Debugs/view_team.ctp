@@ -103,8 +103,8 @@
                             <img class="img-responsive" src="/cakephp/theme4/assets/admin/pages/media/works/img1.jpg" alt="">
 
                             <div class="caption" style=" overflow:hidden; text-overflow:ellipsis;">
-                                <a title="Mitochondrial Island" target="_blank" href="/photos/mitochondrial-island" class="thumbnail-title">案例名字</a> 
-                                <a title="Jean Wimmerlin" target="_blank" href="/user/jwimmerli" class="thumbnail-author">团队名字</a>
+                                <a title="Mitochondrial Island" target="_blank" href="<?php echo $this->Html->url("/Debugs/viewArt"); ?>" class="thumbnail-title">案例名字</a> 
+                                <a title="Jean Wimmerlin" target="_blank" href="<?php echo $this->Html->url("/Debugs/viewTeam"); ?>" class="thumbnail-author">团队名字</a>
                                 <div class="price">  估价 <i class="fa fa-jpy"></i> 90000</div>
                                 <ul class="list-inline blog-tags">
                                     <li>
@@ -130,8 +130,8 @@
                             <img class="img-responsive" src="/cakephp/theme4/assets/admin/pages/media/works/img1.jpg" alt="">
 
                             <div class="caption" style=" overflow:hidden; text-overflow:ellipsis;">
-                                <a title="Mitochondrial Island" target="_blank" href="/photos/mitochondrial-island" class="thumbnail-title">案例名字</a> 
-                                <a title="Jean Wimmerlin" target="_blank" href="/user/jwimmerli" class="thumbnail-author">团队名字</a>
+                                <a title="Mitochondrial Island" target="_blank" href="<?php echo $this->Html->url("/Debugs/viewArt"); ?>" class="thumbnail-title">案例名字</a> 
+                                <a title="Jean Wimmerlin" target="_blank" href="<?php echo $this->Html->url("/Debugs/viewTeam"); ?>" class="thumbnail-author">团队名字</a>
                                 <div class="price">  估价 <i class="fa fa-jpy"></i> 90000</div>
                                 <ul class="list-inline blog-tags">
                                     <li>
@@ -157,8 +157,8 @@
                             <img class="img-responsive" src="/cakephp/theme4/assets/admin/pages/media/works/img1.jpg" alt="">
 
                             <div class="caption" style=" overflow:hidden; text-overflow:ellipsis;">
-                                <a title="Mitochondrial Island" target="_blank" href="/photos/mitochondrial-island" class="thumbnail-title">案例名字</a> 
-                                <a title="Jean Wimmerlin" target="_blank" href="/user/jwimmerli" class="thumbnail-author">团队名字</a>
+                                <a title="Mitochondrial Island" target="_blank" href="<?php echo $this->Html->url("/Debugs/viewArt"); ?>" class="thumbnail-title">案例名字</a> 
+                                <a title="Jean Wimmerlin" target="_blank" href="<?php echo $this->Html->url("/Debugs/viewTeam"); ?>" class="thumbnail-author">团队名字</a>
                                 <div class="price">  估价 <i class="fa fa-jpy"></i> 90000</div>
                                 <ul class="list-inline blog-tags">
                                     <li>
@@ -184,8 +184,8 @@
                             <img class="img-responsive" src="/cakephp/theme4/assets/admin/pages/media/works/img1.jpg" alt="">
 
                             <div class="caption" style=" overflow:hidden; text-overflow:ellipsis;">
-                                <a title="Mitochondrial Island" target="_blank" href="/photos/mitochondrial-island" class="thumbnail-title">案例名字</a> 
-                                <a title="Jean Wimmerlin" target="_blank" href="/user/jwimmerli" class="thumbnail-author">团队名字</a>
+                                <a title="Mitochondrial Island" target="_blank" href="<?php echo $this->Html->url("/Debugs/viewArt"); ?>" class="thumbnail-title">案例名字</a> 
+                                <a title="Jean Wimmerlin" target="_blank" href="<?php echo $this->Html->url("/Debugs/viewTeam"); ?>" class="thumbnail-author">团队名字</a>
                                 <div class="price">  估价 <i class="fa fa-jpy"></i> 90000</div>
                                 <ul class="list-inline blog-tags">
                                     <li>
@@ -211,8 +211,8 @@
                             <img class="img-responsive" src="/cakephp/theme4/assets/admin/pages/media/works/img1.jpg" alt="">
 
                             <div class="caption" style=" overflow:hidden; text-overflow:ellipsis;">
-                                <a title="Mitochondrial Island" target="_blank" href="/photos/mitochondrial-island" class="thumbnail-title">案例名字</a> 
-                                <a title="Jean Wimmerlin" target="_blank" href="/user/jwimmerli" class="thumbnail-author">团队名字</a>
+                                <a title="Mitochondrial Island" target="_blank" href="<?php echo $this->Html->url("/Debugs/viewArt"); ?>" class="thumbnail-title">案例名字</a> 
+                                <a title="Jean Wimmerlin" target="_blank" href="<?php echo $this->Html->url("/Debugs/viewTeam"); ?>" class="thumbnail-author">团队名字</a>
                                 <div class="price">  估价 <i class="fa fa-jpy"></i> 90000</div>
                                 <ul class="list-inline blog-tags">
                                     <li>

@@ -188,12 +188,8 @@ License: You must have a valid license purchased only from themeforest(the above
 		<!-- DOC: Remove "hide" class to enable the page header actions -->
 		<div class="page-actions">
 <ul class="nav navbar-nav">
-                                        <li class="active">
-                                            <a href="#home">
-                                            主页</a>
-                                        </li>
                                         <li class="">
-                                            <a href="#profile">
+                                            <a href="<?php echo $this->Html->url("/Debugs/arts"); ?>">
                                             案例作品 </a>
                                         </li>
                                         <li class="">
