@@ -36,4 +36,22 @@ class DebugsController extends DataController {
         exit(0);
     }
 
+    public function staticTheme() {
+        $this->layout = 'page_portfolio'; 
+
+    }
+
+    public function arts() {
+        $this->layout = 'page_portfolio'; 
+    }
+
+    public function viewArt() {
+        $this->layout = 'page_portfolio'; 
+    }
+
+    public function viewTeam() {
+        $this->layout = 'page_portfolio'; 
+    }
+
+
 }
